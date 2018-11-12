@@ -1,0 +1,34 @@
+.Lyrics {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Lyrics__word {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  flex-basis: 0;
+  padding: 10px;
+  margin: 10px;
+}
+
+.Lyrics__word--closed {
+  background-color: #000000;
+}
+
+.Lyrics__word--open {
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
+
+.Lyrics__word--red {
+  /* TODO */
+}
+
+.Lyrics__number {
+  color: #ffffff;
+  font-size: 20px;
+  position: absolute;
+}

@@ -1,0 +1,18 @@
+.Teams {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Team {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.Team--blue {
+  background-color: cornflowerblue;
+}
+
+.Team--red {
+  background-color: lightcoral;
+}

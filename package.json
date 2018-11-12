@@ -1,0 +1,29 @@
+{
+  "name": "jumtsijum",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "firebase": "^5.5.8",
+    "lodash": "^4.17.11",
+    "randomstring": "^1.1.5",
+    "react": "^16.6.1",
+    "react-dom": "^16.6.1",
+    "react-scripts": "2.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "fb-deploy": "yarn build && firebase deploy"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

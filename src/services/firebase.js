@@ -13,10 +13,10 @@ const config = {
 const fb = firebase.initializeApp(config)
 
 export const getGameData = (gameId) =>
-  fb.database().ref(`games/${gameId}`).once('value').then((snapshot) => snapshot.val())
+  fb.database().ref(`games/${gameId}`).once('value').then((snap) => snap.val())
 
 export const getSongArchive = (gameId) =>
-  fb.database().ref(`games/${gameId}/songArchive`).once('value').then((snapshot) => snapshot.val())
+  fb.database().ref(`games/${gameId}/songArchive`).once('value').then((snap) => snap.val())
 
 export const addNewGame = (gameId, song) =>
   fb.database().ref(`games/${gameId}`).set({
@@ -37,14 +37,14 @@ export const setCurrentSong = (gameId, newCurrentSong) => {
   const currentSongRef = fb.database().ref(`games/${gameId}/currentSong`)
   const archiveRef = fb.database().ref(`games/${gameId}/archive`)
 
-  currentSongRef.on("value", function(snapshot) {
-    const currentSong = snapshot.val()
+  currentSongRef.on('value', function(snap) {
+    const currentSong = snap.val()
     console.log(currentSong)
 
     archiveRef.update({[currentSong]: currentSong})
     currentSongRef.set(newCurrentSong)
   }, (errorObject) => {
-    console.log("The read failed: " + errorObject.code)
+    console.log('The read failed: ' + errorObject.code)
   })
 }
 
@@ -58,3 +58,18 @@ export const switchTurn = (gameId, team) => {
   updates[`games/${gameId}/teams/blue/turn`] = team === 'blue'
   return fb.database().ref().update(updates)
 }
+
+export const addGameMasterViewer = gameId => {
+  const gameRef = fb.database().ref(`games/${gameId}`)
+  // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
+  const gameMaster = gameRef.child('gameMastersOnline').push()
+  // When I disconnect, remove this device
+  gameMaster.onDisconnect().remove()
+  // Add this device to my connections list
+  gameMaster.set(true)
+}
+
+export const getGameMastersOnlineCount = gameId =>
+  fb.database().ref(`games/${gameId}/gameMastersOnline`).once('value').then((snap) => Object.keys(snap.val()).length)
+
+export const getGameMastersOnlineRef = gameId => fb.database().ref(`games/${gameId}/gameMastersOnline`)

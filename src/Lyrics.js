@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import cx from 'classnames'
-import {getGameData} from './services/firebase'
 import songs from './songs.js'
 import './Lyrics.css'
 

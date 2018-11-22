@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
 import rnd from 'randomstring'
+import {Link} from 'react-router-dom'
+
 import Lyrics from './Lyrics'
 import Teams from './Teams'
+import Header from './Header'
+
 import {addNewGame} from './services/firebase'
 import {getRandomSong} from './utils/utils'
-import './App.css'
+
+import './Game.css'
 
 /*
 * TODO:
@@ -17,7 +22,7 @@ import './App.css'
 * */
 
 
-class App extends Component {
+class Game extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -43,7 +48,8 @@ class App extends Component {
     const {gameId, songId} = this.state
     if(!gameId && !songId) return null
     return (
-      <div className="App">
+      <div className="Game">
+        <Header gameId={gameId}/>
         <Lyrics
           songId={songId}
         />
@@ -51,9 +57,10 @@ class App extends Component {
           gameId={gameId}
           songId={songId}
         />
+        <Link to={`/master/${gameId}`}>Go to game master tool</Link>
       </div>
     )
   }
 }
 
-export default App
+export default Game

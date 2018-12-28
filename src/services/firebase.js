@@ -18,7 +18,9 @@ export const getGameData = (gameId) =>
 export const getSongArchive = (gameId) =>
   fb.database().ref(`games/${gameId}/songArchive`).once('value').then((snap) => snap.val())
 
-export const addNewGame = (gameId, song) =>
+
+
+export const addNewGame = (gameId, song, lyrics) =>
   fb.database().ref(`games/${gameId}`).set({
     currentSong: song,
     teams: {
@@ -30,8 +32,16 @@ export const addNewGame = (gameId, song) =>
         points: 0,
         turn: true
       }
-    }
+    },
+    cards: Object.keys(lyrics).map(id => ({'isOpen': false}))
   })
+
+export const openCard = (gameId, cardId) => {
+  fb.database().ref(`games/${gameId}/cards/${cardId}`).update({'isOpen': true})
+}
+
+export const getCardStatusesRef = gameId =>
+  fb.database().ref(`games/${gameId}/cards`)
 
 export const setCurrentSong = (gameId, newCurrentSong) => {
   const currentSongRef = fb.database().ref(`games/${gameId}/currentSong`)

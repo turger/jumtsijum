@@ -6,6 +6,8 @@ import Lyrics from './Lyrics'
 import Teams from './Teams'
 import Header from './Header'
 
+import songs from './songs.js'
+
 import {addNewGame} from './services/firebase'
 import {getRandomSong} from './utils/utils'
 
@@ -13,7 +15,6 @@ import './Game.css'
 
 /*
 * TODO:
-* - add router
 * - add game master tool (to different route with gameId)
 * - points
 * - rule notifications
@@ -39,7 +40,8 @@ class Game extends Component {
       localStorage.setItem('gameId', gameId)
       songId = getRandomSong()
       localStorage.setItem('songId', songId)
-      addNewGame(gameId, songId)
+      const lyrics = songs[songId].lyrics
+      addNewGame(gameId, songId, lyrics)
     }
     this.setState({gameId, songId})
   }
@@ -51,6 +53,7 @@ class Game extends Component {
       <div className="Game">
         <Header gameId={gameId}/>
         <Lyrics
+          gameId={gameId}
           songId={songId}
         />
         <Teams

@@ -1,0 +1,41 @@
+.GameMaster__lyrics {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.GameMaster__word {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  flex-basis: 0;
+  padding: 10px;
+  margin: 10px;
+}
+
+.GameMaster__word--closed {
+  background-color: #000000;
+  color: #bfbfbf;
+}
+
+.GameMaster__word--open {
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
+
+.GameMaster__word__number {
+  top: -10px;
+  right: -10px;
+  color: #ffffff;
+  font-size: 20px;
+  position: absolute;
+  background-color: #000000;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+}

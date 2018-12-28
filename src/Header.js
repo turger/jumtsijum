@@ -7,15 +7,21 @@ class Header extends Component {
   constructor(props) {
     super(props)
     this.state = {onlineCount: null}
+    this._gameMastersOnlineRef = null
   }
 
   componentDidMount() {
-    const gameMastersOnlineRef = getGameMastersOnlineRef(this.props.gameId)
-    gameMastersOnlineRef.on('value', (snap) => {
+    this._gameMastersOnlineRef = getGameMastersOnlineRef(this.props.gameId)
+    this._gameMastersOnlineRef.on('value', (snap) => {
       const onlineCount = snap.val() ? Object.keys(snap.val()).length : 0
       this.setState({onlineCount})
     })
   }
+
+  componentWillUnmount() {
+    this._gameMastersOnlineRef.off()
+  }
+
   render() {
     return (
       <div className='Header'>

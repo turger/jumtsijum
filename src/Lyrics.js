@@ -1,45 +1,59 @@
 import React, { Component } from 'react'
 import cx from 'classnames'
+
+import {openCard, getCardStatusesRef} from './services/firebase'
+
 import songs from './songs.js'
+
+
 import './Lyrics.css'
 
 class Lyrics extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      lyrics: {}
+      lyrics: null,
+      cardStatuses: null,
+      openedCard: false
     }
+    this._cardStatusesRef = null
   }
 
   // TODO: red random words
-  componentDidMount() {
-    console.log(this.props)
+  async componentDidMount() {
     const {songId} = this.props
-    console.log(songs, songId, songs.songId)
-    this.setState({lyrics: Object.values(songs[songId].lyrics).map(word => ({word: word, status: 'closed'}))})
+    this.setState({lyrics: songs[songId].lyrics})
+    // set listener to card statuses
+    this._cardStatusesRef = getCardStatusesRef(this.props.gameId)
+    await this._cardStatusesRef.on('value', (snap) => {
+      const cardStatuses = snap.val() ? snap.val() : null
+      this.setState({cardStatuses})
+    })
+  }
+
+  componentWillUnmount() {
+    this._cardStatusesRef.off()
   }
 
   handleWordClick(i) {
-    const lyrics = this.state.lyrics
-    lyrics[i].status = 'open'
-    this.setState({lyrics})
+    openCard(this.props.gameId, i)
+    this.setState({openedCard: true})
   }
 
   render() {
-    const {lyrics} = this.state
-    if(!lyrics) return null
-    console.log(lyrics)
+    const {lyrics, cardStatuses} = this.state
+    if(!lyrics || !cardStatuses) return null
     return (
       <div className='Lyrics'>
         {
-          Object.values(lyrics).map((value, i) =>
+          Object.values(lyrics).map((word, i) =>
             <div
               key={i}
-              className={cx('Lyrics__word', `Lyrics__word--${value.status}`)}
+              className={cx('Lyrics__word', cardStatuses[i].isOpen ? 'Lyrics__word--open': 'Lyrics__word--closed')}
               onClick={() => this.handleWordClick(i)}
             >
-              {value.word}
-              {value.status === 'closed' &&
+              {word}
+              {cardStatuses[i].isOpen === false &&
                 <div className='Lyrics__number'>
                   {i+1}
                 </div>

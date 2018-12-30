@@ -18,7 +18,6 @@ class Lyrics extends Component {
     this._cardStatusesRef = null
   }
 
-  // TODO: red random words
   async componentDidMount() {
     const {songId} = this.props
     this.setState({lyrics: songs[songId].lyrics})
@@ -73,9 +72,7 @@ class Lyrics extends Component {
                 }
               </div>
             )
-          }
-
-          )
+          })
         }
       </div>
     )

@@ -18,6 +18,9 @@ export const getGameData = gameId =>
 export const getCurrentSong = gameId =>
   fb.database().ref(`games/${gameId}/currentSong`).once('value').then((snap) => snap.val())
 
+export const getCurrentSongRef = gameId =>
+  fb.database().ref(`games/${gameId}/currentSong`)
+
 export const getSongArchive = (gameId) =>
   fb.database().ref(`games/${gameId}/songArchive`).once('value').then((snap) => snap.val())
 

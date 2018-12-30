@@ -14,8 +14,7 @@ export default [
       0: "kun",
       1: "kohdattiin",
       2: "oli",
-      3: "pimeää",
-      4: "kun"
+      3: "pimeää"
     },
     artist: "J. Karjalainen",
     song: "Ankkurinappi"
@@ -89,6 +88,142 @@ export default [
   },
   {
     lyrics: {
+      0: "the",
+      1: "taste",
+      2: "of",
+      3: "your",
+      4: "lips"
+    },
+    artist: "Britney Spears",
+    song: "Toxic"
+  },
+  {
+    lyrics: {
+      0: "sä",
+      1: "oot",
+      2: "valo",
+      3: "mun",
+      4: "pimeydessäin"
+    },
+    artist: "Pikku G",
+    song: "Romeo ja Julia"
+  },
+  {
+    lyrics: {
+      0: "ehkä",
+      1: "väsyttää",
+      2: "vähän",
+      3: "mutta",
+      4: "nyt",
+      5: "ei",
+      6: "nukuta"
+    },
+    artist: "Tiktak",
+    song: "Heilutaan"
+  },
+  {
+    lyrics: {
+      0: "joo",
+      1: "mä",
+      2: "oon",
+      3: "sun",
+      4: "jacques",
+      5: "cousteau"
+    },
+    artist: "Kasmir",
+    song: "Vadelmavene"
+  },
+  {
+    lyrics: {
+      0: "missä",
+      1: "kuningas",
+      2: "joka",
+      3: "meidät",
+      4: "vapauttaa"
+    },
+    artist: "Apulanta",
+    song: "Jumala"
+  },
+  {
+    lyrics: {
+      0: "oot",
+      1: "jumalatar",
+      2: "sun",
+      3: "revityissä",
+      4: "farkkushortseis"
+    },
+    artist: "Robin",
+    song: "Hula Hula"
+  },
+  {
+    lyrics: {
+      0: "en",
+      1: "halua",
+      2: "hodariini",
+      3: "srirachaa"
+    },
+    artist: "Popeda",
+    song: "Lihaa ja perunaa"
+  },
+  {
+    lyrics: {
+      0: "jos",
+      1: "saat",
+      2: "suudella",
+      3: "mun",
+      4: "punaista",
+      5: "suuta"
+    },
+    artist: "Haloo Helsinki",
+    song: "Beibi"
+  },
+  {
+    lyrics: {
+      0: "oot",
+      1: "liian",
+      2: "kaunis",
+      3: "häpeemään"
+    },
+    artist: "Kaija Koo",
+    song: "Kaunis Rietas Onnellinen"
+  },
+  {
+    lyrics: {
+      0: "🍺",
+      1: "🖥",
+      2: "➕",
+      3: "🤠️🦃"
+    },
+    artist: "Pate Mustajärvi",
+    song: "Ukkometso"
+  },
+  {
+    lyrics: {
+      0: "let",
+      1: "the",
+      2: "storm",
+      3: "rage",
+      4: "on"
+    },
+    artist: "Idina Menzel",
+    song: "Let It Go"
+  },
+  {
+    lyrics: {
+      0: "ne",
+      1: "levottomat",
+      2: "illat",
+      3: "sekä",
+      4: "unettomat",
+      5: "yöt"
+    },
+    artist: "Zen Cafe",
+    song: "Todella Kaunis"
+  }
+  /*
+  ,
+  {
+    lyrics: {
       0: "",
       1: "",
       2: "",
@@ -99,4 +234,5 @@ export default [
     artist: "",
     song: ""
   }
+  */
 ]

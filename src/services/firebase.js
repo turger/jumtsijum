@@ -12,16 +12,20 @@ const config = {
 
 const fb = firebase.initializeApp(config)
 
-export const getGameData = (gameId) =>
+export const getGameData = gameId =>
   fb.database().ref(`games/${gameId}`).once('value').then((snap) => snap.val())
+
+export const getCurrentSong = gameId =>
+  fb.database().ref(`games/${gameId}/currentSong`).once('value').then((snap) => snap.val())
 
 export const getSongArchive = (gameId) =>
   fb.database().ref(`games/${gameId}/songArchive`).once('value').then((snap) => snap.val())
 
-
-
-export const addNewGame = (gameId, song, lyrics) =>
+export const addNewGame = (gameId, song, lyrics) => {
+  const lyricsCount = Object.keys(lyrics).length
+  const redCard = Math.floor(Math.random() * (lyricsCount - 0) + 0).toString()
   fb.database().ref(`games/${gameId}`).set({
+    gameId: gameId,
     currentSong: song,
     teams: {
       red: {
@@ -33,8 +37,9 @@ export const addNewGame = (gameId, song, lyrics) =>
         turn: true
       }
     },
-    cards: Object.keys(lyrics).map(id => ({'isOpen': false}))
+    cards: Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': id === redCard}))
   })
+}
 
 export const openCard = (gameId, cardId) => {
   fb.database().ref(`games/${gameId}/cards/${cardId}`).update({'isOpen': true})
@@ -43,22 +48,22 @@ export const openCard = (gameId, cardId) => {
 export const getCardStatusesRef = gameId =>
   fb.database().ref(`games/${gameId}/cards`)
 
-export const setCurrentSong = (gameId, newCurrentSong) => {
+export const getCardStatuses = gameId =>
+  fb.database().ref(`games/${gameId}/cards`).once('value').then((snap) => snap.val())
+
+export const setNewCurrentSong = (gameId, oldCurrentSong, newCurrentSong, lyrics) => {
   const currentSongRef = fb.database().ref(`games/${gameId}/currentSong`)
-  const archiveRef = fb.database().ref(`games/${gameId}/archive`)
+  const archiveRef = fb.database().ref(`games/${gameId}/songArchive`)
+  const cardsRef = fb.database().ref(`games/${gameId}/cards`)
+  const lyricsCount = Object.keys(lyrics).length
+  const redCard = Math.floor(Math.random() * (lyricsCount - 0) + 0).toString()
 
-  currentSongRef.on('value', function(snap) {
-    const currentSong = snap.val()
-    console.log(currentSong)
-
-    archiveRef.update({[currentSong]: currentSong})
-    currentSongRef.set(newCurrentSong)
-  }, (errorObject) => {
-    console.log('The read failed: ' + errorObject.code)
-  })
+  archiveRef.push(oldCurrentSong)
+  currentSongRef.set(newCurrentSong)
+  cardsRef.set(Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': id === redCard})))
 }
 
-export const addPoints = (gameId, team, points) =>
+export const updatePoints = (gameId, team, points) =>
   fb.database().ref().child(`games/${gameId}/teams/${team}`)
     .update({ points })
 

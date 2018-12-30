@@ -1,3 +1,50 @@
-.link-disabled {
-  pointer-events: none;
+.Game__buttons > a {
+  color: transparent;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+  text-shadow:
+      0 0 #141414,
+      .08em 0 0 #fff,
+      0 0,
+      -.08em 0 0 #fff;
+  vertical-align: bottom;
+  margin: 30px;
+}
+
+.Game__buttons > a:after {
+  background: linear-gradient(
+      to bottom,
+      #141414,
+      #141414
+  ) center 1.08em / 100% 2px no-repeat;
+
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 400%;
+  will-change: transform;
+  z-index: -1;
+}
+
+.Game__buttons > a:hover:after {
+  animation: underline-gradient 6s linear infinite;
+  background-image: linear-gradient(
+      90deg,
+      #7A5FFF 15%,
+      #01FF89 35%,
+      #7A5FFF 85%
+  );
+}
+
+@keyframes underline-gradient {
+  0%{
+    transform: translate3d(0%, 0%, 0);
+  }
+  100%{
+    transform: translate3d(-75%, 0%, 0);
+  }
 }

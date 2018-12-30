@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import {getGameMastersOnlineRef} from './services/firebase'
 
+import './Header.css'
+
 class Header extends Component {
   constructor(props) {
     super(props)
@@ -25,10 +27,11 @@ class Header extends Component {
   render() {
     return (
       <div className='Header'>
-        <div>Cool game</div>
-        <div>Game id: {this.props.gameId}</div>
-        { this.state.onlineCount > 1 &&
-          <div>Is someone cheating?! {this.state.onlineCount} eyepairs peeping this page.</div>
+        <div className='Header__title'>Bumtsibum</div>
+        <div className='Header__gameId'>{this.props.gameId}</div>
+        {
+          this.state.onlineCount > 1 &&
+          <div className='Header__warning'>Is someone cheating? {this.state.onlineCount} eyepairs peeping this page.</div>
         }
       </div>
     )

@@ -7,8 +7,8 @@ import GameMaster from './GameMaster'
 const Main = () => (
   <main>
     <Switch>
-      <Route exact path='/' component={Game}/>
-      <Route exact path='/master' component={GameSelection}/>
+      <Route exact path='/' component={GameSelection}/>
+      <Route exact path='/:gameId' component={Game}/>
       <Route path='/master/:gameId' component={GameMaster}/>
     </Switch>
   </main>

@@ -2,33 +2,54 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 30px;
+}
+
+.Lyrics__box {
+  position: relative;
 }
 
 .Lyrics__word {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-grow: 1;
-  flex-basis: 0;
+  word-break: break-all;
+  width: 100px;
+  height: 100px;
   padding: 10px;
   margin: 10px;
-}
-
-.Lyrics__word--closed {
-  background-color: #000000;
-}
-
-.Lyrics__word--open {
   border: 1px solid #000000;
   border-radius: 5px;
+  z-index: 0;
+}
+
+.Lyrics__word__closed {
+  position: absolute;
+  border: 1px solid #ffffff;
+  top: 0;
+  background: linear-gradient(70deg, #fff810  30%, rgba(0,0,0,0) 30%), linear-gradient(30deg, #63e89e 60%, #ff7ee3 60%);
+  z-index: 10;
 }
 
 .Lyrics__word--red {
-  /* TODO */
+  background-color: #fd5afa;
 }
 
 .Lyrics__number {
-  color: #ffffff;
-  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
+  top: 0;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-weight: normal;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 70px;
+  white-space: nowrap;
+  font-family: 'Bangers', cursive;
+  text-shadow: 5px 5px 0 rgba(0, 0, 0, 0.7);
 }

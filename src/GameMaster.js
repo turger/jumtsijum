@@ -35,18 +35,20 @@ class GameMaster extends Component {
     this._cardStatusesRef.off()
   }
 
+  handleWordClick(i) {
+    const {gameId} = this.props.match.params
+    openCard(gameId, i)
+  }
+
   render() {
     const {gameId} = this.props.match.params
     const {game, cardStatuses} = this.state
-    console.log(game, cardStatuses)
     if (!game || !cardStatuses) return null
     const lyrics = songs[game.currentSong].lyrics
-    console.log(this.state.game)
     return (
       <div className='GameMaster'>
         <Header gameId={gameId}/>
-        GameMaster
-        GameId {gameId}
+        <div className='GameMaster__title'>GameMaster</div>
         <div className='GameMaster__lyrics'>
           {
             Object.values(lyrics).map((word, i) =>
@@ -62,6 +64,9 @@ class GameMaster extends Component {
               </div>
             )
           }
+        </div>
+        <div className='GameMaster__answer'>
+          {`${songs[game.currentSong].artist} - ${songs[game.currentSong].song}`}
         </div>
       </div>
     )

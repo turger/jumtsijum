@@ -1,0 +1,25 @@
+.Game {
+  padding-bottom: 50px;
+}
+
+.Game__warning {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border: solid 1px #faebcc;
+  border-radius: 6px;
+  line-height: 18px;
+  overflow: hidden;
+  padding: 12px;
+  margin: 10px 20px;
+}
+
+.Game > button {
+  margin: 10px 20px;
+}
+
+.Game > button:disabled {
+  color: #888888;
+}

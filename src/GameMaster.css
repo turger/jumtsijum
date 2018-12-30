@@ -1,3 +1,14 @@
+.GameMaster__title {
+  text-align: center;
+  font-weight: normal;
+  color: rgba(253, 90, 250, 1);
+  text-transform: uppercase;
+  font-size: 70px;
+  white-space: nowrap;
+  font-family: 'Bangers', cursive;
+  text-shadow: 5px 5px 0 rgba(0, 0, 0, 0.7);
+}
+
 .GameMaster__lyrics {
   display: flex;
   justify-content: center;
@@ -9,20 +20,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-grow: 1;
-  flex-basis: 0;
   padding: 10px;
   margin: 10px;
+  border-radius: 5px;
+  width: 80px;
+  height: 80px;
 }
 
 .GameMaster__word--closed {
   background-color: #000000;
-  color: #bfbfbf;
+  color: #a6a6a6;
 }
 
 .GameMaster__word--open {
   border: 1px solid #000000;
-  border-radius: 5px;
 }
 
 .GameMaster__word__number {
@@ -38,4 +49,20 @@
   justify-content: center;
   align-items: center;
   border-radius: 20px;
+}
+
+.GameMaster__answer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .GameMaster__title {
+    font-size: 20vw;
+  }
+
+  .GameMaster__lyrics {
+    flex-wrap: wrap;
+  }
 }

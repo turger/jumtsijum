@@ -14,7 +14,8 @@ export default [
       0: "kun",
       1: "kohdattiin",
       2: "oli",
-      3: "pimeää"
+      3: "pimeää",
+      4: "kun"
     },
     artist: "J. Karjalainen",
     song: "Ankkurinappi"

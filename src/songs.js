@@ -167,12 +167,11 @@ export default [
   },
   {
     lyrics: {
-      0: "jos",
-      1: "saat",
-      2: "suudella",
-      3: "mun",
-      4: "punaista",
-      5: "suuta"
+      0: "beibi",
+      1: "räjäytä",
+      2: "mut",
+      3: "tässä",
+      4: "beibi"
     },
     artist: "Haloo Helsinki",
     song: "Beibi"
@@ -200,10 +199,11 @@ export default [
   {
     lyrics: {
       0: "let",
-      1: "the",
-      2: "storm",
-      3: "rage",
-      4: "on"
+      1: "it",
+      2: "go",
+      3: "let",
+      4: "it",
+      5: "go"
     },
     artist: "Idina Menzel",
     song: "Let It Go"
@@ -219,6 +219,54 @@ export default [
     },
     artist: "Zen Cafe",
     song: "Todella Kaunis"
+  },
+  {
+    lyrics: {
+      0: "joskus",
+      1: "toivon",
+      2: "etten",
+      3: "ois",
+      4: "näin",
+      5: "pätkä"
+    },
+    artist: "Uniikki",
+    song: "Pätkätöis"
+  },
+  {
+    lyrics: {
+      0: "tunnetko",
+      1: "jo",
+      2: "rakkauden",
+      3: "sen",
+      4: "onnen",
+      5: "hiljaisen"
+    },
+    artist: "Anneli Saaristo",
+    song: "Tunnetko Jo Rakkauden"
+  },
+  {
+    lyrics: {
+      0: "tällainen",
+      1: "pieni",
+      2: "tyttö",
+      3: "helposti",
+      4: "unohtuu"
+    },
+    artist: "Nelli",
+    song: "Pidä Musta Kii"
+  },
+  {
+    lyrics: {
+      0: "I",
+      1: "never",
+      2: "want",
+      3: "to",
+      4: "hear",
+      5: "you",
+      6: "say"
+    },
+    artist: "Backstreet boys",
+    song: "I Want It That Way"
   }
   /*
   ,

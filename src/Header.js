@@ -28,10 +28,10 @@ class Header extends Component {
     return (
       <div className='Header'>
         <div className='Header__title'>Bumtsibum</div>
-        <div className='Header__gameId'>{this.props.gameId}</div>
+        <div className='Header__gameId'>{this.props.gameId || ''}</div>
         {
           this.state.onlineCount > 1 &&
-          <div className='Header__warning'>Is someone cheating? {this.state.onlineCount} eyepairs peeping this page.</div>
+          <div className='Header__warning'>Koittaako joku huijata? {this.state.onlineCount} silmäparia kurkkii game masterin sivua!</div>
         }
       </div>
     )

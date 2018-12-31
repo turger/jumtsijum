@@ -5,27 +5,35 @@ import {addNewGame, getGameData} from './services/firebase'
 import {getRandomSong} from './utils/utils'
 import rnd from 'randomstring'
 import songs from './songs'
+import Header from './Header'
 
 class GameSelection extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      gameId: '',
+      gameIdInput: '',
       game: null,
       findClicked: false,
       loading: false
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const gameId = localStorage.getItem('gameId')
-    if (gameId) this.setState({gameId})
+    if (gameId) {
+      const game = await getGameData(gameId)
+      this.setState({gameIdInput: gameId, game, loading: false})
+    }
   }
 
   async handleSubmit(e) {
     e.preventDefault()
+    const {gameIdInput} = this.state
+
+    if (!gameIdInput) return null
+
     this.setState({game: null, findClicked: true, loading: true})
-    const game = await getGameData(this.state.gameId)
+    const game = await getGameData(gameIdInput)
     this.setState({game, loading: false})
     if (game) {
       localStorage.setItem('gameId', game.gameId)
@@ -44,30 +52,32 @@ class GameSelection extends Component {
   }
 
   render() {
-    const {gameId, game, findClicked, loading} = this.state
+    const {gameIdInput, game, findClicked, loading} = this.state
+    console.log(this.state)
     return (
-      <div className='game__selection'>
-        Valitse peli tai aloita uusi
+      <div className='Game__selection'>
+        <Header gameId={game ? game.gameId : ''}/>
+        <h2>Valitse peli tai aloita uusi</h2>
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <label>
-            Game id:
+            Pelin id
             <input
               type='text'
-              value={this.state.gameId}
-              onChange={(e) => this.setState({gameId: e.target.value.toUpperCase()})}
+              value={gameIdInput}
+              onChange={(e) => this.setState({gameIdInput: e.target.value.toUpperCase()})}
             />
           </label>
-          <input type='submit' value='Hae'/>
+          <input type='submit' value='Hae' disabled={!gameIdInput}/>
         </form>
-        {!game && findClicked && !loading && <div>No game found</div>}
+        {!game && findClicked && !loading && <div className='Game__notFound'>Peliä ei löytynyt</div>}
         {
           game &&
             <div className='Game__buttons'>
-              <Link to={`/${gameId}`} target='_blank'>Go to game</Link>
-              <Link to={`/master/${gameId}`} target='_blank'>Game Master</Link>
+              <Link to={`/${game.gameId}`} target='_blank'>Pelaamaan!</Link>
+              <Link to={`/master/${game.gameId}`} target='_blank'>Game Master</Link>
             </div>
         }
-        <button onClick={() => this.handleNewGameClick()}>Uusi peli</button>
+        <button className='Game__new' onClick={() => this.handleNewGameClick()}>Uusi peli</button>
       </div>
     )
   }

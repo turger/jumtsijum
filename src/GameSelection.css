@@ -1,3 +1,49 @@
+.Game__selection {
+  padding: 30px;
+}
+
+.Game__selection > form > label {
+  font-size: 15px;
+}
+
+.Game__selection > form > label > input {
+  margin-left: 10px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+/* submit button */
+.Game__selection > form > input {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.Game__selection > form > input:disabled {
+  margin-left: 10px;
+  color: #888888;
+  cursor: not-allowed;
+}
+
+.Game__notFound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border: solid 1px #faebcc;
+  border-radius: 6px;
+  line-height: 18px;
+  overflow: hidden;
+  padding: 12px;
+  margin: 20px 10px;
+  width: 200px;
+}
+
+.Game__buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start
+}
+
 .Game__buttons > a {
   color: transparent;
   display: inline-block;
@@ -19,7 +65,6 @@
       #141414,
       #141414
   ) center 1.08em / 100% 2px no-repeat;
-
   content: "";
   height: 100%;
   left: 0;
@@ -34,9 +79,33 @@
   animation: underline-gradient 6s linear infinite;
   background-image: linear-gradient(
       90deg,
-      #7A5FFF 15%,
+      #fd5afa 15%,
       #01FF89 35%,
-      #7A5FFF 85%
+      #fd5afa 85%
+  );
+}
+
+.Game__new {
+  background: linear-gradient(
+    90deg,
+    #fd5afa 40%,
+    #01FF89 100%
+  );
+  padding: 10px;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  text-shadow: 1px 1px #000000;
+  margin-top: 80px;
+  cursor: pointer;
+}
+
+.Game__new:hover {
+  background: linear-gradient(
+      90deg,
+      #01FF89 40%,
+      #fd5afa 100%
   );
 }
 

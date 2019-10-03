@@ -28,3 +28,7 @@ REACT_APP_MESSAGINGSENDERID=
 ## Deploy to firebase
 
 `yarn fb-deploy`
+
+## Try it out! 🔥
+
+https://jumtsijum.firebaseapp.com/

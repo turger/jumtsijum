@@ -11,23 +11,28 @@ const config = {
 }
 
 const fb = firebase.initializeApp(config)
+var db = fb.database()
+// if (process.env.NODE_ENV === 'development') {
+//   // Point to the RTDB emulator running on localhost.
+//   db.useEmulator("localhost", 9000)
+// }
 
 export const getGameData = gameId =>
-  fb.database().ref(`games/${gameId}`).once('value').then((snap) => snap.val())
+  db.ref(`games/${gameId}`).once('value').then((snap) => snap.val())
 
 export const getCurrentSong = gameId =>
-  fb.database().ref(`games/${gameId}/currentSong`).once('value').then((snap) => snap.val())
+  db.ref(`games/${gameId}/currentSong`).once('value').then((snap) => snap.val())
 
 export const getCurrentSongRef = gameId =>
-  fb.database().ref(`games/${gameId}/currentSong`)
+  db.ref(`games/${gameId}/currentSong`)
 
 export const getSongArchive = (gameId) =>
-  fb.database().ref(`games/${gameId}/songArchive`).once('value').then((snap) => snap.val())
+  db.ref(`games/${gameId}/songArchive`).once('value').then((snap) => snap.val())
 
 export const addNewGame = (gameId, song, lyrics) => {
   const lyricsCount = Object.keys(lyrics).length
   const redCard = Math.floor(Math.random() * (lyricsCount - 0) + 0).toString()
-  fb.database().ref(`games/${gameId}`).set({
+  db.ref(`games/${gameId}`).set({
     gameId: gameId,
     currentSong: song,
     teams: {
@@ -45,19 +50,19 @@ export const addNewGame = (gameId, song, lyrics) => {
 }
 
 export const openCard = (gameId, cardId) => {
-  fb.database().ref(`games/${gameId}/cards/${cardId}`).update({'isOpen': true})
+  db.ref(`games/${gameId}/cards/${cardId}`).update({'isOpen': true})
 }
 
 export const getCardStatusesRef = gameId =>
-  fb.database().ref(`games/${gameId}/cards`)
+  db.ref(`games/${gameId}/cards`)
 
 export const getCardStatuses = gameId =>
-  fb.database().ref(`games/${gameId}/cards`).once('value').then((snap) => snap.val())
+  db.ref(`games/${gameId}/cards`).once('value').then((snap) => snap.val())
 
 export const setNewCurrentSong = (gameId, oldCurrentSong, newCurrentSong, lyrics) => {
-  const currentSongRef = fb.database().ref(`games/${gameId}/currentSong`)
-  const archiveRef = fb.database().ref(`games/${gameId}/songArchive`)
-  const cardsRef = fb.database().ref(`games/${gameId}/cards`)
+  const currentSongRef = db.ref(`games/${gameId}/currentSong`)
+  const archiveRef = db.ref(`games/${gameId}/songArchive`)
+  const cardsRef = db.ref(`games/${gameId}/cards`)
   const lyricsCount = Object.keys(lyrics).length
   const redCard = Math.floor(Math.random() * (lyricsCount - 0) + 0).toString()
 
@@ -67,18 +72,18 @@ export const setNewCurrentSong = (gameId, oldCurrentSong, newCurrentSong, lyrics
 }
 
 export const updatePoints = (gameId, team, points) =>
-  fb.database().ref().child(`games/${gameId}/teams/${team}`)
+  db.ref().child(`games/${gameId}/teams/${team}`)
     .update({ points })
 
 export const switchTurn = (gameId, team) => {
   const updates = {}
   updates[`games/${gameId}/teams/red/turn`] = team === 'red'
   updates[`games/${gameId}/teams/blue/turn`] = team === 'blue'
-  return fb.database().ref().update(updates)
+  return db.ref().update(updates)
 }
 
 export const addGameMasterViewer = gameId => {
-  const gameRef = fb.database().ref(`games/${gameId}`)
+  const gameRef = db.ref(`games/${gameId}`)
   // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
   const gameMaster = gameRef.child('gameMastersOnline').push()
   // When I disconnect, remove this device
@@ -88,6 +93,6 @@ export const addGameMasterViewer = gameId => {
 }
 
 export const getGameMastersOnlineCount = gameId =>
-  fb.database().ref(`games/${gameId}/gameMastersOnline`).once('value').then((snap) => Object.keys(snap.val()).length)
+  db.ref(`games/${gameId}/gameMastersOnline`).once('value').then((snap) => Object.keys(snap.val()).length)
 
-export const getGameMastersOnlineRef = gameId => fb.database().ref(`games/${gameId}/gameMastersOnline`)
+export const getGameMastersOnlineRef = gameId => db.ref(`games/${gameId}/gameMastersOnline`)

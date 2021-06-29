@@ -31,4 +31,4 @@ REACT_APP_MESSAGINGSENDERID=
 
 ## Try it out! 🔥
 
-https://jumtsijum.firebaseapp.com/
+https://jumt5ijum.web.app

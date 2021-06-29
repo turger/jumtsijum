@@ -54,16 +54,6 @@ export default [
   },
   {
     lyrics: {
-      0: "sulle",
-      1: "sukeltaisin",
-      2: "helmen",
-      3: "valkean"
-    },
-    artist: "Pave Maijanen",
-    song: "Lähtisitkö"
-  },
-  {
-    lyrics: {
       0: "sano",
       1: "että",
       2: "yhä",
@@ -88,11 +78,12 @@ export default [
   },
   {
     lyrics: {
-      0: "the",
-      1: "taste",
-      2: "of",
-      3: "your",
-      4: "lips"
+      0: "don't",
+      1: "you",
+      2: "know",
+      3: "that",
+      4: "you're",
+      5: "toxic"
     },
     artist: "Britney Spears",
     song: "Toxic"
@@ -123,12 +114,10 @@ export default [
   },
   {
     lyrics: {
-      0: "joo",
-      1: "mä",
-      2: "oon",
-      3: "sun",
-      4: "jacques",
-      5: "cousteau"
+      0: "helsinkiä",
+      1: "pakoon",
+      2: "soudan",
+      3: "Hankoon"
     },
     artist: "Kasmir",
     song: "Vadelmavene"
@@ -146,32 +135,39 @@ export default [
   },
   {
     lyrics: {
-      0: "oot",
-      1: "jumalatar",
-      2: "sun",
-      3: "revityissä",
-      4: "farkkushortseis"
+      0: "asfaltti",
+      1: "polttaa",
+      2: "ja",
+      3: "sä",
+      4: "oot",
+      5: "kuuma",
+      6: "ku",
+      7: "grilli"
     },
     artist: "Robin",
-    song: "Hula Hula"
+    song: "Kesärenkaat"
   },
   {
     lyrics: {
-      0: "en",
-      1: "halua",
-      2: "hodariini",
-      3: "srirachaa"
+      0: "usko",
+      1: "pois",
+      2: "että",
+      3: "onnellinen",
+      4: "olen",
+      5: "vaan"
     },
     artist: "Popeda",
     song: "Lihaa ja perunaa"
   },
   {
     lyrics: {
-      0: "beibi",
-      1: "räjäytä",
-      2: "mut",
-      3: "tässä",
-      4: "beibi"
+      0: "ja",
+      1: "mitä",
+      2: "teet",
+      3: "mun",
+      4: "edessäni",
+      5: "kello",
+      6: "viis"
     },
     artist: "Haloo Helsinki",
     song: "Beibi"
@@ -198,18 +194,6 @@ export default [
   },
   {
     lyrics: {
-      0: "let",
-      1: "it",
-      2: "go",
-      3: "let",
-      4: "it",
-      5: "go"
-    },
-    artist: "Idina Menzel",
-    song: "Let It Go"
-  },
-  {
-    lyrics: {
       0: "ne",
       1: "levottomat",
       2: "illat",
@@ -219,18 +203,6 @@ export default [
     },
     artist: "Zen Cafe",
     song: "Todella Kaunis"
-  },
-  {
-    lyrics: {
-      0: "joskus",
-      1: "toivon",
-      2: "etten",
-      3: "ois",
-      4: "näin",
-      5: "pätkä"
-    },
-    artist: "Uniikki",
-    song: "Pätkätöis"
   },
   {
     lyrics: {
@@ -267,6 +239,85 @@ export default [
     },
     artist: "Backstreet boys",
     song: "I Want It That Way"
+  },
+  {
+    lyrics: {
+      0: "ajetaan",
+      1: "kovaa",
+      2: "ollaan",
+      3: "ihan",
+      4: "hiljaa"
+    },
+    artist: "Vesala",
+    song: "Tequila"
+  },
+  {
+    lyrics: {
+      0: "once",
+      1: "more",
+      2: "you",
+      3: "open",
+      4: "the",
+      5: "door"
+    },
+    artist: "Celine Dion",
+    song: "My Heart Will Go On"
+  },
+  {
+    lyrics: {
+      0: "en",
+      1: "ehkä",
+      2: "osaa",
+      3: "sulle",
+      4: "puhua"
+    },
+    artist: "Sanni",
+    song: "2080-luvulla"
+  },
+  {
+    lyrics: {
+      0: "mä",
+      1: "ensin",
+      2: "näin",
+      3: "vain",
+      4: "meren",
+      5: "sinisen"
+    },
+    artist: "Taiska",
+    song: "Mombasa"
+  },
+  {
+    lyrics: {
+      0: "heitetäänkö",
+      1: "pois",
+      2: "kaikki",
+      3: "housut",
+      4: "ja",
+      5: "paidat"
+    },
+    artist: "PMMP",
+    song: "Rusketusraidat"
+  },
+  {
+    lyrics: {
+      0: "juon",
+      1: "kaljaa",
+      2: "auringon",
+      3: "nousuun"
+    },
+    artist: "Leevi and the Leavings",
+    song: "Pohjois-Karjala"
+  },
+  {
+    lyrics: {
+      0: "myrsky",
+      1: "repii",
+      2: "puita",
+      3: "taivas",
+      4: "salamoi"
+    },
+    artist: "Janne Hurme",
+    song: "Kirje"
   }
   /*
   ,

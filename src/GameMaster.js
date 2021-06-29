@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import _ from 'lodash'
 import {
   addGameMasterViewer,
   getCardStatusesRef,
@@ -13,7 +14,6 @@ import songs from './songs.js'
 import cx from 'classnames'
 
 import './GameMaster.css'
-import _ from 'lodash'
 
 class GameMaster extends Component {
   constructor(props) {
@@ -76,7 +76,7 @@ class GameMaster extends Component {
               return(
                 <div
                   key={i}
-                  className={cx('GameMaster__word', cardStatuses[i].isOpen ? 'GameMaster__word--open': 'GameMaster__word--closed')}
+                  className={cx('GameMaster__word', cardStatuses[i].isOpen ? 'GameMaster__word--open': 'GameMaster__word--closed', {'Lyrics__word--red': cardStatuses[i].isRed})}
                   onClick={() => this.handleWordClick(i)}
                 >
                   {word}

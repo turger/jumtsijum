@@ -23,3 +23,42 @@
 .Game > button:disabled {
   color: #888888;
 }
+
+.Game > button.Game_master {
+  margin-top: 50px;
+  display: flex;
+  background: #989898;
+  color: white;
+  border-radius: 5px;
+}
+
+.Game > .New_song {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Game > .New_song > button {
+  background: linear-gradient(70deg, #fff810  30%, rgba(0,0,0,0) 30%), linear-gradient(30deg, #63e89e 60%, #ff7ee3 60%);
+  margin: 10px;
+  padding: 5px 10px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  font-family: 'Bangers', cursive;
+  letter-spacing: 4px;
+  font-size: 1.5em;
+  text-shadow: 3px 1px 0 rgba(0, 0, 0, 0.8);
+  font-weight: bolder;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  border: none;
+}
+
+.Game > .New_song > button:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}

@@ -1,84 +1,94 @@
-import React, { Component } from 'react'
+import React, {useEffect, useState} from 'react'
+import {useHistory} from 'react-router-dom'
 import rnd from 'randomstring'
 
 import Lyrics from './Lyrics'
 import Teams from './Teams'
 import Header from './Header'
 import Rules from './Rules'
+import Spinner from './Spinner'
 
 import songs from './songs.js'
 
-import {addNewGame, setNewCurrentSong, getSongArchive, getCurrentSong} from './services/firebase'
+import {addNewGame, getCurrentSong, getSongArchive, setNewCurrentSong} from './services/firebase'
 import {getRandomSong} from './utils/utils'
 
 import './Game.css'
 
-class Game extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      gameId: null,
-      songId: null,
-      warning: null,
-      noMoreSongs: false
-    }
-  }
+const Game = () => {
+  const history = useHistory()
 
-  async componentDidMount() {
-    let gameId = localStorage.getItem('gameId')
-    let songId = null
-    if (!gameId) {
-      gameId = rnd.generate(4).toUpperCase()
-      console.warn('No game found, created a new one', gameId)
-      localStorage.setItem('gameId', gameId)
-      songId = getRandomSong()
-      localStorage.setItem('songId', songId)
-      const lyrics = songs[songId].lyrics
-      addNewGame(gameId, songId, lyrics)
+  const [gameId, setGameId] = useState(null)
+  const [songId, setSongId] = useState(null)
+  const [warning, setWarning] = useState(null)
+  const [noMoreSongs, setNoMoreSongs] = useState(false)
+
+  useEffect(() => {
+    let currGameId = localStorage.getItem('gameId')
+    if (!currGameId) {
+      const newGameId = rnd.generate(4).toUpperCase()
+      console.info('No game found, created a new one', newGameId)
+      localStorage.setItem('gameId', newGameId)
+      const newSongId = getRandomSong()
+      localStorage.setItem('songId', newSongId)
+      const lyrics = songs[newSongId].lyrics
+      addNewGame(newGameId, newSongId, lyrics)
+      setGameId(newGameId)
+      setSongId(newSongId)
     } else {
-      songId = await getCurrentSong(gameId)
+      async function fetchSong() {
+        const currSongId = await getCurrentSong(currGameId)
+        setSongId(currSongId)
+      }
+      fetchSong()
+      setGameId(currGameId)
     }
-    this.setState({gameId, songId})
-  }
+  }, [gameId, songId])
 
-  async setNewSong() {
-    const {gameId, songId} = this.state
+  const setNewSong = async () => {
     const songArchive = await getSongArchive(gameId)
     const songArchiveArray = songArchive ? Array.from(Object.values(songArchive)) : []
     const newSongId = getRandomSong([...songArchiveArray, songId])
-    if (!newSongId && newSongId !== 0) this.setState({warning: 'No more songs available!', noMoreSongs: true})
+    if (!newSongId && newSongId !== 0) {
+      setWarning('No more songs available!')
+      setNoMoreSongs(true)
+    }
     if (newSongId || newSongId === 0) {
       setNewCurrentSong(gameId, songId, newSongId, songs[newSongId].lyrics)
-      this.setState({songId: newSongId})
+      setSongId(newSongId)
     }
   }
 
-  render() {
-    const {gameId, songId, warning, noMoreSongs} = this.state
-    if(!gameId && !songId) return null
-
-    return (
-      <div className="Game">
-        <Header gameId={gameId}/>
-        <Lyrics
-          gameId={gameId}
-          songId={songId}
-        />
-        <Teams
-          gameId={gameId}
-          songId={songId}
-        />
-        <Rules/>
+  if(!gameId || !songId) return <Spinner />
+  return (
+    <div className="Game">
+      <Header gameId={gameId}/>
+      <Lyrics
+        gameId={gameId}
+        songId={songId}
+      />
+      <Teams
+        gameId={gameId}
+        songId={songId}
+      />
+      <div className="New_song">
         <button
-          onClick={() => this.setNewSong()}
+          onClick={() => setNewSong()}
           disabled={noMoreSongs}
         >
-          Uusi laulu
+          Seuraava laulu
         </button>
-        {warning && <div className='Game__warning'>{warning}</div>}
       </div>
-    )
-  }
+      <Rules/>
+      <button
+        onClick={() => history.push(`master/${gameId}`)}
+        className="Game_master"
+      >
+        (Game master)
+      </button>
+      {warning && <div className='Game__warning'>{warning}</div>}
+    </div>
+  )
 }
 
 export default Game

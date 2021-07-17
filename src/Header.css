@@ -89,11 +89,11 @@
   .Header__title {
     font-size: 20vw;
     margin-top: 30vw;
-    top: -60vw;
+    top: -50vw;
   }
 
   .Header__gameId {
-    font-size: 20vw;
-    margin-top: 30vw;
+    font-size: 15vw;
+    margin-top: 20vw;
   }
 }

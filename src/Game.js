@@ -69,7 +69,6 @@ const Game = () => {
       />
       <Teams
         gameId={gameId}
-        songId={songId}
       />
       <div className="New_song">
         <button

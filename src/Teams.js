@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react'
 import _ from 'lodash'
 
-import {getGameData, updatePoints} from './services/firebase'
+import {getCardStatusesRef, getGameData, getTeamsRef, updatePoints} from './services/firebase'
 
 import './Teams.css'
 
@@ -11,6 +11,7 @@ class Teams extends Component {
     this.state = {
       points: {red: null, blue: null}
     }
+    this._pointsRef = null
   }
 
   async componentDidMount() {
@@ -20,6 +21,20 @@ class Teams extends Component {
       red: game.teams.red.points,
       blue: game.teams.blue.points,
     }})
+    // set listener to points statuses
+    this._pointsRef = getTeamsRef(gameId)
+    await this._pointsRef.on('value', (snap) => {
+      const teams = snap.val() ? snap.val() : null
+      console.log('teams', teams)
+      this.setState({points: {
+          red: teams.red.points,
+          blue: teams.blue.points,
+        }})
+    })
+  }
+
+  componentWillUnmount() {
+    this._pointsRef.off()
   }
 
   addPoint = team => {

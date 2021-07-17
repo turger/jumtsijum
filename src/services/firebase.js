@@ -20,6 +20,9 @@ var db = fb.database()
 export const getGameData = gameId =>
   db.ref(`games/${gameId}`).once('value').then((snap) => snap.val())
 
+export const getTeamsRef = gameId =>
+  db.ref(`games/${gameId}/teams`)
+
 export const getCurrentSong = gameId =>
   db.ref(`games/${gameId}/currentSong`).once('value').then((snap) => snap.val())
 

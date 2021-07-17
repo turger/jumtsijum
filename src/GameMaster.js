@@ -9,6 +9,7 @@ import {
 } from './services/firebase'
 
 import Header from './Header'
+import Teams from './Teams'
 
 import songs from './songs.js'
 import cx from 'classnames'
@@ -91,6 +92,9 @@ class GameMaster extends Component {
         <div className='GameMaster__answer'>
           {`${songs[currentSong].artist} - ${songs[currentSong].song}`}
         </div>
+        <Teams
+          gameId={gameId}
+        />
       </div>
     )
   }

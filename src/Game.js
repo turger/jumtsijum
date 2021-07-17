@@ -59,7 +59,7 @@ const Game = () => {
     }
   }
 
-  if(!gameId || !songId) return <Spinner />
+  if((!gameId && gameId !== 0) || (!songId && songId !== 0)) return <Spinner />
   return (
     <div className="Game">
       <Header gameId={gameId}/>

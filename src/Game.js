@@ -78,6 +78,7 @@ const Game = () => {
           Seuraava laulu
         </button>
       </div>
+      {warning && <div className='Game__warning'>{warning}</div>}
       <Rules/>
       <button
         onClick={() => history.push(`master/${gameId}`)}
@@ -85,7 +86,6 @@ const Game = () => {
       >
         (Game master)
       </button>
-      {warning && <div className='Game__warning'>{warning}</div>}
     </div>
   )
 }

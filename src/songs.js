@@ -1,32 +1,33 @@
 export default [
   {
     lyrics: {
-      0: "mun",
-      1: "sydämestä",
-      2: "puuttuu",
-      3: "palanen"
+      0: "oli",
+      1: "tunnelma",
+      2: "niin",
+      3: "huumaava"
     },
-    artist: "Robin",
-    song: "Puuttuva Palanen"
+    artist: "Rauli Badding Somerjoki",
+    song: "Paratiisi"
   },
   {
     lyrics: {
-      0: "kun",
-      1: "kohdattiin",
-      2: "oli",
-      3: "pimeää"
+      0: "juokse",
+      1: "sinne",
+      2: "missä",
+      3: "on",
+      4: "viileää"
     },
-    artist: "J. Karjalainen",
-    song: "Ankkurinappi"
+    artist: "Kaija Koo",
+    song: "Tinakenkätyttö"
   },
   {
     lyrics: {
-      0: "sä",
-      1: "oot",
-      2: "sellainen",
-      3: "kaikki",
-      4: "tietää",
-      5: "sen"
+      0: "hei",
+      1: "me",
+      2: "juhliin",
+      3: "lähdetään",
+      4: "et",
+      5: "pääse"
     },
     artist: "Nylon Beat",
     song: "Viimeinen"
@@ -43,23 +44,27 @@ export default [
   },
   {
     lyrics: {
-      0: "ei",
-      1: "niistä️",
-      2: "asiat",
-      3: "miksikään",
-      4: "muutu"
+      0: "all",
+      1: "we",
+      2: "need",
+      3: "is",
+      4: "lightning",
+      5: "with",
+      6: "power",
+      7: "and",
+      8: "might"
     },
-    artist: "Eppu Normaali",
-    song: "Tahroja paperilla"
+    artist: "Lordi",
+    song: "Hard Rock Hallelujah"
   },
   {
     lyrics: {
-      0: "sano",
-      1: "että",
-      2: "yhä",
-      3: "ainoa",
-      4: "olen",
-      5: "sun"
+      0: "sinulle",
+      1: "mä",
+      2: "antaisin",
+      3: "sydämen",
+      4: "jos",
+      5: "sä"
     },
     artist: "Jari Sillanpää",
     song: "Satulinna"
@@ -78,74 +83,75 @@ export default [
   },
   {
     lyrics: {
-      0: "don't",
-      1: "you",
-      2: "know",
-      3: "that",
-      4: "you're",
-      5: "toxic"
+      0: "with",
+      1: "a taste",
+      2: "of",
+      3: "your",
+      4: "lips",
+      5: "i'm",
+      6: "on"
     },
     artist: "Britney Spears",
     song: "Toxic"
   },
   {
     lyrics: {
-      0: "sä",
-      1: "oot",
-      2: "valo",
-      3: "mun",
-      4: "pimeydessäin"
+      0: "rakkaus",
+      1: "on",
+      2: "kuollut",
+      3: "elämän",
+      4: "virtaan"
     },
-    artist: "Pikku G",
-    song: "Romeo ja Julia"
+    artist: "Jonna Tervomaa",
+    song: "Rakkauden haudalla"
   },
   {
     lyrics: {
-      0: "ehkä",
-      1: "väsyttää",
-      2: "vähän",
-      3: "mutta",
-      4: "nyt",
-      5: "ei",
-      6: "nukuta"
+      0: "läpi",
+      1: "yön",
+      2: "se",
+      3: "vie",
+      4: "ja",
+      5: "toivon",
+      6: "saat"
     },
-    artist: "Tiktak",
-    song: "Heilutaan"
+    artist: "Leijonakuningas",
+    song: "Tie elämään"
   },
   {
     lyrics: {
-      0: "helsinkiä",
-      1: "pakoon",
-      2: "soudan",
-      3: "Hankoon"
+      0: "tahtoisin",
+      1: "oluen",
+      2: "mut",
+      3: "ei",
+      4: "en",
+      5: "saa"
     },
     artist: "Kasmir",
     song: "Vadelmavene"
   },
   {
     lyrics: {
-      0: "missä",
-      1: "kuningas",
-      2: "joka",
-      3: "meidät",
-      4: "vapauttaa"
+      0: "en",
+      1: "oo",
+      2: "enää",
+      3: "sinisilmäinen",
+      4: "oon"
     },
-    artist: "Apulanta",
-    song: "Jumala"
+    artist: "Frederik",
+    song: "Kolmekymppinen"
   },
   {
     lyrics: {
-      0: "asfaltti",
-      1: "polttaa",
-      2: "ja",
-      3: "sä",
-      4: "oot",
-      5: "kuuma",
-      6: "ku",
-      7: "grilli"
+      0: "syvälle",
+      1: "se",
+      2: "upposi",
+      3: "niin",
+      4: "aivan",
+      5: "kuin",
     },
-    artist: "Robin",
-    song: "Kesärenkaat"
+    artist: "Siiri Nordin",
+    song: "Sydämeni osuman sai"
   },
   {
     lyrics: {
@@ -162,25 +168,25 @@ export default [
   {
     lyrics: {
       0: "ja",
-      1: "mitä",
-      2: "teet",
-      3: "mun",
-      4: "edessäni",
-      5: "kello",
-      6: "viis"
+      1: "mietin",
+      2: "mikä",
+      3: "tunne",
+      4: "tää",
+      5: "on",
     },
     artist: "Haloo Helsinki",
     song: "Beibi"
   },
   {
     lyrics: {
-      0: "oot",
-      1: "liian",
-      2: "kaunis",
-      3: "häpeemään"
+      0: "oon",
+      1: "vain",
+      2: "sulle",
+      3: "ihminen",
+      4: "villi"
     },
-    artist: "Kaija Koo",
-    song: "Kaunis Rietas Onnellinen"
+    artist: "Pocahontas",
+    song: "Tuulen värit"
   },
   {
     lyrics: {
@@ -203,42 +209,6 @@ export default [
     },
     artist: "Zen Cafe",
     song: "Todella Kaunis"
-  },
-  {
-    lyrics: {
-      0: "tunnetko",
-      1: "jo",
-      2: "rakkauden",
-      3: "sen",
-      4: "onnen",
-      5: "hiljaisen"
-    },
-    artist: "Anneli Saaristo",
-    song: "Tunnetko Jo Rakkauden"
-  },
-  {
-    lyrics: {
-      0: "tällainen",
-      1: "pieni",
-      2: "tyttö",
-      3: "helposti",
-      4: "unohtuu"
-    },
-    artist: "Nelli",
-    song: "Pidä Musta Kii"
-  },
-  {
-    lyrics: {
-      0: "I",
-      1: "never",
-      2: "want",
-      3: "to",
-      4: "hear",
-      5: "you",
-      6: "say"
-    },
-    artist: "Backstreet boys",
-    song: "I Want It That Way"
   },
   {
     lyrics: {
@@ -265,17 +235,6 @@ export default [
   },
   {
     lyrics: {
-      0: "en",
-      1: "ehkä",
-      2: "osaa",
-      3: "sulle",
-      4: "puhua"
-    },
-    artist: "Sanni",
-    song: "2080-luvulla"
-  },
-  {
-    lyrics: {
       0: "mä",
       1: "ensin",
       2: "näin",
@@ -285,18 +244,6 @@ export default [
     },
     artist: "Taiska",
     song: "Mombasa"
-  },
-  {
-    lyrics: {
-      0: "heitetäänkö",
-      1: "pois",
-      2: "kaikki",
-      3: "housut",
-      4: "ja",
-      5: "paidat"
-    },
-    artist: "PMMP",
-    song: "Rusketusraidat"
   },
   {
     lyrics: {
@@ -310,14 +257,49 @@ export default [
   },
   {
     lyrics: {
-      0: "myrsky",
-      1: "repii",
-      2: "puita",
-      3: "taivas",
-      4: "salamoi"
+      0: "paljain",
+      1: "jaloin",
+      2: "kierrän",
+      3: "maailmaa"
     },
-    artist: "Janne Hurme",
-    song: "Kirje"
+    artist: "Tapio Rautavaara",
+    song: "Kulkuri ja joutsen"
+  },
+  {
+    lyrics: {
+      0: "kotiin",
+      1: "suksi",
+      2: "palmun",
+      3: "alta",
+      4: "yhä",
+      5: "näytit"
+    },
+    artist: "Freeman ",
+    song: "Ajetaan tandemilla"
+  },
+  {
+    lyrics: {
+      0: "do",
+      1: "you",
+      2: "feel",
+      3: "my",
+      4: "heart",
+      5: "beating"
+    },
+    artist: "The Bangles",
+    song: "Eternal flame"
+  },
+  {
+    lyrics: {
+      0: "tähti",
+      1: "kirkkain",
+      2: "sua",
+      3: "taas",
+      4: "mä",
+      5: "pyynnöin"
+    },
+    artist: "Katri Helena",
+    song: "Katson sineen taivaan"
   }
   /*
   ,

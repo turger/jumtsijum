@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/database'
+import songs from '../songs.js'
 
 const config = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -99,3 +100,7 @@ export const getGameMastersOnlineCount = gameId =>
   db.ref(`games/${gameId}/gameMastersOnline`).once('value').then((snap) => Object.keys(snap.val()).length)
 
 export const getGameMastersOnlineRef = gameId => db.ref(`games/${gameId}/gameMastersOnline`)
+
+export const uploadBaseSongs = () => db.ref('songs').set(songs)
+
+export const getSongsRef = () => db.ref('songs')

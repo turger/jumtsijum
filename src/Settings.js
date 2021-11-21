@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect, Link } from 'react-router-dom'
-
+import { getSongsRef, uploadBaseSongs } from './services/firebase'
 import './Settings.css'
+
 
 const Settings = () => (
     <Router>
@@ -26,12 +27,35 @@ const NavItem = ({ label, route }) => (
     <Link to={route}>{label}</Link>
 )
 
-const Songs = () => (
-    <p>Songs</p>
-)
+const Songs = () => {
+    const [songs, setSongs] = useState([])
+
+    useEffect(() => { 
+        const listener = getSongsRef().on('value', snapshot => {
+            console.log('re-listening')
+            setSongs(snapshot.val())
+        })
+
+        return () => getSongsRef().off('value', listener)
+    },[])
+
+    return (
+        <>
+            {songs?.length > 0 && songs.map(song => <p key={song.song}>{song.artist} - {song.song}</p>)}
+            {songs?.length > 0 && <p>Yhteensä {songs.length} kappaletta</p>}
+            <button onClick={resetSongsInDB}>Palauta oletuskappaleet</button>
+        </>
+    )
+}
 
 const Playlists = () => (
-    <p>Playlists</p>
+    <p>Soittolistat</p>
 )
+
+const resetSongsInDB = () => {
+    if (window.confirm('Haluatko varmasti yliajaa nykyiset kappaleet oletuskappaleilla?')) {
+        uploadBaseSongs()
+    }
+}
 
 export default Settings

@@ -13,10 +13,23 @@ table {
 }
 
 .songrow td:first-child {
-  color: #222;
+  color: #111;
   font-weight: 600;
 }
 
 .songrow td {
   padding: 1rem
+}
+
+.lyric-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+}
+
+.lyric {
+  margin-right: 0.2rem;
+  padding: 0.3rem 0.6rem 0.3rem 0.6rem;
+  background-color: pink;
+  border-radius: 8px;
 }

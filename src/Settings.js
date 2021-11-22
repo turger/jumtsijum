@@ -77,10 +77,16 @@ const Song = ({ song }) => {
     return (<tr className="songrow">
         <td>{song.song}</td>
         <td>{song.artist}</td>
-        <td>{song.lyrics?.join(', ')}</td>
+        <td className='lyric-container'>
+            {song.lyrics?.length > 0 && song.lyrics.map((lyric, i) => <Lyric key={`${song}-${lyric}-${i}`} word={lyric}/>)}
+        </td>
         <td onClick={() => remove(song.id)}>[Poista]</td>
     </tr>)
 }
+
+const Lyric = ({word}) => (
+    <div className='lyric'>{word}</div>
+)
 
 const Playlists = () => (
     <p>Soittolistat</p>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect, Link } from 'react-router-dom'
-import { getSongsRef, uploadBaseSongs } from './services/firebase'
+import { getSongsRef, uploadBaseSongs, removeSong } from './services/firebase'
+import CreateSong from './CreateSong'
 import './Settings.css'
 
 
@@ -29,23 +30,56 @@ const NavItem = ({ label, route }) => (
 
 const Songs = () => {
     const [songs, setSongs] = useState([])
+    const [createMode, setCreateMode] = useState(true)
 
-    useEffect(() => { 
+    useEffect(() => {
         const listener = getSongsRef().on('value', snapshot => {
-            console.log('re-listening')
-            setSongs(snapshot.val())
+            if (snapshot.val()) {
+                setSongs(Object.values(snapshot.val()))
+            } else {
+                setSongs([])
+            }
         })
 
         return () => getSongsRef().off('value', listener)
-    },[])
+    }, [])
 
+    if (songs && songs.length > 0) {
+        return (
+            <>
+                <table>
+                    <tbody>
+                        {songs.map(song => <Song key={song.id} song={song} />)}
+                    </tbody>
+                </table>
+                <p>Yhteensä {songs.length} kappaletta</p>
+                <button className='dangerzone' onClick={resetSongsInDB}>Nollaa &amp; palauta oletuskappaleet</button>
+                {createMode && <CreateSong />}
+            </>
+        )
+    }
     return (
         <>
-            {songs?.length > 0 && songs.map(song => <p key={song.song}>{song.artist} - {song.song}</p>)}
-            {songs?.length > 0 && <p>Yhteensä {songs.length} kappaletta</p>}
-            <button onClick={resetSongsInDB}>Palauta oletuskappaleet</button>
+            <p>Ei kappaleita</p>
+            <button className='dangerzone' onClick={resetSongsInDB}>Palauta oletuskappaleet</button>
+            <CreateSong />
         </>
     )
+}
+
+const Song = ({ song }) => {
+    const remove = (id) => { 
+        if (window.confirm('Haluatko varmasti poistaa tämän kappaleen?')) {
+            removeSong(id)
+        }
+    }
+
+    return (<tr className="songrow">
+        <td>{song.song}</td>
+        <td>{song.artist}</td>
+        <td>{song.lyrics?.join(', ')}</td>
+        <td onClick={() => remove(song.id)}>[Poista]</td>
+    </tr>)
 }
 
 const Playlists = () => (

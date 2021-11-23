@@ -37,9 +37,13 @@ table {
   justify-content: flex-start;
 }
 
-.lyric {
+.lyric-tag {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-content: center;
   margin-right: 0.2rem;
   padding: 0.3rem 0.6rem 0.3rem 0.6rem;
   background-color: #ffd6dd;
-  border-radius: 8px;
+  border-radius: 16px;
 }

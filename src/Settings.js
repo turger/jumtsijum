@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route, Redirect, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Redirect, NavLink } from 'react-router-dom'
 import Songs from './Songs'
 import './Settings.css'
 
@@ -17,14 +17,14 @@ const Settings = () => (
 
 
 const SettingsNav = () => (
-    <div className='navWrapper'>
+    <div className='nav-wrapper'>
         <NavItem label='Songs' route='/settings/songs'></NavItem>
         <NavItem label='Playlists' route='/settings/playlists'></NavItem>
     </div>
 )
 
 const NavItem = ({ label, route }) => (
-    <Link to={route}>{label}</Link>
+    <NavLink className='nav-link' activeClassName='nav-link-active' to={route}>{label}</NavLink>
 )
 
 

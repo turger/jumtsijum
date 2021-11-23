@@ -1,0 +1,22 @@
+.nav-wrapper {
+  margin: 2rem 1rem
+}
+
+.nav-link {
+  padding: 0.6rem 0rem;
+  text-decoration: none;
+  margin-right: 2rem;
+  color: #444;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.nav-link:hover {
+  border-bottom: 2px solid mediumvioletred;
+}
+
+.nav-link-active {
+  font-weight: 900;
+  color: mediumvioletred;
+  border-bottom: 2px solid mediumvioletred;
+}

@@ -1,0 +1,33 @@
+.create-song-form {
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.lyric-tag-editable {
+  margin-right: 0.2rem;
+  padding: 0.3rem 0.6rem 0.3rem 0.6rem;
+  background-color: white;
+  border-radius: 16px;
+  border: 2px solid #ffd6dd;
+  
+}
+
+.lyric-tag-editable input {
+  border: none;
+  background-color: white;
+  outline: none;
+}
+
+.lyric-tag-editable input::placeholder {
+  color: pink
+}
+
+.remove-marker {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  height: 1rem;
+  width: 1rem;
+  background-color: white;
+  border-radius: 1rem;
+}

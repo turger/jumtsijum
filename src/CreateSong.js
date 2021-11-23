@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { addNewSong } from './services/firebase'
+import './CreateSong.css'
+import './Songs.css'
 
 const CreateSong = ({ setCreateMode }) => {
   const [song, setSong] = useState('')
@@ -16,34 +18,78 @@ const CreateSong = ({ setCreateMode }) => {
     event.preventDefault()
     const newSong = {
       artist: artist,
-      song: song
+      song: song,
+      lyrics: lyrics
     }
     addNewSong(newSong)
     reset()
   }
 
   return (
-    <form onSubmit={addSong}>
-      <p>Lisää uusi kappale</p>
-      <div>
-        Artisti: <input value={artist} onChange={(event) => setArtist(event.target.value)} />
-      </div>
-      <div>
-        Kappale: <input value={song} onChange={(event) => setSong(event.target.value)} />
-      </div>
-      <div>
-        Sanat: <Lyrics lyrics={lyrics} setLyrics={setLyrics}/>
-      </div>
-      <button>Tallenna</button>
-    </form>
+    <div className='create-song-form'>
+      <form onSubmit={addSong}>
+        <p>Lisää uusi kappale</p>
+        <div>
+          Artisti: <input value={artist} onChange={(event) => setArtist(event.target.value)} />
+        </div>
+        <div>
+          Kappale: <input value={song} onChange={(event) => setSong(event.target.value)} />
+        </div>
+        <div>
+          Sanat: <LyricsTool lyrics={lyrics} setLyrics={setLyrics} />
+        </div>
+        <button>Tallenna</button>
+      </form>
+    </div>
   )
 }
 
-const Lyrics = ({ lyrics, setLyrics }) => {
+const LyricsTool = ({ lyrics, setLyrics }) => {
   return (
-    <ul>
-      {lyrics?.map(lyric => <li>{lyric}</li>)}
-    </ul>
+    <div className='lyric-container'>
+      {lyrics?.map((lyric, index) => <LyricTag key={lyric} index={index} lyric={lyric} />)}
+      <EditableLyricTag key='lyrictag' lyrics={lyrics} setLyrics={setLyrics} />
+    </div>
+  )
+}
+
+const LyricTag = ({ lyric, index }) => {
+
+  //const [removeVisible, setRemoveVisible] = useState(false)
+
+  return (
+    <div 
+      //onMouseOver={()=>setRemoveVisible(true)} 
+      //onMouseOut={()=>setRemoveVisible(false)} 
+      className='lyric-tag'>
+      <div>{lyric}</div>
+      <RemoveMarker />
+    </div>
+  )
+}
+
+const EditableLyricTag = ({ lyrics, setLyrics }) => {
+
+  const [inputValue, setInputValue] = useState('')
+
+  const saveOnEnter = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      setLyrics([...lyrics, event.target.value])
+      setInputValue('')
+    }
+  }
+
+  return (
+    <div className='lyric-tag-editable'>
+      <input style={{width: `${Math.max(inputValue.length,5)}ch`}} onKeyDown={saveOnEnter} value={inputValue} onChange={(event) => setInputValue(event.target.value)} placeholder='kirjoita'/>
+    </div>
+  )
+}
+
+const RemoveMarker = () => {
+  return (
+      <div className='remove-marker'>X</div>
   )
 }
 

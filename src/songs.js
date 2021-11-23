@@ -68,7 +68,7 @@ const Song = ({ song }) => {
 }
 
 const Lyric = ({ word }) => (
-  <div className='lyric'>{word}</div>
+  <div className='lyric-tag'>{word}</div>
 )
 
 export default Songs

@@ -1,6 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/database'
-import songs from '../songs'
+import songs from '../song-data'
 
 const config = {
   apiKey: process.env.REACT_APP_APIKEY,

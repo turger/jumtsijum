@@ -1,0 +1,45 @@
+.dangerzone {
+  color: red;
+  font-weight: bold;
+}
+
+.table-container {
+  border-radius: 8px;
+  border: 1px solid #eee;
+  margin: 1rem;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.songrow {
+  border-top: 1px solid #eee;
+  color: #555
+}
+
+.songrow:last-child {
+  border-bottom: 1px solid #eee;
+}
+
+.songrow td:first-child {
+  color: #111;
+  font-weight: 600;
+}
+
+.songrow td {
+  padding: 1rem
+}
+
+.lyric-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+}
+
+.lyric {
+  margin-right: 0.2rem;
+  padding: 0.3rem 0.6rem 0.3rem 0.6rem;
+  background-color: #ffd6dd;
+  border-radius: 8px;
+}

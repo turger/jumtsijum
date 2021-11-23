@@ -8,7 +8,7 @@ import Header from './Header'
 import Rules from './Rules'
 import Spinner from './Spinner'
 
-import songs from './songs.js'
+import songs from './song-data.js'
 
 import {addNewGame, getCurrentSong, getSongArchive, setNewCurrentSong} from './services/firebase'
 import {getRandomSong} from './utils/utils'

@@ -1,6 +1,49 @@
 .create-song-form {
   margin: 1rem;
   padding: 1rem;
+  width: 100%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-contents {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.form-contents div:first-child {
+  margin-right: 10px;
+}
+
+.form-text {
+  margin: initial;
+}
+
+input {
+  border-radius: 4px;
+}
+
+.input-artist {
+  height: 32px;
+  width: 380px;
+}
+.input-song {
+  height: 32px;
+  width: 280px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.form-actions button:last-child {
+  margin-left: 20px;
 }
 
 .lyric-tag-editable {
@@ -9,7 +52,6 @@
   background-color: white;
   border-radius: 16px;
   border: 2px solid #ffd6dd;
-  
 }
 
 .lyric-tag-editable input {
@@ -19,7 +61,7 @@
 }
 
 .lyric-tag-editable input::placeholder {
-  color: pink
+  color: pink;
 }
 
 .remove-marker {

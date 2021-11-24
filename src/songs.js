@@ -8,7 +8,7 @@ import './Songs.css';
 const Songs = () => {
   const [songs, setSongs] = useState([])
   const [selectedSongs, setSelectedSongs] = useState([])
-  const [createMode, setCreateMode] = useState(true)
+  const [createMode, setCreateMode] = useState(false)
 
   useEffect(() => {
     const listener = getSongsRef().on('value', (snapshot) => {
@@ -61,10 +61,11 @@ const Songs = () => {
             </div>
           )}
         </>
-        <table>
+        {songs?.length > 0 ? (<table>
           {songs && songs.length > 0 && (
             <thead>
               <tr className="songrow">
+                <td></td>
                 <td>Kappale</td>
                 <td>Artisti</td>
                 <td>Sanat</td>
@@ -73,21 +74,21 @@ const Songs = () => {
             </thead>
           )}
           <tbody>
-            {songs && songs.length > 0 ? (
-              songs.map((song) => <Song key={song.id} song={song} updateSelected={updateSelected} />)
-            ) : (
-              <div className="no-songs">
-                <p>Ei kappaleita</p>
-              </div>
-            )}
+            {songs.map((song) => <Song key={song.id} song={song} updateSelected={updateSelected} />)}
           </tbody>
-        </table>
+        </table>) : (<div className="no-songs">
+          <p>Ei kappaleita</p>
+        </div>)}
+
+
+
+
       </div>
       <div className="total-songs">
-      <p>Yhteensä {songs.length} kappaletta</p>
-      <button className="dangerzone" onClick={resetSongsInDB}>
-        Nollaa &amp; palauta oletuskappaleet
-      </button>
+        <p>Yhteensä {songs.length} kappaletta</p>
+        <button className="dangerzone" onClick={resetSongsInDB}>
+          Nollaa &amp; palauta oletuskappaleet
+        </button>
       </div>
     </>
   );

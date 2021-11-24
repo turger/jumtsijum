@@ -125,4 +125,6 @@ export const addNewSong = song => {
   newRef.set(newSong)
 }
 
+export const getPlaylistsRef = () => db.ref('playlists')
+
 export const removeSong = songId => db.ref(`songs/${songId}`).remove()

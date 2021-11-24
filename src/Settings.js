@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect, NavLink } from 'react-router-dom'
 import Songs from './Songs'
+import Playlists from './Playlists'
 import './Settings.css'
 
 
@@ -25,12 +26,6 @@ const SettingsNav = () => (
 
 const NavItem = ({ label, route }) => (
     <NavLink className='nav-link' activeClassName='nav-link-active' to={route}>{label}</NavLink>
-)
-
-
-
-const Playlists = () => (
-    <p>Soittolistat</p>
 )
 
 export default Settings

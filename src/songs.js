@@ -6,6 +6,7 @@ import './Songs.css'
 
 const Songs = () => {
   const [songs, setSongs] = useState([])
+  const [selectedSongs, setSelectedSongs] = useState([])
   const [createMode, setCreateMode] = useState(true)
 
   useEffect(() => {
@@ -20,10 +21,20 @@ const Songs = () => {
     return () => getSongsRef().off('value', listener)
   }, [])
 
+  useEffect(() => {
+    console.log('Updated playlist: ', selectedSongs)
+  }, [selectedSongs])
+
   const resetSongsInDB = () => {
     if (window.confirm('Haluatko varmasti yliajaa nykyiset kappaleet oletuskappaleilla?')) {
       uploadBaseSongs()
     }
+  }
+
+  const updateSelected = (id) => {
+    selectedSongs.includes(id) ?
+      setSelectedSongs(selectedSongs.filter(song => song !== id))
+      : setSelectedSongs([...selectedSongs, id])
   }
 
   if (songs && songs.length > 0) {
@@ -33,6 +44,7 @@ const Songs = () => {
           <table>
             <thead>
               <tr className='songrow'>
+                <td></td>
                 <td>Kappale</td>
                 <td>Artisti</td>
                 <td>Sanat</td>
@@ -40,7 +52,7 @@ const Songs = () => {
               </tr>
             </thead>
             <tbody>
-              {songs.map(song => <Song key={song.id} song={song} />)}
+              {songs.map(song => <Song key={song.id} song={song} updateSelected={updateSelected} />)}
             </tbody>
           </table>
         </div>
@@ -59,14 +71,24 @@ const Songs = () => {
   )
 }
 
-const Song = ({ song }) => {
+const Song = ({ song, updateSelected }) => {
+
+  const [selected, setSelected] = useState(false)
+
   const remove = (id) => {
     if (window.confirm('Haluatko varmasti poistaa tämän kappaleen?')) {
       removeSong(id)
     }
   }
 
-  return (<tr className="songrow">
+  const toggle = () => {
+    console.log('toggling song: ', song.id)
+    setSelected(!selected)
+    updateSelected(song.id)
+  }
+
+  return (<tr className={`songrow ${selected ? 'active-row' : ''}`}>
+    <td><input type='checkbox' onChange={toggle} /></td>
     <td>{song.song}</td>
     <td>{song.artist}</td>
     <td className='lyric-container'>

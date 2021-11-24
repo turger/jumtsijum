@@ -37,6 +37,10 @@ thead {
   padding: 1rem
 }
 
+.active-row {
+  background-color: ghostwhite;
+}
+
 .lyric-container {
   display: flex;
   flex-flow: row nowrap;

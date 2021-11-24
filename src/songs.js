@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { getSongsRef, uploadBaseSongs, removeSong } from './services/firebase'
-import _ from 'lodash'
-import CreateSong from './CreateSong'
-import './Songs.css'
+import React, { useState, useEffect } from 'react';
+import { getSongsRef, uploadBaseSongs, removeSong } from './services/firebase';
+import _ from 'lodash';
+import CreateSong from './CreateSong';
+import Button from './Components/Button';
+import './Songs.css';
 
 const Songs = () => {
   const [songs, setSongs] = useState([])
@@ -10,26 +11,32 @@ const Songs = () => {
   const [createMode, setCreateMode] = useState(true)
 
   useEffect(() => {
-    const listener = getSongsRef().on('value', snapshot => {
+    const listener = getSongsRef().on('value', (snapshot) => {
       if (snapshot.val()) {
-        setSongs(_.orderBy(Object.values(snapshot.val()), song => song.song, 'asc'))
+        setSongs(
+          _.orderBy(Object.values(snapshot.val()), (song) => song.song, 'asc')
+        );
       } else {
-        setSongs([])
+        setSongs([]);
       }
-    })
+    });
 
-    return () => getSongsRef().off('value', listener)
-  }, [])
+    return () => getSongsRef().off('value', listener);
+  }, []);
 
   useEffect(() => {
     console.log('Updated playlist: ', selectedSongs)
   }, [selectedSongs])
 
   const resetSongsInDB = () => {
-    if (window.confirm('Haluatko varmasti yliajaa nykyiset kappaleet oletuskappaleilla?')) {
-      uploadBaseSongs()
+    if (
+      window.confirm(
+        'Haluatko varmasti yliajaa nykyiset kappaleet oletuskappaleilla?'
+      )
+    ) {
+      uploadBaseSongs();
     }
-  }
+  };
 
   const updateSelected = (id) => {
     selectedSongs.includes(id) ?
@@ -37,39 +44,54 @@ const Songs = () => {
       : setSelectedSongs([...selectedSongs, id])
   }
 
-  if (songs && songs.length > 0) {
-    return (
-      <>
-        <div className='table-container'>
-          <table>
+  return (
+    <>
+      <div className="table-container">
+        <>
+          {createMode ? (
+            <div className="create-mode">
+              <CreateSong setCreateMode={setCreateMode} />
+            </div>
+          ) : (
+            <div className="create-button">
+              <Button
+                onClick={() => setCreateMode(true)}
+                title="Lisää uusi kappale"
+              />
+            </div>
+          )}
+        </>
+        <table>
+          {songs && songs.length > 0 && (
             <thead>
-              <tr className='songrow'>
-                <td></td>
+              <tr className="songrow">
                 <td>Kappale</td>
                 <td>Artisti</td>
                 <td>Sanat</td>
                 <td>🗑️</td>
               </tr>
             </thead>
-            <tbody>
-              {songs.map(song => <Song key={song.id} song={song} updateSelected={updateSelected} />)}
-            </tbody>
-          </table>
-        </div>
-        <p>Yhteensä {songs.length} kappaletta</p>
-        <button className='dangerzone' onClick={resetSongsInDB}>Nollaa &amp; palauta oletuskappaleet</button>
-        {createMode && <CreateSong />}
-      </>
-    )
-  }
-  return (
-    <>
-      <p>Ei kappaleita</p>
-      <button className='dangerzone' onClick={resetSongsInDB}>Palauta oletuskappaleet</button>
-      <CreateSong />
+          )}
+          <tbody>
+            {songs && songs.length > 0 ? (
+              songs.map((song) => <Song key={song.id} song={song} updateSelected={updateSelected} />)
+            ) : (
+              <div className="no-songs">
+                <p>Ei kappaleita</p>
+              </div>
+            )}
+          </tbody>
+        </table>
+      </div>
+      <div className="total-songs">
+      <p>Yhteensä {songs.length} kappaletta</p>
+      <button className="dangerzone" onClick={resetSongsInDB}>
+        Nollaa &amp; palauta oletuskappaleet
+      </button>
+      </div>
     </>
-  )
-}
+  );
+};
 
 const Song = ({ song, updateSelected }) => {
 
@@ -77,9 +99,9 @@ const Song = ({ song, updateSelected }) => {
 
   const remove = (id) => {
     if (window.confirm('Haluatko varmasti poistaa tämän kappaleen?')) {
-      removeSong(id)
+      removeSong(id);
     }
-  }
+  };
 
   const toggle = () => {
     console.log('toggling song: ', song.id)
@@ -98,8 +120,6 @@ const Song = ({ song, updateSelected }) => {
   </tr>)
 }
 
-const Lyric = ({ word }) => (
-  <div className='lyric-tag'>{word}</div>
-)
+const Lyric = ({ word }) => <div className="lyric-tag">{word}</div>;
 
-export default Songs
+export default Songs;

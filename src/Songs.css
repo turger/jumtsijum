@@ -3,6 +3,18 @@
   font-weight: bold;
 }
 
+.create-mode {
+  display: flex;
+  justify-content: start;
+  margin: 16px;
+}
+
+.create-button {
+  display: flex;
+  justify-content: end;
+  margin: 16px;
+}
+
 .table-container {
   border-radius: 8px;
   border: 1px solid #eee;
@@ -60,4 +72,12 @@ thead {
 
 .clickable-icon {
   cursor: pointer;
+}
+
+.no-songs {
+  margin-left: 16px;
+}
+
+.total-songs {
+  margin-left: 16px;
 }

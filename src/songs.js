@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getSongsRef, uploadBaseSongs, removeSong } from './services/firebase'
+import _ from 'lodash'
 import CreateSong from './CreateSong'
 import './Songs.css'
 
@@ -10,7 +11,7 @@ const Songs = () => {
   useEffect(() => {
     const listener = getSongsRef().on('value', snapshot => {
       if (snapshot.val()) {
-        setSongs(Object.values(snapshot.val()))
+        setSongs(_.orderBy(Object.values(snapshot.val()), song => song.song, 'asc'))
       } else {
         setSongs([])
       }
@@ -30,6 +31,14 @@ const Songs = () => {
       <>
         <div className='table-container'>
           <table>
+            <thead>
+              <tr className='songrow'>
+                <td>Kappale</td>
+                <td>Artisti</td>
+                <td>Sanat</td>
+                <td>🗑️</td>
+              </tr>
+            </thead>
             <tbody>
               {songs.map(song => <Song key={song.id} song={song} />)}
             </tbody>
@@ -63,7 +72,7 @@ const Song = ({ song }) => {
     <td className='lyric-container'>
       {song.lyrics?.length > 0 && song.lyrics.map((lyric, i) => <Lyric key={`${song}-${lyric}-${i}`} word={lyric} />)}
     </td>
-    <td onClick={() => remove(song.id)}>[Poista]</td>
+    <td className='clickable-icon' onClick={() => remove(song.id)}>🗑️</td>
   </tr>)
 }
 

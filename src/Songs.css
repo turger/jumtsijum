@@ -7,6 +7,7 @@
   border-radius: 8px;
   border: 1px solid #eee;
   margin: 1rem;
+  display: inline-block;
 }
 
 table {
@@ -16,6 +17,11 @@ table {
 .songrow {
   border-top: 1px solid #eee;
   color: #555
+}
+
+thead {
+  border-bottom: 2px solid #bbb;
+  font-size: 0.9rem;
 }
 
 .songrow:last-child {
@@ -46,4 +52,8 @@ table {
   padding: 0.3rem 0.6rem 0.3rem 0.6rem;
   background-color: #ffd6dd;
   border-radius: 16px;
+}
+
+.clickable-icon {
+  cursor: pointer;
 }

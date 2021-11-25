@@ -28,7 +28,7 @@ const CreateSong = ({ setCreateMode }) => {
 
   return (
     <div className="create-song-form">
-      <form onSubmit={addSong}>
+      <form onSubmit={addSong} className="add-song-form">
         <p>Lisää uusi kappale</p>
         <div className="form-contents">
           <div>

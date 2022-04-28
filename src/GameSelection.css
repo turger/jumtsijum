@@ -85,6 +85,48 @@
   );
 }
 
+.Game__selectSong {
+  margin-top: 30px;
+}
+
+.Game__selectedSong {
+  background: linear-gradient(
+      90deg,
+      #fd5afa 40%,
+      #01FF89 100%
+  );
+  padding: 3px;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  text-shadow: 1px 1px #000000;
+  display: inline-block;
+}
+
+.Game__selectSongBtn {
+  background: linear-gradient(
+      90deg,
+      #fd5afa 40%,
+      #01FF89 100%
+  );
+  padding: 3px;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  text-shadow: 1px 1px #000000;
+  cursor: pointer;
+}
+
+.Game__selectSongBtn:hover {
+  background: linear-gradient(
+      90deg,
+      #01FF89 40%,
+      #fd5afa 100%
+  );
+}
+
 .Game__new {
   background: linear-gradient(
     90deg,
@@ -97,8 +139,8 @@
   font-size: 15px;
   font-weight: bold;
   text-shadow: 1px 1px #000000;
-  margin-top: 80px;
   cursor: pointer;
+  margin-top: 20px;
 }
 
 .Game__new:hover {

@@ -2,7 +2,13 @@
   padding-bottom: 50px;
 }
 
-.Game__warning {
+.Game__songs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Game__songs > div {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,7 +18,7 @@
   border-radius: 6px;
   line-height: 18px;
   overflow: hidden;
-  padding: 12px;
+  padding: 3px 10px;
   margin: 10px 20px;
 }
 
@@ -24,9 +30,8 @@
   color: #888888;
 }
 
-.Game > button.Game_master {
+.Game_master {
   margin-top: 50px;
-  display: flex;
   background: #989898;
   color: white;
   border-radius: 5px;
@@ -56,6 +61,10 @@
   border-radius: 10px;
   border: none;
 }
+
+.Game > .New_song > button:disabled {
+  color: #888888;
+  background: linear-gradient(70deg, #878787  30%, rgba(0,0,0,0) 30%), linear-gradient(30deg, #a6a6a6 60%, #bfbfbf 60%);}
 
 .Game > .New_song > button:hover {
   background-position: right center; /* change the direction of the change here */

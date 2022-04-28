@@ -1,10 +1,9 @@
 import React, {Component, Fragment} from 'react'
+import PropTypes from 'prop-types'
 import cx from 'classnames'
 import _ from 'lodash'
 
 import {openCard, getCardStatusesRef, getCardStatuses} from './services/firebase'
-
-import songs from './songs.js'
 
 import './Lyrics.css'
 
@@ -13,14 +12,14 @@ class Lyrics extends Component {
     super(props)
     this.state = {
       lyrics: null,
-      cardStatuses: null
+      cardStatuses: null,
     }
     this._cardStatusesRef = null
   }
 
   async componentDidMount() {
-    const {songId} = this.props
-    this.setState({lyrics: songs[songId].lyrics})
+    const {songId, songList} = this.props
+    this.setState({lyrics: songList[songId].lyrics})
     // set listener to card statuses
     this._cardStatusesRef = getCardStatusesRef(this.props.gameId)
     await this._cardStatusesRef.on('value', (snap) => {
@@ -31,7 +30,7 @@ class Lyrics extends Component {
 
   async componentDidUpdate(prevProps) {
     if (prevProps.songId !== this.props.songId) {
-      this.setState({cardStatuses: null, lyrics: songs[this.props.songId].lyrics})
+      this.setState({cardStatuses: null, lyrics: this.props.songList[this.props.songId].lyrics})
       const cardStatuses = await getCardStatuses(this.props.gameId)
       this.setState({cardStatuses})
     }
@@ -47,7 +46,7 @@ class Lyrics extends Component {
 
   render() {
     const {lyrics, cardStatuses} = this.state
-    if (!lyrics || !cardStatuses) return null
+    if (!lyrics || !cardStatuses || !this.props.songList) return null
     return (
       <div className='Lyrics'>
         {
@@ -77,6 +76,12 @@ class Lyrics extends Component {
       </div>
     )
   }
+}
+
+Lyrics.propTypes = {
+  gameId: PropTypes.string,
+  songId: PropTypes.number,
+  songList: PropTypes.array
 }
 
 export default Lyrics

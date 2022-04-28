@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import _ from 'lodash'
 import {Link, useHistory} from 'react-router-dom'
 import './GameSelection.css'
 import {addNewGame, getGameData} from './services/firebase'
-import {getRandomSong} from './utils/utils'
+import {getRandomSong, songLists} from './utils/utils'
 import rnd from 'randomstring'
-import songs from './songs'
 import Header from './Header'
 
 const GameSelection = () => {
@@ -12,6 +12,7 @@ const GameSelection = () => {
   const [game, setGame] = useState(null)
   const [findClicked, setFindClicked] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [selectedSongListKey, setSelectedSongListKey] = useState('LISTA1')
 
   const history = useHistory()
 
@@ -44,20 +45,28 @@ const GameSelection = () => {
     }
   }
 
+  const selectSongList = (songListKey) => {
+    const selected = songListKey === selectedSongListKey
+    if (selected) return <div className='Game__selectedSong'>Valittu!</div>
+    return <button className='Game__selectSongBtn' onClick={() => setSelectedSongListKey(songListKey)}>Valitse</button>
+  }
+
   const handleNewGameClick = () => {
+    const songList = _.get(songLists, selectedSongListKey)
+    console.info('Lauluja listassa:', songList.length)
     const gameId = rnd.generate(4).toUpperCase()
     localStorage.setItem('gameId', gameId)
-    const songId = getRandomSong()
+    const songId = getRandomSong([], songList)
     localStorage.setItem('songId', songId)
-    const lyrics = songs[songId].lyrics
-    addNewGame(gameId, songId, lyrics)
+    const lyrics = songList[songId].lyrics
+    addNewGame(gameId, songId, lyrics, selectedSongListKey)
     history.push(`/${gameId}`)
   }
 
   return (
     <div className='Game__selection'>
       <Header gameId={game ? game.gameId : ''}/>
-      <h2>Valitse peli tai aloita uusi</h2>
+      <h2>Valitse olemassaoleva peli</h2>
       <form onSubmit={(e) => handleSubmit(e)}>
         <label>
           Pelin id
@@ -73,10 +82,16 @@ const GameSelection = () => {
       {
         game &&
           <div className='Game__buttons'>
-            <Link to={`/${game.gameId}`} target='_blank'>Pelaamaan!</Link>
-            <Link to={`/master/${game.gameId}`} target='_blank'>Game Master</Link>
+            <Link to={`/${game.gameId}`}>Pelaamaan!</Link>
+            <Link to={`/master/${game.gameId}`}>Game Master</Link>
           </div>
       }
+      <h2>Tai aloita uusi peli</h2>
+      <div className="Game__selectSong">
+        <div>Biisilista 1 {selectSongList('LISTA1')}</div>
+        <div>Biisilista 2 {selectSongList('LISTA2')}</div>
+        <div>Nopea vappulista 22 {selectSongList('VAPPU22')}</div>
+      </div>
       <button className='Game__new' onClick={() => handleNewGameClick()}>Uusi peli</button>
     </div>
   )

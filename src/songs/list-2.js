@@ -1,4 +1,4 @@
-export default [
+const songList2 = [
   {
     lyrics: {
       0: "mun",
@@ -335,3 +335,4 @@ export default [
   }
   */
 ]
+export default songList2

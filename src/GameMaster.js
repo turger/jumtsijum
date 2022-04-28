@@ -1,18 +1,17 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
+import cx from 'classnames'
 import {
   addGameMasterViewer,
   getCardStatusesRef,
   openCard,
   getCurrentSongRef,
-  getCardStatuses
+  getCardStatuses, getSongListKey
 } from './services/firebase'
+import {songLists} from './utils/utils'
 
 import Header from './Header'
 import Teams from './Teams'
-
-import songs from './songs.js'
-import cx from 'classnames'
 
 import './GameMaster.css'
 
@@ -21,7 +20,8 @@ class GameMaster extends Component {
     super(props)
     this.state = {
       cardStatuses: null,
-      currentSong: null
+      currentSong: null,
+      selectedSongListKey: null
     }
     this._cardStatusesRef = null
     this._currentSongRef = null
@@ -29,6 +29,8 @@ class GameMaster extends Component {
 
   async componentDidMount() {
     const {gameId} = this.props.match.params
+    const songListKey = await getSongListKey(gameId)
+    this.setState({selectedSongListKey: songListKey})
     addGameMasterViewer(gameId)
     // set listener to card statuses
     this._cardStatusesRef = getCardStatusesRef(gameId)
@@ -45,7 +47,8 @@ class GameMaster extends Component {
 
   async componentDidUpdate(prevProps) {
     if (prevProps.currentSong !== this.props.currentSong) {
-      this.setState({cardStatuses: null, lyrics: songs[this.props.songId].lyrics})
+      const songList = _.get(songLists, this.state.selectedSongListKey)
+      this.setState({cardStatuses: null, lyrics: songList[this.props.songId].lyrics})
       const cardStatuses = await getCardStatuses(this.props.gameId)
       this.setState({cardStatuses})
     }
@@ -63,9 +66,10 @@ class GameMaster extends Component {
 
   render() {
     const {gameId} = this.props.match.params
-    const {cardStatuses, currentSong} = this.state
+    const {cardStatuses, currentSong, selectedSongListKey} = this.state
     if (!cardStatuses || currentSong === null) return null
-    const lyrics = songs[currentSong].lyrics
+    const songList = _.get(songLists, selectedSongListKey)
+    const lyrics = songList[currentSong].lyrics
     return (
       <div className='GameMaster'>
         <Header gameId={gameId}/>
@@ -90,7 +94,7 @@ class GameMaster extends Component {
           }
         </div>
         <div className='GameMaster__answer'>
-          {`${songs[currentSong].artist} - ${songs[currentSong].song}`}
+          {`${songList[currentSong].artist} - ${songList[currentSong].song}`}
         </div>
         <Teams
           gameId={gameId}

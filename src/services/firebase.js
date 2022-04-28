@@ -32,20 +32,22 @@ export const getCurrentSongRef = gameId =>
 export const getSongArchive = (gameId) =>
   db.ref(`games/${gameId}/songArchive`).once('value').then((snap) => snap.val())
 
-export const addNewGame = (gameId, song, lyrics) => {
+export const getSongListKey = (gameId) =>
+  db.ref(`games/${gameId}/songList`).once('value').then((snap) => snap.val())
+
+export const addNewGame = (gameId, song, lyrics, songList) => {
   const lyricsCount = Object.keys(lyrics).length
   const redCard = Math.floor(Math.random() * (lyricsCount - 0) + 0).toString()
   db.ref(`games/${gameId}`).set({
     gameId: gameId,
     currentSong: song,
+    songList: songList,
     teams: {
       red: {
         points: 0,
-        turn: false
       },
       blue: {
         points: 0,
-        turn: true
       }
     },
     cards: Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': id === redCard}))
@@ -77,13 +79,6 @@ export const setNewCurrentSong = (gameId, oldCurrentSong, newCurrentSong, lyrics
 export const updatePoints = (gameId, team, points) =>
   db.ref().child(`games/${gameId}/teams/${team}`)
     .update({ points })
-
-export const switchTurn = (gameId, team) => {
-  const updates = {}
-  updates[`games/${gameId}/teams/red/turn`] = team === 'red'
-  updates[`games/${gameId}/teams/blue/turn`] = team === 'blue'
-  return db.ref().update(updates)
-}
 
 export const addGameMasterViewer = gameId => {
   const gameRef = db.ref(`games/${gameId}`)

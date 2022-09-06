@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect, NavLink } from 'react-router-dom'
-import Songs from './Songs'
+import Songs from './songs'
 import Playlists from './Playlists'
 import './Settings.css'
 

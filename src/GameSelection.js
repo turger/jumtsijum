@@ -4,7 +4,7 @@ import './GameSelection.css'
 import {addNewGame, getGameData} from './services/firebase'
 import {getRandomSong} from './utils/utils'
 import rnd from 'randomstring'
-import songs from './songs'
+import songs from './song-data'
 import Header from './Header'
 
 const GameSelection = () => {

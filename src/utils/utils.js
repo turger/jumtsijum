@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import songs from '../songs.js'
+import songs from '../song-data.js'
 
 export const getRandomSong = (songArchive = []) => {
   const array = _.range(0, songs.length)

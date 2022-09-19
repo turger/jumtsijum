@@ -11,7 +11,7 @@ import {
 import Header from './Header'
 import Teams from './Teams'
 
-import songs from './songs.js'
+import songs from './song-data.js'
 import cx from 'classnames'
 
 import './GameMaster.css'

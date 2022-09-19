@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 import {openCard, getCardStatusesRef, getCardStatuses} from './services/firebase'
 
-import songs from './songs.js'
+import songs from './song-data.js'
 
 import './Lyrics.css'
 

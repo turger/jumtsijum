@@ -1,0 +1,29 @@
+.button {
+    background: linear-gradient(90deg, #fd5afa 40%, #01ff89 100%);
+    padding: 10px;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    text-shadow: 1px 1px #000000;
+    cursor: pointer;
+    border: none;
+}
+
+.button:hover {
+    background: linear-gradient(90deg, #01ff89 40%, #fd5afa 100%);
+}
+
+.text {
+    font-size: 15px;
+    font-weight: bold;
+    text-shadow: 1px 1px #000000;
+    cursor: pointer;
+    border: none;
+    color: deeppink;
+    background-color: transparent;
+}
+
+.text:hover {
+    color: #01ff89;
+}

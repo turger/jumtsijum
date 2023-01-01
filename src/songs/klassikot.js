@@ -1,4 +1,4 @@
-const songList1 = [
+const songList = [
   {
     lyrics: {
       0: "oli",
@@ -44,21 +44,6 @@ const songList1 = [
   },
   {
     lyrics: {
-      0: "all",
-      1: "we",
-      2: "need",
-      3: "is",
-      4: "lightning",
-      5: "with",
-      6: "power",
-      7: "and",
-      8: "might"
-    },
-    artist: "Lordi",
-    song: "Hard Rock Hallelujah"
-  },
-  {
-    lyrics: {
       0: "sinulle",
       1: "mä",
       2: "antaisin",
@@ -68,6 +53,27 @@ const songList1 = [
     },
     artist: "Jari Sillanpää",
     song: "Satulinna"
+  },
+  {
+    lyrics: {
+      0: "kun",
+      1: "kohdattiin",
+      2: "oli",
+      3: "pimeää"
+    },
+    artist: "J. Karjalainen",
+    song: "Ankkurinappi"
+  },
+  {
+    lyrics: {
+      0: "ei",
+      1: "niistä️",
+      2: "asiat",
+      3: "miksikään",
+      4: "muutu"
+    },
+    artist: "Eppu Normaali",
+    song: "Tahroja paperilla"
   },
   {
     lyrics: {
@@ -83,13 +89,12 @@ const songList1 = [
   },
   {
     lyrics: {
-      0: "with",
-      1: "a taste",
-      2: "of",
-      3: "your",
-      4: "lips",
-      5: "i'm",
-      6: "on"
+      0: "taste",
+      1: "of",
+      2: "your",
+      3: "lips",
+      4: "I'm",
+      5: "on"
     },
     artist: "Britney Spears",
     song: "Toxic"
@@ -104,31 +109,6 @@ const songList1 = [
     },
     artist: "Jonna Tervomaa",
     song: "Rakkauden haudalla"
-  },
-  {
-    lyrics: {
-      0: "läpi",
-      1: "yön",
-      2: "se",
-      3: "vie",
-      4: "ja",
-      5: "toivon",
-      6: "saat"
-    },
-    artist: "Leijonakuningas",
-    song: "Tie elämään"
-  },
-  {
-    lyrics: {
-      0: "tahtoisin",
-      1: "oluen",
-      2: "mut",
-      3: "ei",
-      4: "en",
-      5: "saa"
-    },
-    artist: "Kasmir",
-    song: "Vadelmavene"
   },
   {
     lyrics: {
@@ -167,18 +147,6 @@ const songList1 = [
   },
   {
     lyrics: {
-      0: "ja",
-      1: "mietin",
-      2: "mikä",
-      3: "tunne",
-      4: "tää",
-      5: "on",
-    },
-    artist: "Haloo Helsinki",
-    song: "Beibi"
-  },
-  {
-    lyrics: {
       0: "oon",
       1: "vain",
       2: "sulle",
@@ -191,9 +159,9 @@ const songList1 = [
   {
     lyrics: {
       0: "🍺",
-      1: "🖥",
-      2: "➕",
-      3: "🤠️🦃"
+      1: "📠",
+      2: "&",
+      3: "👴🦃"
     },
     artist: "Pate Mustajärvi",
     song: "Ukkometso"
@@ -210,17 +178,7 @@ const songList1 = [
     artist: "Zen Cafe",
     song: "Todella Kaunis"
   },
-  {
-    lyrics: {
-      0: "ajetaan",
-      1: "kovaa",
-      2: "ollaan",
-      3: "ihan",
-      4: "hiljaa"
-    },
-    artist: "Vesala",
-    song: "Tequila"
-  },
+
   {
     lyrics: {
       0: "once",
@@ -247,47 +205,40 @@ const songList1 = [
   },
   {
     lyrics: {
-      0: "juon",
-      1: "kaljaa",
-      2: "auringon",
-      3: "nousuun"
+      0: "sillä",
+      1: "tiesin",
+      2: "sen",
+      3: "minua",
+      4: "vielä",
+      5: "etsivän"
     },
     artist: "Leevi and the Leavings",
     song: "Pohjois-Karjala"
   },
   {
     lyrics: {
-      0: "paljain",
-      1: "jaloin",
-      2: "kierrän",
-      3: "maailmaa"
+      0: "ennen",
+      1: "päivänlaskua",
+      2: "ei",
+      3: "voi",
+      4: "milloinkaan",
+      5: "elää",
+      6: "päällä"
     },
     artist: "Tapio Rautavaara",
-    song: "Kulkuri ja joutsen"
+    song: "Päivänsäde ja menninkäinen"
   },
   {
     lyrics: {
-      0: "kotiin",
-      1: "suksi",
-      2: "palmun",
-      3: "alta",
-      4: "yhä",
-      5: "näytit"
+      0: "pipo",
+      1: "päässä",
+      2: "pakkasella",
+      3: "kotiin",
+      4: "kelpaa",
+      5: "hoiperrella"
     },
-    artist: "Freeman ",
+    artist: "Freeman",
     song: "Ajetaan tandemilla"
-  },
-  {
-    lyrics: {
-      0: "do",
-      1: "you",
-      2: "feel",
-      3: "my",
-      4: "heart",
-      5: "beating"
-    },
-    artist: "The Bangles",
-    song: "Eternal flame"
   },
   {
     lyrics: {
@@ -300,6 +251,29 @@ const songList1 = [
     },
     artist: "Katri Helena",
     song: "Katson sineen taivaan"
+  },
+  {
+    lyrics: {
+      0: "saapuu",
+      1: "piilostaan",
+      2: "raunioilla",
+      3: "kimaltelee",
+      4: "kuu"
+    },
+    artist: "Arja Koriseva",
+    song: "Kuningaskobra"
+  },
+  {
+    lyrics: {
+      0: "won't",
+      1: "you",
+      2: "die",
+      3: "tonight",
+      4: "for",
+      5: "love"
+    },
+    artist: "HIM",
+    song: "Join Me in Death"
   }
   /*
   ,
@@ -317,4 +291,4 @@ const songList1 = [
   }
   */
 ]
-export default songList1
+export default songList

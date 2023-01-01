@@ -1,4 +1,4 @@
-const vappuLista = [
+const songList = [
   {
     lyrics: {
       0: "jos",
@@ -95,5 +95,20 @@ const vappuLista = [
     artist: "Spice Girls",
     song: "Wannabe"
   }
+    /*
+  ,
+  {
+    lyrics: {
+      0: "",
+      1: "",
+      2: "",
+      3: "",
+      4: "",
+      5: ""
+    },
+    artist: "",
+    song: ""
+  }
+  */
 ]
-export default vappuLista
+export default songList

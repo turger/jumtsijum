@@ -12,7 +12,7 @@ const GameSelection = () => {
   const [game, setGame] = useState(null)
   const [findClicked, setFindClicked] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [selectedSongListKey, setSelectedSongListKey] = useState('LISTA1')
+  const [selectedSongListKey, setSelectedSongListKey] = useState('KLASSIKOT')
 
   const history = useHistory()
 
@@ -53,7 +53,6 @@ const GameSelection = () => {
 
   const handleNewGameClick = () => {
     const songList = _.get(songLists, selectedSongListKey)
-    console.info('Lauluja listassa:', songList.length)
     const gameId = rnd.generate(4).toUpperCase()
     localStorage.setItem('gameId', gameId)
     const songId = getRandomSong([], songList)
@@ -88,9 +87,11 @@ const GameSelection = () => {
       }
       <h2>Tai aloita uusi peli</h2>
       <div className="Game__selectSong">
-        <div>Biisilista 1 {selectSongList('LISTA1')}</div>
-        <div>Biisilista 2 {selectSongList('LISTA2')}</div>
-        <div>Nopea vappulista 22 {selectSongList('VAPPU22')}</div>
+        <div>Klassikot {selectSongList('KLASSIKOT')}</div>
+        <div>90-00-luvut {selectSongList('90-00')}</div>
+        <div>Nopea bilelista {selectSongList('BILEET')}</div>
+        <div>In English {selectSongList('ENG')}</div>
+        <div>Nykyaikaisempaa {selectSongList('NYKY')}</div>
       </div>
       <button className='Game__new' onClick={() => handleNewGameClick()}>Uusi peli</button>
     </div>

@@ -36,8 +36,8 @@
   border: 1px solid #000000;
 }
 
-.Lyrics__word--red {
-  background-color: #fd5afa;
+.Lyrics__word--red.GameMaster__word--closed {
+  color: #fd5afa;
 }
 
 .GameMaster__word__number {

@@ -26,3 +26,4 @@ database-debug.log*
 
 .idea/
 .firebase/
+firebase-debug.*

@@ -14,15 +14,16 @@ const songList = [
   },
   {
     lyrics: {
-      0: "taste",
-      1: "of",
-      2: "your",
-      3: "lips",
-      4: "I'm",
-      5: "on"
+      0: "I",
+      1: "played",
+      2: "with",
+      3: "your",
+      4: "heart",
+      5: "got",
+      6: "lost"
     },
     artist: "Britney Spears",
-    song: "Toxic"
+    song: "Oops!…I Did It Again"
   },
   {
     lyrics: {
@@ -80,6 +81,7 @@ const songList = [
       2: "why",
       3: "I",
       4: "never",
+      5: "wanna"
     },
     artist: "Backstreet Boys",
     song: "I Want It That Way"
@@ -157,6 +159,95 @@ const songList = [
     },
     artist: "HIM",
     song: "Join Me in Death"
+  },
+  {
+    lyrics: {
+      0: "where",
+      1: "the",
+      2: "grass",
+      3: "is",
+      4: "green",
+      5: "and"
+    },
+    artist: "Guns N' Roses",
+    song: "Paradise City"
+  },
+  {
+    lyrics: {
+      0: "the",
+      1: "night",
+      2: "is",
+      3: "calling",
+      4: "me",
+      5: "like",
+      6: "a",
+      7: "drum"
+    },
+    artist: "The Rasmus",
+    song: "F-F-F-Falling"
+  },
+  {
+    lyrics: {
+      0: "It's",
+      1: "just",
+      2: "another",
+      3: "rainy",
+      4: "Sunday",
+      5: "afternoon"
+    },
+    artist: "Fool's Garden",
+    song: "Lemon Tree"
+  },
+  {
+    lyrics: {
+      0: "It's",
+      1: "like",
+      2: "rain",
+      3: "on",
+      4: "your",
+      5: "wedding",
+      6: "day"
+    },
+    artist: "Alanis Morrissette",
+    song: "Ironic"
+  },
+  {
+    lyrics: {
+      0: "no",
+      1: "time",
+      2: "for",
+      3: "losers",
+      4: "'cause",
+      5: "we",
+      6: "are"
+    },
+    artist: "Queen",
+    song: "We Are the Champions"
+  },
+  {
+    lyrics: {
+      0: "but",
+      1: "the",
+      2: "kid",
+      3: "is",
+      4: "not",
+      5: "my",
+      6: "son"
+    },
+    artist: "Michael Jackson",
+    song: "Billie Jean"
+  },
+  {
+    lyrics: {
+      0: "I'm",
+      1: "off",
+      2: "the",
+      3: "deep",
+      4: "end",
+      5: "watch"
+    },
+    artist: "Lady Gaga, Bradley Cooper",
+    song: "Shallow"
   }
   /*
   ,
@@ -175,4 +266,3 @@ const songList = [
   */
 ]
 export default songList
-  

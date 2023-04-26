@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import rnd from 'randomstring'
 
 import Lyrics from './Lyrics'
@@ -9,8 +9,8 @@ import Header from './Header'
 import Rules from './Rules'
 import Spinner from './Spinner'
 
-import {addNewGame, getCurrentSong, getSongArchive, getSongListKey, setNewCurrentSong} from './services/firebase'
-import {getRandomSong, songLists} from './utils/utils'
+import { addNewGame, getCurrentSong, getSongArchive, getSongListKey, setNewCurrentSong } from './services/firebase'
+import { getRandomSong, songLists } from './utils/utils'
 
 import './Game.css'
 
@@ -44,7 +44,7 @@ const Game = () => {
         setSongId(currSongId)
         setSongListKey(songListKey)
         const songArchive = await getSongArchive(currGameId)
-        setSongsLeft(_.size(_.get(songLists, songListKey)) - _.size(songArchive) -1)
+        setSongsLeft(_.size(_.get(songLists, songListKey)) - _.size(songArchive) - 1)
       }
       fetchSong()
       setGameId(currGameId)
@@ -59,15 +59,15 @@ const Game = () => {
     if (newSongId || newSongId === 0) {
       setNewCurrentSong(gameId, songId, newSongId, songList[newSongId].lyrics)
       setSongId(newSongId)
-      setSongsLeft(songsLeft-1)
+      setSongsLeft(songsLeft - 1)
     }
   }
 
-  if((!gameId && gameId !== 0) || (!songId && songId !== 0) || !songListKey) return <Spinner />
+  if ((!gameId && gameId !== 0) || (!songId && songId !== 0) || !songListKey) return <Spinner />
   const songList = _.get(songLists, songListKey)
   return (
     <div className="Game">
-      <Header gameId={gameId}/>
+      <Header gameId={gameId} />
       <Lyrics
         gameId={gameId}
         songId={songId}
@@ -87,7 +87,7 @@ const Game = () => {
       <div className='Game__songs'>
         <div>Lauluja jäljellä {songsLeft} kpl</div>
       </div>
-      <Rules/>
+      <Rules lang={songListKey === 'ENG' ? 'en' : 'fi'} />
       <Link className="Game_master" to={`master/${gameId}`} target='_blank'>(Game master)</Link>
     </div>
   )

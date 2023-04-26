@@ -10,7 +10,9 @@ const songList = [
       6: "power"
     },
     artist: "Lordi",
-    song: "Hard Rock Hallelujah"
+    song: "Hard Rock Hallelujah",
+    question: "What year did Lordi perform this song in Eurovision?",
+    answer: "2006"
   },
   {
     lyrics: {
@@ -23,7 +25,9 @@ const songList = [
       6: "lost"
     },
     artist: "Britney Spears",
-    song: "Oops!…I Did It Again"
+    song: "Oops!…I Did It Again",
+    question: "In the music video of this song, what is the profession of a man who has fallen in love with Britney?",
+    answer: "Astronaut"
   },
   {
     lyrics: {
@@ -35,7 +39,9 @@ const songList = [
       5: "door"
     },
     artist: "Celine Dion",
-    song: "My Heart Will Go On"
+    song: "My Heart Will Go On",
+    question: "In 1997 this song was included on two albums, name them both",
+    answer: "Let's Talk About Love (Dion) and the Titanic soundtrack"
   },
   {
     lyrics: {
@@ -48,7 +54,9 @@ const songList = [
       6: "hand"
     },
     artist: "The Bangles",
-    song: "Eternal flame"
+    song: "Eternal Flame",
+    question: "Upon its 1989 single release, Eternal Flame became a number-one hit in how many countries?",
+    answer: "Nine (9)"
   },
   {
     lyrics: {
@@ -60,7 +68,9 @@ const songList = [
       5: "here"
     },
     artist: "Depeche Mode",
-    song: "Enjoy the Silence"
+    song: "Enjoy the Silence",
+    question: "The Anton Corbijn -directed music video for Enjoy the Silence references the themes and storyline of what book?",
+    answer: "The Little Prince from Antoine de Saint-Exupéry"
   },
   {
     lyrics: {
@@ -72,7 +82,9 @@ const songList = [
       5: "love"
     },
     artist: "Elton John",
-    song: "Can You Feel the Love Tonight"
+    song: "Can You Feel the Love Tonight",
+    question: "In the movie Lion King this song was originally planned to be sung only by who two characters?",
+    answer: "Timon and Pumba, but John disliked the comical nature of the concept as he declared that the song was meant to follow Disney's tradition of great love songs"
   },
   {
     lyrics: {
@@ -84,7 +96,9 @@ const songList = [
       5: "wanna"
     },
     artist: "Backstreet Boys",
-    song: "I Want It That Way"
+    song: "I Want It That Way",
+    question: "In which airport was the music video filmed?",
+    answer: "Los Angeles International Airport (LAX)"
   },
   {
     lyrics: {
@@ -97,7 +111,9 @@ const songList = [
       6: "that"
     },
     artist: "Oasis",
-    song: "Wonderwall"
+    song: "Wonderwall",
+    question: "In October 2020, it became the first song from the 1990s to reach how many streams on Spotify?",
+    answer: "One billion"
   },
   {
     lyrics: {
@@ -110,7 +126,9 @@ const songList = [
       6: "away"
     },
     artist: "Toto",
-    song: "Africa"
+    song: "Africa",
+    question: "Name one TV-show where this song has appeared in?",
+    answer: "Stranger Things, Family Guy, Chuck, The Cleveland Show and South Park"
   },
   {
     lyrics: {
@@ -122,7 +140,9 @@ const songList = [
       5: "are"
     },
     artist: "Alice Cooper",
-    song: "Poison"
+    song: "Poison",
+    question: "The song's main riff was written by who?",
+    answer: "Guitarist John McCurry"
   },
   {
     lyrics: {
@@ -134,7 +154,9 @@ const songList = [
       5: "lover"
     },
     artist: "Spice Girls",
-    song: "Wannabe"
+    song: "Wannabe",
+    question: "Which of the Spice Girls participated in writing the song?",
+    answer: "All five"
   },
   {
     lyrics: {
@@ -146,7 +168,9 @@ const songList = [
       5: "now"
     },
     artist: "Roxette",
-    song: "It Must Have Been Love"
+    song: "It Must Have Been Love",
+    question: "How many different versions of the song have been officially released?",
+    answer: "Four (4)"
   },
   {
     lyrics: {
@@ -158,7 +182,9 @@ const songList = [
       5: "love"
     },
     artist: "HIM",
-    song: "Join Me in Death"
+    song: "Join Me in Death",
+    question: "This song was featured in the end credits of the European version of which sci-fi movie?",
+    answer: "The Thirteenth Floor"
   },
   {
     lyrics: {
@@ -170,7 +196,9 @@ const songList = [
       5: "and"
     },
     artist: "Guns N' Roses",
-    song: "Paradise City"
+    song: "Paradise City",
+    question: "This is the only song on the album to feature what musical instrument?",
+    answer: "A synthesizer"
   },
   {
     lyrics: {
@@ -184,7 +212,9 @@ const songList = [
       7: "drum"
     },
     artist: "The Rasmus",
-    song: "F-F-F-Falling"
+    song: "F-F-F-Falling",
+    question: "The music video for F-F-F-Falling was shot in what city in Finland?",
+    answer: "Vantaa"
   },
   {
     lyrics: {
@@ -196,7 +226,9 @@ const songList = [
       5: "afternoon"
     },
     artist: "Fool's Garden",
-    song: "Lemon Tree"
+    song: "Lemon Tree",
+    question: "From what album is this song?",
+    answer: "Dish of the Day"
   },
   {
     lyrics: {
@@ -209,7 +241,9 @@ const songList = [
       6: "day"
     },
     artist: "Alanis Morrissette",
-    song: "Ironic"
+    song: "Ironic",
+    question: "This song includes a moderate tempo of how many beats per minute?",
+    answer: "Eighty-five"
   },
   {
     lyrics: {
@@ -222,7 +256,9 @@ const songList = [
       6: "are"
     },
     artist: "Queen",
-    song: "We Are the Champions"
+    song: "We Are the Champions",
+    question: "Fill the gap in this sentence: A team of scientific researchers concluded that the song was the *beep* in the history of popular music",
+    answer: "catchiest"
   },
   {
     lyrics: {
@@ -235,7 +271,9 @@ const songList = [
       6: "son"
     },
     artist: "Michael Jackson",
-    song: "Billie Jean"
+    song: "Billie Jean",
+    question: "What year is this song released?",
+    answer: "1983"
   },
   {
     lyrics: {
@@ -247,7 +285,9 @@ const songList = [
       5: "watch"
     },
     artist: "Lady Gaga, Bradley Cooper",
-    song: "Shallow"
+    song: "Shallow",
+    question: "How many times this song is heard in the film called A Star Is Born?",
+    answer: "Three (3) times"
   }
   /*
   ,

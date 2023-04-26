@@ -61,6 +61,15 @@
   justify-content: center;
 }
 
+.GameMaster__question {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 @media only screen and (max-width: 600px) {
   .GameMaster__title {
     font-size: 20vw;

@@ -37,7 +37,7 @@ export const getSongListKey = (gameId) =>
 
 export const addNewGame = (gameId, song, lyrics, songList) => {
   const lyricsCount = Object.keys(lyrics).length
-  const redCard = Math.floor(Math.random() * (lyricsCount - 0) + 0).toString()
+  const redCards = getRedCards(lyricsCount)
   db.ref(`games/${gameId}`).set({
     gameId: gameId,
     currentSong: song,
@@ -50,7 +50,7 @@ export const addNewGame = (gameId, song, lyrics, songList) => {
         points: 0,
       }
     },
-    cards: Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': id === redCard }))
+    cards: Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': redCards.includes(id) }))
   })
   const archiveRef = db.ref(`games/${gameId}/songArchive`)
   archiveRef.push(song)
@@ -66,16 +66,23 @@ export const getCardStatusesRef = gameId =>
 export const getCardStatuses = gameId =>
   db.ref(`games/${gameId}/cards`).once('value').then((snap) => snap.val())
 
+const getRedCards = (lyricsCount) => {
+  const getRedCardId = () => Math.floor(Math.random() * lyricsCount).toString()
+  // Possibility for two red cards if there's more than five cards in lyrics
+  const moreRed = Math.random() < 0.7
+  return lyricsCount > 5 && moreRed ? [getRedCardId(), getRedCardId()] : [getRedCardId()]
+}
+
 export const setNewCurrentSong = (gameId, newCurrentSong, lyrics) => {
   const currentSongRef = db.ref(`games/${gameId}/currentSong`)
   const archiveRef = db.ref(`games/${gameId}/songArchive`)
   const cardsRef = db.ref(`games/${gameId}/cards`)
   const lyricsCount = Object.keys(lyrics).length
-  const redCard = Math.floor(Math.random() * (lyricsCount - 0) + 0).toString()
+  const redCards = getRedCards(lyricsCount)
 
   archiveRef.push(newCurrentSong)
   currentSongRef.set(newCurrentSong)
-  cardsRef.set(Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': id === redCard })))
+  cardsRef.set(Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': redCards.includes(id) })))
 }
 
 export const updatePoints = (gameId, team, points) =>

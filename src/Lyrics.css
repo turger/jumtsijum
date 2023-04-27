@@ -3,6 +3,7 @@
   justify-content: center;
   align-items: center;
   padding: 30px;
+  flex-wrap: wrap;
 }
 
 .Lyrics__box {
@@ -27,7 +28,7 @@
   position: absolute;
   border: 1px solid #ffffff;
   top: 0;
-  background: linear-gradient(70deg, #fff810  30%, rgba(0,0,0,0) 30%), linear-gradient(30deg, #63e89e 60%, #ff7ee3 60%);
+  background: linear-gradient(70deg, #fff810 30%, rgba(0, 0, 0, 0) 30%), linear-gradient(30deg, #63e89e 60%, #ff7ee3 60%);
   z-index: 10;
 }
 

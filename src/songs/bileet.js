@@ -124,14 +124,12 @@ const songList = [
   },
   {
     lyrics: {
-      0: "and",
-      1: "I'd",
-      2: "get",
-      3: "him",
-      4: "to",
-      5: "swap",
-      6: "our",
-      7: "places"
+      0: "get",
+      1: "him",
+      2: "to",
+      3: "swap",
+      4: "our",
+      5: "places"
     },
     artist: "Kate Bush",
     song: "Running Up That Hill",

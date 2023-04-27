@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
-import { Link } from 'react-router-dom'
 import rnd from 'randomstring'
 
 import Lyrics from './Lyrics'
@@ -9,8 +8,8 @@ import Header from './Header'
 import Rules from './Rules'
 import Spinner from './Spinner'
 
-import { addNewGame, getCurrentSong, getSongArchive, getSongListKey, setNewCurrentSong } from './services/firebase'
-import { getRandomSong, songLists } from './utils/utils'
+import { addNewGame, getCurrentSong, getSongListKey } from './services/firebase'
+import { getRandomSong, getSongNumber, getSongsLeft, songLists } from './utils/utils'
 
 import './Game.css'
 
@@ -18,9 +17,10 @@ const defaultSongListKey = 'LISTA1'
 
 const Game = () => {
   const [gameId, setGameId] = useState(localStorage.getItem('gameId'))
-  const [songId, setSongId] = useState(null)
   const [songListKey, setSongListKey] = useState(null)
-  const [songsLeft, setSongsLeft] = useState(null)
+  const [songId, setSongId] = useState(null)
+  const [songsLeft, setSongsLeft] = useState(0)
+  const [songNumber, setSongNumber] = useState(0)
 
   useEffect(() => {
     let currGameId = localStorage.getItem('gameId')
@@ -36,32 +36,25 @@ const Game = () => {
       setGameId(newGameId)
       setSongId(newSongId)
       setSongListKey(defaultSongListKey)
-      setSongsLeft(songList.length)
     } else {
       async function fetchSong() {
         const currSongId = await getCurrentSong(currGameId)
         const songListKey = await getSongListKey(currGameId)
         setSongId(currSongId)
         setSongListKey(songListKey)
-        const songArchive = await getSongArchive(currGameId)
-        setSongsLeft(_.size(_.get(songLists, songListKey)) - _.size(songArchive) - 1)
       }
       fetchSong()
       setGameId(currGameId)
     }
   }, [gameId])
 
-  const setNewSong = async () => {
-    const songList = _.get(songLists, songListKey)
-    const songArchive = await getSongArchive(gameId)
-    const songArchiveArray = songArchive ? Array.from(Object.values(songArchive)) : []
-    const newSongId = getRandomSong([...songArchiveArray, songId], songList)
-    if (newSongId || newSongId === 0) {
-      setNewCurrentSong(gameId, songId, newSongId, songList[newSongId].lyrics)
-      setSongId(newSongId)
-      setSongsLeft(songsLeft - 1)
+  useEffect(() => {
+    async function fetchSongsLeft() {
+      setSongsLeft(await getSongsLeft(localStorage.getItem('gameId')))
+      setSongNumber(await getSongNumber(localStorage.getItem('gameId')))
     }
-  }
+    fetchSongsLeft()
+  }, [gameId, songId, songListKey])
 
   if ((!gameId && gameId !== 0) || (!songId && songId !== 0) || !songListKey) return <Spinner />
   const songList = _.get(songLists, songListKey)
@@ -70,25 +63,18 @@ const Game = () => {
       <Header gameId={gameId} />
       <Lyrics
         gameId={gameId}
-        songId={songId}
         songList={songList}
+        buttonsDisabled={true}
+        setSongId={setSongId}
       />
       <Teams
         gameId={gameId}
+        buttonsDisabled={true}
       />
-      <div className="New_song">
-        <button
-          onClick={() => setNewSong()}
-          disabled={songsLeft === 0}
-        >
-          Seuraava laulu
-        </button>
-      </div>
       <div className='Game__songs'>
-        <div>Lauluja jäljellä {songsLeft} kpl</div>
+        <div>Laulu numero {songNumber} - jäljellä {songsLeft} kpl</div>
       </div>
       <Rules lang={songListKey === 'ENG' ? 'en' : 'fi'} />
-      <Link className="Game_master" to={`master/${gameId}`} target='_blank'>(Game master)</Link>
     </div>
   )
 }

@@ -50,12 +50,14 @@ export const addNewGame = (gameId, song, lyrics, songList) => {
         points: 0,
       }
     },
-    cards: Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': id === redCard}))
+    cards: Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': id === redCard }))
   })
+  const archiveRef = db.ref(`games/${gameId}/songArchive`)
+  archiveRef.push(song)
 }
 
 export const openCard = (gameId, cardId) => {
-  db.ref(`games/${gameId}/cards/${cardId}`).update({'isOpen': true})
+  db.ref(`games/${gameId}/cards/${cardId}`).update({ 'isOpen': true })
 }
 
 export const getCardStatusesRef = gameId =>
@@ -64,16 +66,16 @@ export const getCardStatusesRef = gameId =>
 export const getCardStatuses = gameId =>
   db.ref(`games/${gameId}/cards`).once('value').then((snap) => snap.val())
 
-export const setNewCurrentSong = (gameId, oldCurrentSong, newCurrentSong, lyrics) => {
+export const setNewCurrentSong = (gameId, newCurrentSong, lyrics) => {
   const currentSongRef = db.ref(`games/${gameId}/currentSong`)
   const archiveRef = db.ref(`games/${gameId}/songArchive`)
   const cardsRef = db.ref(`games/${gameId}/cards`)
   const lyricsCount = Object.keys(lyrics).length
   const redCard = Math.floor(Math.random() * (lyricsCount - 0) + 0).toString()
 
-  archiveRef.push(oldCurrentSong)
+  archiveRef.push(newCurrentSong)
   currentSongRef.set(newCurrentSong)
-  cardsRef.set(Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': id === redCard})))
+  cardsRef.set(Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': id === redCard })))
 }
 
 export const updatePoints = (gameId, team, points) =>

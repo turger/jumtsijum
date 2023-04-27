@@ -6,8 +6,8 @@
 .Team {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  margin: 20px;
+  width: 70%;
+  margin: 10px;
 }
 
 .Team__title {
@@ -31,10 +31,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding-top: 10px;
 }
 
-.Team__points > button {
+.Team__points>button {
   border: 1px solid #fecdfe;
   border-radius: 3px;
   font-size: 25px;
@@ -47,16 +47,18 @@
   background-image: linear-gradient(to bottom, #fecdfe, #fe81fc);
 }
 
-.Team__points > button:hover {
-  border:1px solid #fe9afc;
+.Team__points>button:hover {
+  border: 1px solid #fe9afc;
   background-image: linear-gradient(to bottom, #fe9afc, #fd5afa);
 }
 
-.Team__points > div {
-  padding: 10px 20px 10px 10px;
+.Team__points>div {
   color: #00ed97;
   text-transform: uppercase;
   font-size: 70px;
   font-family: 'Bangers', cursive;
   text-shadow: 5px 5px 0 rgba(254, 251, 0, 0.7);
+  min-width: 80px;
+  text-align: center;
+  padding-right: 10px;
 }

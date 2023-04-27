@@ -5,10 +5,14 @@ import {
   addGameMasterViewer,
   getCardStatusesRef,
   openCard,
+  getCurrentSong,
   getCurrentSongRef,
-  getCardStatuses, getSongListKey
+  getCardStatuses,
+  setNewCurrentSong,
+  getSongArchive,
+  getSongListKey
 } from './services/firebase'
-import { songLists } from './utils/utils'
+import { getRandomSong, getSongsLeft, songLists } from './utils/utils'
 
 import Header from './Header'
 import Teams from './Teams'
@@ -21,7 +25,8 @@ class GameMaster extends Component {
     this.state = {
       cardStatuses: null,
       currentSong: null,
-      selectedSongListKey: null
+      selectedSongListKey: null,
+      songsLeft: 0
     }
     this._cardStatusesRef = null
     this._currentSongRef = null
@@ -43,6 +48,9 @@ class GameMaster extends Component {
       const currentSong = snap.val()
       this.setState({ currentSong })
     })
+    this.setState({
+      songsLeft: await getSongsLeft(gameId)
+    })
   }
 
   async componentDidUpdate(prevProps) {
@@ -62,6 +70,20 @@ class GameMaster extends Component {
   handleWordClick(i) {
     const { gameId } = this.props.match.params
     openCard(gameId, i)
+  }
+
+  setNewSong = async () => {
+    const songList = _.get(songLists, this.state.selectedSongListKey)
+    const { gameId } = this.props.match.params
+    const songArchive = await getSongArchive(gameId)
+    const songArchiveArray = songArchive ? Array.from(Object.values(songArchive)) : []
+    let currGameId = localStorage.getItem('gameId')
+    const songId = await getCurrentSong(currGameId)
+    const newSongId = getRandomSong([...songArchiveArray, songId], songList)
+    if (newSongId || newSongId === 0) {
+      setNewCurrentSong(gameId, newSongId, songList[newSongId].lyrics)
+    }
+    this.setState({ songsLeft: await getSongsLeft(this.props.match.params.gameId) })
   }
 
   render() {
@@ -105,6 +127,15 @@ class GameMaster extends Component {
         <Teams
           gameId={gameId}
         />
+        <div className="New_song">
+          <button
+            onClick={() => this.setNewSong()}
+            disabled={this.state.songsLeft === 0}
+          >
+            Seuraava laulu
+          </button>
+          <div>Lauluja jäljellä {this.state.songsLeft} kpl</div>
+        </div>
       </div >
     )
   }

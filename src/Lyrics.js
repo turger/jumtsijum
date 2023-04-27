@@ -1,9 +1,9 @@
-import React, {Component, Fragment} from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import _ from 'lodash'
 
-import {openCard, getCardStatusesRef, getCardStatuses} from './services/firebase'
+import { openCard, getCardStatusesRef, getCardStatuses, getCurrentSong, getCurrentSongRef } from './services/firebase'
 
 import './Lyrics.css'
 
@@ -13,26 +13,34 @@ class Lyrics extends Component {
     this.state = {
       lyrics: null,
       cardStatuses: null,
+      songId: null
     }
     this._cardStatusesRef = null
   }
 
   async componentDidMount() {
-    const {songId, songList} = this.props
-    this.setState({lyrics: songList[songId].lyrics})
+    const { songList, setSongId } = this.props
+    const songId = this.state.songId || await getCurrentSong(this.props.gameId)
+    this.setState({ lyrics: songList[songId].lyrics })
     // set listener to card statuses
     this._cardStatusesRef = getCardStatusesRef(this.props.gameId)
     await this._cardStatusesRef.on('value', (snap) => {
       const cardStatuses = snap.val() ? snap.val() : null
-      this.setState({cardStatuses})
+      this.setState({ cardStatuses })
+    })
+    this._currentSongRef = getCurrentSongRef(this.props.gameId)
+    await this._currentSongRef.on('value', (snap) => {
+      const currentSong = snap.val()
+      this.setState({ songId: currentSong })
+      setSongId(currentSong)
     })
   }
 
-  async componentDidUpdate(prevProps) {
-    if (prevProps.songId !== this.props.songId) {
-      this.setState({cardStatuses: null, lyrics: this.props.songList[this.props.songId].lyrics})
+  async componentDidUpdate(_, prevState) {
+    if (prevState.songId !== this.state.songId) {
+      this.setState({ cardStatuses: null, lyrics: this.props.songList[this.state.songId].lyrics })
       const cardStatuses = await getCardStatuses(this.props.gameId)
-      this.setState({cardStatuses})
+      this.setState({ cardStatuses })
     }
   }
 
@@ -41,33 +49,34 @@ class Lyrics extends Component {
   }
 
   handleWordClick(i) {
-    openCard(this.props.gameId, i)
+    const { buttonsDisabled } = this.props
+    if (!buttonsDisabled) openCard(this.props.gameId, i)
   }
 
   render() {
-    const {lyrics, cardStatuses} = this.state
+    const { lyrics, cardStatuses } = this.state
     if (!lyrics || !cardStatuses || !this.props.songList) return null
     return (
       <div className='Lyrics'>
         {
           Object.values(lyrics).map((word, i) => {
             if (!_.get(cardStatuses, i)) return null
-            return(
+            return (
               <div
                 key={i}
                 onClick={() => this.handleWordClick(i)}
                 className='Lyrics__box'
               >
-                <div className={cx('Lyrics__word', {'Lyrics__word--red': cardStatuses[i].isRed})}>
+                <div className={cx('Lyrics__word', { 'Lyrics__word--red': cardStatuses[i].isRed })}>
                   {word}
                 </div>
                 {cardStatuses[i].isOpen === false &&
-                <Fragment>
-                  <div className='Lyrics__word Lyrics__word__closed'/>
-                  <div className='Lyrics__number'>
-                    {i+1}
-                  </div>
-                </Fragment>
+                  <Fragment>
+                    <div className='Lyrics__word Lyrics__word__closed' />
+                    <div className='Lyrics__number'>
+                      {i + 1}
+                    </div>
+                  </Fragment>
                 }
               </div>
             )
@@ -80,8 +89,9 @@ class Lyrics extends Component {
 
 Lyrics.propTypes = {
   gameId: PropTypes.string,
-  songId: PropTypes.number,
-  songList: PropTypes.array
+  songList: PropTypes.array,
+  buttonsDisabled: PropTypes.bool,
+  setSongId: PropTypes.func
 }
 
 export default Lyrics

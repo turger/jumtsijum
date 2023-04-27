@@ -1,7 +1,7 @@
-import React, {Component, Fragment} from 'react'
+import React, { Component, Fragment } from 'react'
 import _ from 'lodash'
 
-import {getGameData, getTeamsRef, updatePoints} from './services/firebase'
+import { getGameData, getTeamsRef, updatePoints } from './services/firebase'
 
 import './Teams.css'
 
@@ -9,26 +9,30 @@ class Teams extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      points: {red: null, blue: null}
+      points: { red: null, blue: null }
     }
     this._pointsRef = null
   }
 
   async componentDidMount() {
-    const {gameId} = this.props
+    const { gameId } = this.props
     const game = await getGameData(gameId)
-    this.setState({points: {
-      red: game.teams.red.points,
-      blue: game.teams.blue.points,
-    }})
+    this.setState({
+      points: {
+        red: game.teams.red.points,
+        blue: game.teams.blue.points,
+      }
+    })
     // set listener to points statuses
     this._pointsRef = getTeamsRef(gameId)
     await this._pointsRef.on('value', (snap) => {
       const teams = snap.val() ? snap.val() : null
-      this.setState({points: {
+      this.setState({
+        points: {
           red: teams.red.points,
           blue: teams.blue.points,
-        }})
+        }
+      })
     })
   }
 
@@ -37,7 +41,7 @@ class Teams extends Component {
   }
 
   addPoint = team => {
-    const teamPoints = (_.get(this.state.points, team) || 0)+1
+    const teamPoints = (_.get(this.state.points, team) || 0) + 1
     let points = this.state.points
     points[team] = teamPoints
     this.setState(points)
@@ -45,7 +49,7 @@ class Teams extends Component {
   }
 
   reducePoint = team => {
-    const teamPoints = (_.get(this.state.points, team) || 0)-1
+    const teamPoints = (_.get(this.state.points, team) || 0) - 1
     let points = this.state.points
     points[team] = teamPoints
     this.setState(points)
@@ -53,11 +57,13 @@ class Teams extends Component {
   }
 
   render() {
+    const { buttonsDisabled } = this.props
+
     const points = team =>
       <Fragment>
-        <button onClick={() => this.reducePoint(team)}>-</button>
+        {!buttonsDisabled && <button onClick={() => this.reducePoint(team)}>-</button>}
         <div>{this.state.points[team] || 0}</div>
-        <button onClick={() => this.addPoint(team)}>+</button>
+        {!buttonsDisabled && <button onClick={() => this.addPoint(team)}>+</button>}
       </Fragment>
 
     return (

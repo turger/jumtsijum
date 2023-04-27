@@ -301,7 +301,9 @@ const songList = [
       5: ""
     },
     artist: "",
-    song: ""
+    song: "",
+    question: "",
+    answer: ""
   }
   */
 ]

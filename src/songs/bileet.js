@@ -9,7 +9,9 @@ const songList = [
       5: "auki"
     },
     artist: "Petri Nygård",
-    song: "Selvä päivä"
+    song: "Selvä päivä",
+    question: "Kuka artisti vierailee kappaleen kertosäkeellä?",
+    answer: "Dancehall/pop-artisti Lord Est"
   },
   {
     lyrics: {
@@ -20,95 +22,192 @@ const songList = [
       4: "oon",
     },
     artist: "Gasellit",
-    song: "Imus"
+    song: "Imus",
+    question: "Minkä televisio-ohjelman viidennellä kaudella tämä biisi esitetään lavalla?",
+    answer: "SuomiLOVE"
+  },
+  {
+    lyrics: {
+      0: "en",
+      1: "tarvii",
+      2: "asuntoo",
+      3: "vaan"
+    },
+    artist: "Nylon Beat",
+    song: "Satasen Laina",
+    question: "Minkä nimisellä albumilla tämä biisi esiintyy?",
+    answer: "Satasen laina"
+  },
+  {
+    lyrics: {
+      0: "vedän",
+      1: "kaikki",
+      2: "kurkusta",
+      3: "mitä",
+      4: "jää",
+    },
+    artist: "Portion Boys",
+    song: "Kyläbaari",
+    question: "Mille sijalle tämä kappale ylsi Suomen virallisella singlelistalla?",
+    answer: "15"
+  },
+  {
+    lyrics: {
+      0: "lupaan",
+      1: "että",
+      2: "on",
+      3: "hauskempaa",
+      4: "meil",
+      5: "jotka",
+      6: "löytää"
+    },
+    artist: "Erika Vikman",
+    song: "Syntisten pöytä",
+    question: "Minkä värinen asu Erikalla on päällä biisin musiikkivideossa?",
+    answer: "Tiukka punainen haalari"
+  },
+  {
+    lyrics: {
+      0: "sinua",
+      1: "ja",
+      2: "laivaa",
+      3: "ootan",
+      4: "joka",
+      5: "yö"
+    },
+    artist: "J. Karjalainen",
+    song: "Ankkurinappi",
+    question: "Minä vuonna tämä läpimurtohitti on julkaistu?",
+    answer: "1982"
+  },
+  {
+    lyrics: {
+      0: "myrsky",
+      1: "repii",
+      2: "puita",
+      3: "taivas",
+      4: "salamoi"
+    },
+    artist: "Janne Hurme",
+    song: "Kirje",
+    question: "Mistä maasta on peräisin tämän kappaleen alkuperäinen versio?",
+    answer: "Kirje on alun perin bosnialaisen Hari Mata Hari -yhtyeen balladi Strah me da te violim"
+  },
+  {
+    lyrics: {
+      0: "en",
+      1: "oo",
+      2: "mitä",
+      3: "ne",
+      4: "toivoo",
+      5: "vaan",
+      6: "mitä",
+      7: "sä"
+    },
+    artist: "Karri Koira",
+    song: "Ne kutsuu mua koiraks",
+    question: "Kuinka mones biisi tämä on albumilla K.O.I.R.A.?",
+    answer: "Ensimmäinen (1)"
+  },
+  {
+    lyrics: {
+      0: "when",
+      1: "the",
+      2: "violence",
+      3: "causes",
+      4: "silence"
+    },
+    artist: "The Cranberries",
+    song: "Zombie",
+    question: "Minkä alueen väkivaltaisuuksia tämä protestilaulu käsittelee?",
+    answer: "Pohjois-Irlannin"
   },
   {
     lyrics: {
       0: "and",
-      1: "can",
-      2: "you",
-      3: "feel",
-      4: "the",
-      5: "love"
+      1: "I'd",
+      2: "get",
+      3: "him",
+      4: "to",
+      5: "swap",
+      6: "our",
+      7: "places"
     },
-    artist: "Elton John",
-    song: "Can You Feel the Love Tonight"
+    artist: "Kate Bush",
+    song: "Running Up That Hill",
+    question: "Kuinka monta Guinnessin maailmanennätystä tämä kappale on rikkonnut?",
+    answer: "Kolme (3)"
   },
   {
     lyrics: {
-      0: "tell",
-      1: "me",
-      2: "why",
-      3: "I",
-      4: "never",
+      0: "valokuvia",
+      1: "kellastuneita",
+      2: "ei",
+      3: "meistä",
+      4: "tuu"
     },
-    artist: "Backstreet Boys",
-    song: "I Want It That Way"
+    artist: "Olavi Uusivirta",
+    song: "Kultaa hiuksissa",
+    question: "Minkälaisella kameran efektillä biisin musavideo on kuvattu?",
+    answer: "Slow motion"
   },
   {
     lyrics: {
-      0: "today",
-      1: "is",
-      2: "gonna",
-      3: "be",
-      4: "the",
-      5: "day",
-      6: "that"
+      0: "me",
+      1: "mentiin",
+      2: "juhliin",
+      3: "kaksin",
+      4: "sä",
+      5: "otit",
+      6: "salaa"
     },
-    artist: "Oasis",
-    song: "Wonderwall"
+    artist: "Gimmel",
+    song: "Etsit muijaa seuraavaa",
+    question: "Mikä on tämän biisin smurffiversion nimi?",
+    answer: "Lähdit smurffii seuraamaan"
   },
   {
     lyrics: {
-      0: "take",
-      1: "a",
-      2: "lot",
-      3: "to",
-      4: "drag",
-      5: "me",
-      6: "away"
+      0: "en",
+      1: "suudella",
+      2: "saisi",
+      3: "sun",
+      4: "huulia"
     },
-    artist: "Toto",
-    song: "Africa"
+    artist: "Pikku G",
+    song: "Romeo ja Julia",
+    question: "Kuka on biisin naislaulaja?",
+    answer: "Sophie"
   },
   {
     lyrics: {
-      0: "kiss",
-      1: "you",
-      2: "but",
-      3: "your",
-      4: "lips",
-      5: "are"
+      0: "ja",
+      1: "aamuun",
+      2: "aikaa",
+      3: "on",
+      4: "ikuisuus"
     },
-    artist: "Alice Cooper",
-    song: "Poison"
-  },
-  {
-    lyrics: {
-      0: "if",
-      1: "you",
-      2: "wanna",
-      3: "be",
-      4: "my",
-      5: "lover"
-    },
-    artist: "Spice Girls",
-    song: "Wannabe"
+    artist: "Kirka",
+    song: "Hengaillaan",
+    question: "Minä vuonna Hengaillaan edusti Suomea Eurovision laulukilpailussa?",
+    answer: "1984"
   }
-    /*
-  ,
-  {
-    lyrics: {
-      0: "",
-      1: "",
-      2: "",
-      3: "",
-      4: "",
-      5: ""
-    },
-    artist: "",
-    song: ""
-  }
-  */
+  /*
+,
+{
+  lyrics: {
+    0: "",
+    1: "",
+    2: "",
+    3: "",
+    4: "",
+    5: ""
+  },
+  artist: "",
+  song: "",
+  question: "",
+  answer: ""
+}
+*/
 ]
 export default songList

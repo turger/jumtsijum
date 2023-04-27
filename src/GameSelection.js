@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
-import {Link, useHistory} from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import './GameSelection.css'
-import {addNewGame, getGameData} from './services/firebase'
-import {getRandomSong, songLists} from './utils/utils'
+import { addNewGame, getGameData } from './services/firebase'
+import { getRandomSong, songLists } from './utils/utils'
 import rnd from 'randomstring'
 import Header from './Header'
 
@@ -27,7 +27,7 @@ const GameSelection = () => {
       }
       getGame()
     }
-  },[])
+  }, [])
 
 
   const handleSubmit = async (e) => {
@@ -64,7 +64,7 @@ const GameSelection = () => {
 
   return (
     <div className='Game__selection'>
-      <Header gameId={game ? game.gameId : ''}/>
+      <Header gameId={game ? game.gameId : ''} />
       <h2>Valitse olemassaoleva peli</h2>
       <form onSubmit={(e) => handleSubmit(e)}>
         <label>
@@ -75,21 +75,21 @@ const GameSelection = () => {
             onChange={(e) => setGameIdInput(e.target.value.toUpperCase())}
           />
         </label>
-        <input type='submit' value='Hae' disabled={!gameIdInput}/>
+        <input type='submit' value='Hae' disabled={!gameIdInput} />
       </form>
       {!game && findClicked && !loading && <div className='Game__notFound'>Peliä ei löytynyt</div>}
       {
         game &&
-          <div className='Game__buttons'>
-            <Link to={`/${game.gameId}`}>Pelaamaan!</Link>
-            <Link to={`/master/${game.gameId}`}>Game Master</Link>
-          </div>
+        <div className='Game__buttons'>
+          <Link to={`/${game.gameId}`}>Pelaamaan!</Link>
+          <Link to={`/master/${game.gameId}`}>Game Master</Link>
+        </div>
       }
       <h2>Tai aloita uusi peli</h2>
       <div className="Game__selectSong">
         <div>Klassikot {selectSongList('KLASSIKOT')}</div>
         <div>90-00-luvut {selectSongList('90-00')}</div>
-        <div>Nopea bilelista {selectSongList('BILEET')}</div>
+        <div>Bilelista {selectSongList('BILEET')}</div>
         <div>In English {selectSongList('ENG')}</div>
         <div>Nykyaikaisempaa {selectSongList('NYKY')}</div>
       </div>

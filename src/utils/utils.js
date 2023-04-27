@@ -12,7 +12,7 @@ export const getRandomSong = (songArchive = [], songList) => {
 }
 
 export const songLists = {
-  '90-00': ysinolla, 
+  '90-00': ysinolla,
   'KLASSIKOT': klassikot,
   'ENG': english,
   'BILEET': bileet,

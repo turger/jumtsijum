@@ -12,10 +12,6 @@ const config = {
 
 const fb = firebase.initializeApp(config)
 var db = fb.database()
-// if (process.env.NODE_ENV === 'development') {
-//   // Point to the RTDB emulator running on localhost.
-//   db.useEmulator("localhost", 9000)
-// }
 
 export const getGameData = gameId =>
   db.ref(`games/${gameId}`).once('value').then((snap) => snap.val())

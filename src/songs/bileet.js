@@ -1,12 +1,10 @@
 const songList = [
   {
     lyrics: {
-      0: "jos",
-      1: "sulla",
-      2: "on",
-      3: "jano",
-      4: "suu",
-      5: "auki"
+      0: "siis",
+      1: "hyvästi",
+      2: "selvä",
+      3: "päivä"
     },
     artist: "Petri Nygård",
     song: "Selvä päivä",
@@ -15,11 +13,11 @@ const songList = [
   },
   {
     lyrics: {
-      0: "sä",
-      1: "voit",
-      2: "luottaa",
-      3: "mä",
-      4: "oon",
+      0: "pyydä",
+      1: "mukaa",
+      2: "mä",
+      3: "oon",
+      4: "imus",
     },
     artist: "Gasellit",
     song: "Imus",
@@ -31,7 +29,8 @@ const songList = [
       0: "en",
       1: "tarvii",
       2: "asuntoo",
-      3: "vaan"
+      3: "vaan",
+      4: "satasen"
     },
     artist: "Nylon Beat",
     song: "Satasen Laina",
@@ -40,16 +39,16 @@ const songList = [
   },
   {
     lyrics: {
-      0: "vedän",
-      1: "kaikki",
-      2: "kurkusta",
-      3: "mitä",
-      4: "jää",
+      0: "hei",
+      1: "rakas",
+      2: "kerro",
+      3: "mulle",
+      4: "mikä",
     },
-    artist: "Portion Boys",
-    song: "Kyläbaari",
-    question: "Mille sijalle tämä kappale ylsi Suomen virallisella singlelistalla?",
-    answer: "15"
+    artist: "Behm",
+    song: "Hei rakas",
+    question: "Kenen suomalaisartistin biisissä Behm on laulanut ja toiminut yhtenä säveltäjistä ennen tämän biisin julkaisua?",
+    answer: "Pikku G - Solmussa (2017)"
   },
   {
     lyrics: {
@@ -59,7 +58,7 @@ const songList = [
       3: "hauskempaa",
       4: "meil",
       5: "jotka",
-      6: "löytää"
+      6: "löytää",
     },
     artist: "Erika Vikman",
     song: "Syntisten pöytä",
@@ -68,12 +67,12 @@ const songList = [
   },
   {
     lyrics: {
-      0: "sinua",
-      1: "ja",
-      2: "laivaa",
-      3: "ootan",
-      4: "joka",
-      5: "yö"
+      0: "kun",
+      1: "kohdattiin",
+      2: "oli",
+      3: "pimeää",
+      4: "kun",
+      5: "erottiin"
     },
     artist: "J. Karjalainen",
     song: "Ankkurinappi",
@@ -95,27 +94,27 @@ const songList = [
   },
   {
     lyrics: {
-      0: "en",
-      1: "oo",
-      2: "mitä",
-      3: "ne",
-      4: "toivoo",
-      5: "vaan",
-      6: "mitä",
-      7: "sä"
+      0: "kun",
+      1: "mä",
+      2: "sinut",
+      3: "kohtasin",
+      4: "oli",
+      5: "ilta",
+      6: "ihanin"
     },
-    artist: "Karri Koira",
-    song: "Ne kutsuu mua koiraks",
-    question: "Kuinka mones biisi tämä on albumilla K.O.I.R.A.?",
-    answer: "Ensimmäinen (1)"
+    artist: "Rauli Badding Somerjoki",
+    song: "Paratiisi",
+    question: "Helsingin Sanomat pyysi kevään 2009 juttusarjassa lukijoita nimeämään oman ”onnen laulunsa”, ja yli 800 ehdotetun kappaleen joukosta, monenneksiko ”Paratiisi” tuli äänestyksessä?",
+    answer: "Viidenneksi (5)"
   },
   {
     lyrics: {
-      0: "when",
-      1: "the",
-      2: "violence",
-      3: "causes",
-      4: "silence"
+      0: "in",
+      1: "your",
+      2: "head",
+      3: "in",
+      4: "your",
+      5: "head"
     },
     artist: "The Cranberries",
     song: "Zombie",
@@ -124,25 +123,24 @@ const songList = [
   },
   {
     lyrics: {
-      0: "get",
-      1: "him",
-      2: "to",
-      3: "swap",
-      4: "our",
-      5: "places"
+      0: "kuin",
+      1: "hullu",
+      2: "huudan",
+      3: "rakkauteni",
+      4: "perään"
     },
-    artist: "Kate Bush",
-    song: "Running Up That Hill",
-    question: "Kuinka monta Guinnessin maailmanennätystä tämä kappale on rikkonnut?",
-    answer: "Kolme (3)"
+    artist: "Juice Leskinen",
+    song: "Viidestoista yö",
+    question: "Minkä Bob Dylanin biisin Juice on sanonut antaneen vaikutteita sanoitukseen ja sävellykseen?",
+    answer: "Bob Dylanin ”Mr. Tambourine Man” ja hän kirjoitti kappaleen kahden viikon juomaputken jälkeen, viidentenätoista yönä"
   },
   {
     lyrics: {
-      0: "valokuvia",
-      1: "kellastuneita",
-      2: "ei",
-      3: "meistä",
-      4: "tuu"
+      0: "muistaa",
+      1: "sut",
+      2: "juostiin",
+      3: "kultaa",
+      4: "hiuksissa"
     },
     artist: "Olavi Uusivirta",
     song: "Kultaa hiuksissa",
@@ -151,13 +149,13 @@ const songList = [
   },
   {
     lyrics: {
-      0: "me",
-      1: "mentiin",
-      2: "juhliin",
-      3: "kaksin",
-      4: "sä",
-      5: "otit",
-      6: "salaa"
+      0: "mentiin",
+      1: "juhliin",
+      2: "kaksin",
+      3: "sä",
+      4: "otit",
+      5: "salaa",
+      6: "taksin"
     },
     artist: "Gimmel",
     song: "Etsit muijaa seuraavaa",
@@ -172,18 +170,19 @@ const songList = [
       3: "sun",
       4: "huulia"
     },
-    artist: "Pikku G",
+    artist: "Movetron",
     song: "Romeo ja Julia",
-    question: "Kuka on biisin naislaulaja?",
-    answer: "Sophie"
+    question: "Monennelle sijalle singlelistalla tämä biisi ylsi korkeimmillaan?",
+    answer: "2."
   },
   {
     lyrics: {
-      0: "ja",
-      1: "aamuun",
-      2: "aikaa",
-      3: "on",
-      4: "ikuisuus"
+      0: "se",
+      1: "viimeinen",
+      2: "juna",
+      3: "mun",
+      4: "laukun",
+      5: "vei"
     },
     artist: "Kirka",
     song: "Hengaillaan",

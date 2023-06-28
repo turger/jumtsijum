@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
 import rnd from 'randomstring'
+import { Link } from 'react-router-dom'
 
 import Lyrics from './Lyrics'
 import Teams from './Teams'
@@ -15,15 +16,19 @@ import './Game.css'
 
 const defaultSongListKey = 'LISTA1'
 
-const Game = () => {
+const Game = (props) => {
   const [gameId, setGameId] = useState(localStorage.getItem('gameId'))
   const [songListKey, setSongListKey] = useState(null)
   const [songId, setSongId] = useState(null)
   const [songsLeft, setSongsLeft] = useState(0)
   const [songNumber, setSongNumber] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    let currGameId = localStorage.getItem('gameId')
+    setIsLoading(true)
+    const gameIdFromUrl = props.match.params.gameId
+    const gameIdFromLocalStorage = localStorage.getItem('gameId')
+    let currGameId = gameIdFromUrl ? gameIdFromUrl : gameIdFromLocalStorage
     if (!currGameId) {
       const songList = _.get(songLists, defaultSongListKey)
       const newGameId = rnd.generate(4).toUpperCase()
@@ -46,7 +51,8 @@ const Game = () => {
       fetchSong()
       setGameId(currGameId)
     }
-  }, [gameId])
+    setTimeout(() => { setIsLoading(false) }, 1000)
+  }, [gameId, props.match.params.gameId])
 
   useEffect(() => {
     async function fetchSongsLeft() {
@@ -56,7 +62,16 @@ const Game = () => {
     fetchSongsLeft()
   }, [gameId, songId, songListKey])
 
-  if ((!gameId && gameId !== 0) || (!songId && songId !== 0) || !songListKey) return <Spinner />
+  if (isLoading) return <Spinner />
+  if (!isLoading && (!gameId && gameId !== 0) || (!songId && songId !== 0) || !songListKey) {
+    return (
+      <div className="Game">
+        {gameId && <p>Peliä ei löytynyt id:llä {gameId}</p>}
+        {songId && <p>Laulua ei löytynyt id:llä {songId}</p>}
+        <Link to='/'>Takaisin alkuun</Link>
+      </div>
+    )
+  }
   const songList = _.get(songLists, songListKey)
   return (
     <div className="Game">

@@ -17,3 +17,68 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.Label {
+  display: flex;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 10px;
+}
+
+.Input {
+  margin-left: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.LinkButtons {
+  display: flex;
+}
+
+.LinkButton {
+  color: transparent;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+  text-shadow:
+    0 0 #141414,
+    .08em 0 0 #fff,
+    0 0,
+    -.08em 0 0 #fff;
+  vertical-align: bottom;
+  margin: 10px;
+}
+
+.LinkButton:after {
+  background: linear-gradient(to bottom,
+      #141414,
+      #141414) center 1.08em / 100% 2px no-repeat;
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 400%;
+  will-change: transform;
+  z-index: -1;
+}
+
+.LinkButton:hover:after {
+  animation: underline-gradient 6s linear infinite;
+  background-image: linear-gradient(90deg,
+      #fd5afa 15%,
+      #01FF89 35%,
+      #fd5afa 85%);
+}
+
+@keyframes underline-gradient {
+  0% {
+    transform: translate3d(0%, 0%, 0);
+  }
+
+  100% {
+    transform: translate3d(-75%, 0%, 0);
+  }
+}

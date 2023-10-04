@@ -1,0 +1,70 @@
+.UpdateGame {
+  margin: 20px;
+}
+
+.UpdateGame__selectedSongs__song {
+  display: flex;
+}
+
+.UpdateGame__selectedSongs__song>div {
+  padding-right: 10px;
+}
+
+.UpdateGame__selectedSongs__song>svg {
+  min-width: 20px;
+}
+
+.UpdateGame__selectedSongs__songDetails {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.UpdateGame__allSongs__song {
+  display: flex;
+  padding-top: 5px;
+}
+
+.UpdateGame__allSongs__songDetails {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.UpdateGame__allSongs__song>div {
+  padding-right: 10px;
+}
+
+.UpdateGame__buttons {
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.UpdateGame__saveButton {
+  background: linear-gradient(90deg,
+      #fd5afa 40%,
+      #01FF89 100%);
+  padding: 10px;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  text-shadow: 1px 1px #000000;
+  cursor: pointer;
+}
+
+.UpdateGame__saveButton:hover {
+  background: linear-gradient(90deg,
+      #01FF89 40%,
+      #fd5afa 100%);
+}
+
+.UpdateGame__saveButton:disabled {
+  background: gray;
+}
+
+.GameInUse {
+  color: red;
+}

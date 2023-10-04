@@ -1,0 +1,38 @@
+.Songs {
+  margin: 20px;
+}
+
+.Songs__form {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.Songs__song {
+  display: flex;
+  padding-top: 5px;
+  align-items: center;
+}
+
+.Songs__song>svg {
+  min-width: 20px;
+}
+
+.Songs__songDetails {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.Songs__song>div {
+  padding-right: 10px;
+}
+
+.Songs__removeSong {
+  display: flex;
+  color: brown;
+}
+
+.Songs__removeSong>button {
+  margin-left: 5px;
+}

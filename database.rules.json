@@ -3,6 +3,10 @@
     "games": {
       ".read": "true",
       ".write": "true"
+    },
+    "songs": {
+      ".read": "true",
+      ".write": "true"
     }
   }
 }

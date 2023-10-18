@@ -1,5 +1,9 @@
 import firebase from 'firebase/app'
 import 'firebase/database'
+import _ from 'lodash'
+import { getRandomSong } from '../utils/utils'
+import rnd from 'randomstring'
+import songList from '../base_songs'
 
 const config = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -13,31 +17,23 @@ const config = {
 const fb = firebase.initializeApp(config)
 var db = fb.database()
 
-export const getGameData = gameId =>
+// Game
+
+export const getOneGame = gameId =>
   db.ref(`games/${gameId}`).once('value').then((snap) => snap.val())
 
-export const getTeamsRef = gameId =>
-  db.ref(`games/${gameId}/teams`)
+export const getAllGames = () =>
+  db.ref('games').once('value').then((snap) => snap.val())
 
-export const getCurrentSong = gameId =>
-  db.ref(`games/${gameId}/currentSong`).once('value').then((snap) => snap.val())
-
-export const getCurrentSongRef = gameId =>
-  db.ref(`games/${gameId}/currentSong`)
-
-export const getSongArchive = (gameId) =>
-  db.ref(`games/${gameId}/songArchive`).once('value').then((snap) => snap.val())
-
-export const getSongListKey = (gameId) =>
-  db.ref(`games/${gameId}/songList`).once('value').then((snap) => snap.val())
-
-export const addNewGame = (gameId, song, lyrics, songList) => {
+export const updateGame = async (gameId, currentSongIndex, lyrics, songIdList, gameName) => {
   const lyricsCount = Object.keys(lyrics).length
   const redCards = getRedCards(lyricsCount)
-  db.ref(`games/${gameId}`).set({
-    gameId: gameId,
-    currentSong: song,
-    songList: songList,
+  const cardStatuses = Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': redCards.includes(id) }))
+  db.ref(`games/${gameId}`).update({
+    gameId,
+    currentSongIndex,
+    songIdList,
+    gameName,
     teams: {
       red: {
         points: 0,
@@ -46,11 +42,118 @@ export const addNewGame = (gameId, song, lyrics, songList) => {
         points: 0,
       }
     },
-    cards: Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': redCards.includes(id) }))
+    cards: cardStatuses
   })
-  const archiveRef = db.ref(`games/${gameId}/songArchive`)
-  archiveRef.push(song)
+
+  // Set to archive if this is a new game
+  const archive = await getSongArchive(gameId)
+  if (!archive) {
+    const archiveRef = db.ref(`games/${gameId}/songArchive`)
+    archiveRef.push(currentSongIndex)
+  }
 }
+
+// Songs
+
+export const getAllSongs = () =>
+  db.ref('songs').once('value').then((snap) => snap.val())
+
+export const getCurrentSongIndex = gameId =>
+  db.ref(`games/${gameId}/currentSongIndex`).once('value').then((snap) => snap.val())
+
+export const getCurrentSongIndexRef = gameId =>
+  db.ref(`games/${gameId}/currentSongIndex`)
+
+export const getSongArchive = (gameId) =>
+  db.ref(`games/${gameId}/songArchive`).once('value').then((snap) => snap.val())
+
+export const getSongByGameIdAndCurrentSongIndex = async (gameId, currentSongIndex) => {
+  if (!gameId || currentSongIndex === null) return null
+  const game = await getOneGame(gameId)
+  const songIdList = game.songIdList
+  const songId = songIdList[currentSongIndex]
+  return db.ref(`songs/${songId}`).once('value').then((snap) => snap.val())
+}
+
+export const resetSongArchive = async (gameId) => {
+  await db.ref(`games/${gameId}/songArchive`).remove()
+  await setNewSong(gameId)
+}
+
+export const setNewSong = async (gameId) => {
+  const game = await getOneGame(gameId)
+  const { songIdList, songArchive, currentSongIndex } = game
+  const songArchiveArray = songArchive ? Array.from(Object.values(songArchive)) : []
+  const allSongs = await getAllSongs(gameId)
+  const songList = Object.values(allSongs).filter(song => songIdList.includes(song.songId))
+  const newCurrentSongIndex = getRandomSong([...songArchiveArray, currentSongIndex], songList)
+  if (newCurrentSongIndex || newCurrentSongIndex === 0) {
+    const newSong = await getSongByGameIdAndCurrentSongIndex(gameId, newCurrentSongIndex)
+    setNewCurrentSongIndex(gameId, newCurrentSongIndex, newSong.lyrics)
+    return newSong
+  }
+  return null
+}
+
+export const setNewCurrentSongIndex = (gameId, newCurrentSongIndex, lyrics) => {
+  const currentSongIndexRef = db.ref(`games/${gameId}/currentSongIndex`)
+  const archiveRef = db.ref(`games/${gameId}/songArchive`)
+  const cardsRef = db.ref(`games/${gameId}/cards`)
+  const lyricsCount = Object.keys(lyrics).length
+  const redCards = getRedCards(lyricsCount)
+
+  archiveRef.push(newCurrentSongIndex)
+  currentSongIndexRef.set(newCurrentSongIndex)
+  cardsRef.set(Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': redCards.includes(id) })))
+}
+
+export const updateSong = (songId, song) => {
+  db.ref(`songs/${songId}`).update({ songId, ...song })
+}
+
+export const setInitialSongs = () => {
+  const updates = {}
+  songList.forEach(song => {
+    if (!song.question) song.question = ''
+    if (!song.answer) song.answer = ''
+    const songId = rnd.generate(4).toUpperCase()
+    updates[`songs/${songId}`] = { songId, ...song }
+  })
+
+  db.ref().update(updates)
+}
+
+export const getSongs = () =>
+  db.ref('songs').once('value').then((snap) => snap.val())
+
+export const getSong = songId =>
+  db.ref(`songs/${songId}`).once('value').then((snap) => snap.val())
+
+export const getSongNumber = async (gameId) => {
+  const songArchive = await getSongArchive(gameId) || []
+  if (songArchive) {
+    return _.size(songArchive)
+  }
+  return 0
+}
+
+export const getSongsLeft = async (gameId) => {
+  if (!gameId) return null
+  const game = await getOneGame(gameId)
+  const songIdList = _.get(game, 'songIdList')
+  const songArchive = await getSongArchive(game.gameId) || []
+  if (songIdList) {
+    return _.size(songIdList) - _.size(songArchive)
+  }
+  return 0
+}
+
+// Teams
+
+export const getTeamsRef = gameId =>
+  db.ref(`games/${gameId}/teams`)
+
+// Cards
 
 export const openCard = (gameId, cardId) => {
   db.ref(`games/${gameId}/cards/${cardId}`).update({ 'isOpen': true })
@@ -69,21 +172,13 @@ const getRedCards = (lyricsCount) => {
   return lyricsCount > 5 && moreRed ? [getRedCardId(), getRedCardId()] : [getRedCardId()]
 }
 
-export const setNewCurrentSong = (gameId, newCurrentSong, lyrics) => {
-  const currentSongRef = db.ref(`games/${gameId}/currentSong`)
-  const archiveRef = db.ref(`games/${gameId}/songArchive`)
-  const cardsRef = db.ref(`games/${gameId}/cards`)
-  const lyricsCount = Object.keys(lyrics).length
-  const redCards = getRedCards(lyricsCount)
-
-  archiveRef.push(newCurrentSong)
-  currentSongRef.set(newCurrentSong)
-  cardsRef.set(Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': redCards.includes(id) })))
-}
+// Points
 
 export const updatePoints = (gameId, team, points) =>
   db.ref().child(`games/${gameId}/teams/${team}`)
     .update({ points })
+
+// Game masters online
 
 export const addGameMasterViewer = gameId => {
   const gameRef = db.ref(`games/${gameId}`)
@@ -96,6 +191,6 @@ export const addGameMasterViewer = gameId => {
 }
 
 export const getGameMastersOnlineCount = gameId =>
-  db.ref(`games/${gameId}/gameMastersOnline`).once('value').then((snap) => Object.keys(snap.val()).length)
+  db.ref(`games/${gameId}/gameMastersOnline`).once('value').then((snap) => snap.val() ? Object.keys(snap.val()).length : 0)
 
 export const getGameMastersOnlineRef = gameId => db.ref(`games/${gameId}/gameMastersOnline`)

@@ -2,22 +2,23 @@
   padding: 30px;
 }
 
-.Game__selection > form > label {
+.Game__selection>form>label {
   font-size: 15px;
 }
 
-.Game__selection > form > label > input {
+.Game__selection>form>label>input {
   margin-left: 10px;
   padding: 5px;
   border-radius: 5px;
 }
 
 /* submit button */
-.Game__selection > form > input {
+.Game__selection>form>input {
   margin-left: 10px;
   cursor: pointer;
 }
-.Game__selection > form > input:disabled {
+
+.Game__selection>form>input:disabled {
   margin-left: 10px;
   color: #888888;
   cursor: not-allowed;
@@ -38,63 +39,14 @@
   width: 200px;
 }
 
-.Game__buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start
-}
-
-.Game__buttons > a {
-  color: transparent;
-  display: inline-block;
-  overflow: hidden;
-  position: relative;
-  text-decoration: none;
-  text-shadow:
-      0 0 #141414,
-      .08em 0 0 #fff,
-      0 0,
-      -.08em 0 0 #fff;
-  vertical-align: bottom;
-  margin: 30px;
-}
-
-.Game__buttons > a:after {
-  background: linear-gradient(
-      to bottom,
-      #141414,
-      #141414
-  ) center 1.08em / 100% 2px no-repeat;
-  content: "";
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 400%;
-  will-change: transform;
-  z-index: -1;
-}
-
-.Game__buttons > a:hover:after {
-  animation: underline-gradient 6s linear infinite;
-  background-image: linear-gradient(
-      90deg,
-      #fd5afa 15%,
-      #01FF89 35%,
-      #fd5afa 85%
-  );
-}
-
 .Game__selectSong {
   margin-top: 30px;
 }
 
 .Game__selectedSong {
-  background: linear-gradient(
-      90deg,
+  background: linear-gradient(90deg,
       #fd5afa 40%,
-      #01FF89 100%
-  );
+      #01FF89 100%);
   padding: 3px;
   border-radius: 5px;
   color: #ffffff;
@@ -105,11 +57,9 @@
 }
 
 .Game__selectSongBtn {
-  background: linear-gradient(
-      90deg,
+  background: linear-gradient(90deg,
       #fd5afa 40%,
-      #01FF89 100%
-  );
+      #01FF89 100%);
   padding: 3px;
   border-radius: 5px;
   color: #ffffff;
@@ -120,42 +70,7 @@
 }
 
 .Game__selectSongBtn:hover {
-  background: linear-gradient(
-      90deg,
+  background: linear-gradient(90deg,
       #01FF89 40%,
-      #fd5afa 100%
-  );
-}
-
-.Game__new {
-  background: linear-gradient(
-    90deg,
-    #fd5afa 40%,
-    #01FF89 100%
-  );
-  padding: 10px;
-  border-radius: 5px;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: bold;
-  text-shadow: 1px 1px #000000;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-.Game__new:hover {
-  background: linear-gradient(
-      90deg,
-      #01FF89 40%,
-      #fd5afa 100%
-  );
-}
-
-@keyframes underline-gradient {
-  0%{
-    transform: translate3d(0%, 0%, 0);
-  }
-  100%{
-    transform: translate3d(-75%, 0%, 0);
-  }
+      #fd5afa 100%);
 }

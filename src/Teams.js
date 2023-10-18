@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import _ from 'lodash'
 
-import { getGameData, getTeamsRef, updatePoints } from './services/firebase'
+import { getOneGame, getTeamsRef, updatePoints } from './services/firebase'
 
 import './Teams.css'
 
@@ -16,7 +16,7 @@ class Teams extends Component {
 
   async componentDidMount() {
     const { gameId } = this.props
-    const game = await getGameData(gameId)
+    const game = await getOneGame(gameId)
     this.setState({
       points: {
         red: game.teams.red.points,

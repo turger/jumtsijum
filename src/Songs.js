@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import _ from 'lodash'
-import { FaPencilAlt } from 'react-icons/fa'
-import { updateSong, getSongs, setInitialSongs } from './services/firebase'
+import {FaPencilAlt} from 'react-icons/fa'
+import {updateSong, getSongs, setInitialSongs} from './services/firebase'
 import rnd from 'randomstring'
 import './Songs.css'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
+import {sortByArtist} from "./utils/utils";
 
 const Songs = () => {
   const [artist, setArtist] = useState('')
@@ -127,25 +128,29 @@ const Songs = () => {
             onChange={(e) => setAnswer(e.target.value)}
           />
         </label>
-        <input type='submit' value={editedSong ? 'Tallenna muutokset' : 'Lisää uusi biisi'} disabled={!artist || !name || !lyrics} />
+        <input type='submit' value={editedSong ? 'Tallenna muutokset' : 'Lisää uusi biisi'}
+               disabled={!artist || !name || !lyrics}/>
         {editedSong && <button onClick={() => cancelEdit()}>peru</button>}
       </form>
 
       <div className='Songs__songList'>
-        {allSongs && !editedSong && Object.values(allSongs).map((song) => (
-          <div className='Songs__song' key={song.songId}>
-            {!editedSong && <FaPencilAlt onClick={() => handleEditSong(song.songId)} />}
-            <div className='Songs__songDetails'>
-              <div>{song.artist} - {song.name} ({song.lyrics.join(' ')})</div>
-              {song.question &&
-                <div>* {song.question}: {song.answer}</div>
-              }
+        {allSongs && !editedSong && Object.values(allSongs)
+          .sort((a, b) => sortByArtist(a, b))
+          .map((song) => (
+            <div className='Songs__song' key={song.songId}>
+              {!editedSong && <FaPencilAlt onClick={() => handleEditSong(song.songId)}/>}
+              <div className='Songs__songDetails'>
+                <div>{song.artist} - {song.name} ({song.lyrics.join(' ')})</div>
+                {song.question &&
+                  <div>* {song.question}: {song.answer}</div>
+                }
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
 
-      {(!allSongs || _.size(allSongs) < 5) && <button onClick={() => addBaseSongs()}>Lisää oletusbiisit tietokantaan!</button>}
+      {(!allSongs || _.size(allSongs) < 5) &&
+        <button onClick={() => addBaseSongs()}>Lisää oletusbiisit tietokantaan!</button>}
     </div>
   )
 }

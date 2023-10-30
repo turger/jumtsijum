@@ -1,41 +1,36 @@
-import React, { Component } from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import PropTypes from 'prop-types'
 
 import {getGameMastersOnlineRef} from './services/firebase'
 
 import './Header.css'
 
-class Header extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {onlineCount: null}
-    this._gameMastersOnlineRef = null
-  }
+const Header = ({gameId}) => {
+  const [onlineCount, setOnlineCount] = useState(null)
+  const gameMastersOnlineRef = useRef(null)
 
-  componentDidMount() {
-    this._gameMastersOnlineRef = getGameMastersOnlineRef(this.props.gameId)
-    this._gameMastersOnlineRef.on('value', (snap) => {
-      const onlineCount = snap.val() ? Object.keys(snap.val()).length : 0
-      this.setState({onlineCount})
-    })
-  }
+  useEffect(() => {
+    const setListenerToGameMasters = async () => {
+      gameMastersOnlineRef.current = getGameMastersOnlineRef(gameId)
+      await gameMastersOnlineRef.current.on('value', (snap) => {
+        const count = snap.val() ? Object.keys(snap.val()).length : 0
+        setOnlineCount(count)
+      })
+    }
+    setListenerToGameMasters()
+  }, [gameId]);
 
-  componentWillUnmount() {
-    this._gameMastersOnlineRef.off()
-  }
-
-  render() {
-    return (
-      <div className='Header'>
-        <div className='Header__title'>Bumtsibum</div>
-        <div className='Header__gameId'>{this.props.gameId || ''}</div>
-        {
-          this.state.onlineCount > 1 &&
-          <div className='Header__warning'>Koittaako joku huijata? {this.state.onlineCount} silmäparia kurkkii game masterin sivua!</div>
-        }
-      </div>
-    )
-  }
+  return (
+    <div className='Header'>
+      <div className='Header__title'>Bumtsibum</div>
+      <div className='Header__gameId'>{gameId || ''}</div>
+      {
+        onlineCount > 1 &&
+        <div className='Header__warning'>Koittaako joku huijata? {onlineCount} silmäparia kurkkii game
+          masterin sivua!</div>
+      }
+    </div>
+  )
 }
 
 Header.propTypes = {

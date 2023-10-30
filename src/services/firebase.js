@@ -29,11 +29,12 @@ export const updateGame = async (gameId, currentSongIndex, lyrics, songIdList, g
   const lyricsCount = Object.keys(lyrics).length
   const redCards = getRedCards(lyricsCount)
   const cardStatuses = Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': redCards.includes(id) }))
-  db.ref(`games/${gameId}`).update({
+  await db.ref(`games/${gameId}`).update({
     gameId,
     currentSongIndex,
     songIdList,
     gameName,
+    updated: Date.now(),
     teams: {
       red: {
         points: 0,
@@ -128,14 +129,6 @@ export const getSongs = () =>
 
 export const getSong = songId =>
   db.ref(`songs/${songId}`).once('value').then((snap) => snap.val())
-
-export const getSongNumber = async (gameId) => {
-  const songArchive = await getSongArchive(gameId) || []
-  if (songArchive) {
-    return _.size(songArchive)
-  }
-  return 0
-}
 
 export const getSongsLeft = async (gameId) => {
   if (!gameId) return null

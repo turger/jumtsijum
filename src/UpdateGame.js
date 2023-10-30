@@ -120,7 +120,7 @@ const UpdateGame = (props) => {
         />
       </label>
       <div className='UpdateGame__selectedSongIds'>
-        <h3>Valitut biisit:</h3>
+        <h3>Valitut biisit ({selectedSongIds.length} kpl)</h3>
         {selectedSongIds && selectedSongIds.length === 0 &&
           <div>Ei vielä valittuja biisejä. Valitse ainakin yksi tallentaaksesi pelin.</div>}
         {selectedSongIds && selectedSongIds
@@ -156,7 +156,7 @@ const UpdateGame = (props) => {
         }
       </div>
       <div className='UpdateGame__songList'>
-        <h3>Kaikki biisit:</h3>
+        <h3>Kaikki biisit</h3>
         <label className='Label'>
           Etsi
           <input

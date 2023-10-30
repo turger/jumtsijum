@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { getAllGames } from './services/firebase'
+import React, {useState, useEffect} from 'react'
+import {Link} from 'react-router-dom'
+import {getAllGames} from './services/firebase'
 import Header from './Header'
 import './GameSelection.css'
 
@@ -17,7 +17,7 @@ const GameSelection = () => {
 
   return (
     <div className='Game__selection'>
-      <Header gameId='' />
+      <Header gameId=''/>
 
       <h2>Biisit</h2>
       <Link className='LinkButton' to={'/songs'}>Lisää ja muokkaa biisejä</Link>
@@ -28,9 +28,12 @@ const GameSelection = () => {
       <h2>Tai valitse olemassaoleva peli</h2>
 
       <div className='LinkButtons'>
-        {allGames && Object.values(allGames).map(game =>
-          <Link key={game.gameId} className='LinkButton' to={`/gameEditor/${game.gameId}`}>{game.gameId} - {game.gameName}</Link>
-        )}
+        {allGames && Object.values(allGames)
+          .sort((a, b) => Number(a.updated) < Number(b.updated) ? 1 : -1)
+          .map(game =>
+            <Link key={game.gameId} className='LinkButton'
+                  to={`/gameEditor/${game.gameId}`}>{game.gameId} - {game.gameName}</Link>
+          )}
       </div>
       {(!allGames || allGames.length === 0) && <p>Ei pelejä! Luo uusi peli.</p>}
 

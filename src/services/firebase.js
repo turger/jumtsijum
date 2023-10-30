@@ -29,11 +29,12 @@ export const updateGame = async (gameId, currentSongIndex, lyrics, songIdList, g
   const lyricsCount = Object.keys(lyrics).length
   const redCards = getRedCards(lyricsCount)
   const cardStatuses = Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': redCards.includes(id) }))
-  db.ref(`games/${gameId}`).update({
+  await db.ref(`games/${gameId}`).update({
     gameId,
     currentSongIndex,
     songIdList,
     gameName,
+    updated: Date.now(),
     teams: {
       red: {
         points: 0,

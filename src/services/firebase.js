@@ -130,14 +130,6 @@ export const getSongs = () =>
 export const getSong = songId =>
   db.ref(`songs/${songId}`).once('value').then((snap) => snap.val())
 
-export const getSongNumber = async (gameId) => {
-  const songArchive = await getSongArchive(gameId) || []
-  if (songArchive) {
-    return _.size(songArchive)
-  }
-  return 0
-}
-
 export const getSongsLeft = async (gameId) => {
   if (!gameId) return null
   const game = await getOneGame(gameId)

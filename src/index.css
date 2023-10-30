@@ -7,15 +7,15 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  monospace;
 }
 
 .Label {
@@ -42,19 +42,19 @@ code {
   overflow: hidden;
   position: relative;
   text-decoration: none;
-  text-shadow:
-    0 0 #141414,
-    .08em 0 0 #fff,
-    0 0,
-    -.08em 0 0 #fff;
+  text-shadow: 0 0 #141414,
+  .08em 0 0 #fff,
+  0 0,
+  -.08em 0 0 #fff;
   vertical-align: bottom;
   margin: 10px;
+  cursor: pointer;
 }
 
 .LinkButton:after {
   background: linear-gradient(to bottom,
-      #141414,
-      #141414) center 1.08em / 100% 2px no-repeat;
+  #141414,
+  #141414) center 1.08em / 100% 2px no-repeat;
   content: "";
   height: 100%;
   left: 0;
@@ -68,9 +68,9 @@ code {
 .LinkButton:hover:after {
   animation: underline-gradient 6s linear infinite;
   background-image: linear-gradient(90deg,
-      #fd5afa 15%,
-      #01FF89 35%,
-      #fd5afa 85%);
+  #fd5afa 15%,
+  #01FF89 35%,
+  #fd5afa 85%);
 }
 
 @keyframes underline-gradient {

@@ -5,11 +5,6 @@ const songList = [
     name: "Viimeinen"
   },
   {
-    lyrics: ["elät", "vain", "yhden", "kerran", "olet", "todella"],
-    artist: "Zen Cafe",
-    name: "Todella Kaunis"
-  },
-  {
     lyrics: ["samat", "tuulet", "puhaltaa", "samat", "sateet", "lankeaa"],
     artist: "Anssi Kela",
     name: "Puistossa"

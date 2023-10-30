@@ -100,6 +100,13 @@ const UpdateGame = (props) => {
     setFiltered()
   }
 
+  const get10RandomSongIds = () => {
+    const nonSelectedSongIds = Object.values(allSongs)
+      .filter(song => !selectedSongIds.includes(song.songId))
+      .map(song => song.songId)
+    return nonSelectedSongIds.sort(() => Math.random() - Math.random()).slice(0, 10)
+  }
+
   const songsList = searchField ? filteredSongs : Object.values(allSongs)
 
   return (
@@ -143,17 +150,32 @@ const UpdateGame = (props) => {
         }
       </div>
       <div className='UpdateGame__buttons'>
-        <button disabled={(selectedSongIds && selectedSongIds.length === 0) || !gameName}
-                className='UpdateGame__saveButton' onClick={() => handleSaveGameClick()}>Tallenna peli
-        </button>
+        <div>
+          <button
+            disabled={(selectedSongIds && selectedSongIds.length === 0) || !gameName}
+            className='UpdateGame__saveButton'
+            onClick={() => handleSaveGameClick()}
+          >
+            Tallenna peli
+          </button>
+          <div className='LinkButton' onClick={() => window.location.reload()}>Peru muutokset</div>
+        </div>
         {
           game &&
           <div className='LinkButtons'>
             <Link className='LinkButton' to={`/${game.gameId}`}>Pelaamaan!</Link>
             <Link className='LinkButton' to={`/master/${game.gameId}`}>Game Master</Link>
-            <button className='LinkButton' onClick={() => resetSongArchive(gameId)}>Resetoi peli!</button>
+            <div className='LinkButton' onClick={() => resetSongArchive(gameId)}>(Resetoi peli)</div>
           </div>
         }
+      </div>
+      <div className='LinkButtons'>
+        <div
+          className='LinkButton'
+          onClick={() => setselectedSongIds([...selectedSongIds, ...get10RandomSongIds()])}
+        >
+          Lisää 10 random biisiä
+        </div>
       </div>
       <div className='UpdateGame__songList'>
         <h3>Kaikki biisit</h3>
@@ -170,17 +192,17 @@ const UpdateGame = (props) => {
           .filter(song => !selectedSongIds.includes(song.songId))
           .sort((a, b) => sortByArtist(a, b))
           .map((song) => (
-          <div className='UpdateGame__allSongs__song' key={song.songId}>
-            {selectedSongIds && !selectedSongIds.includes(song.songId) &&
-              <button onClick={() => setselectedSongIds([...selectedSongIds, song.songId])}>lisää</button>}
-            <div className='UpdateGame__allSongs__songDetails'>
-              <div>{song.artist} - {song.name} ({song.lyrics.join(' ')})</div>
-              {song.question &&
-                <div>{song.question} - {song.answer}</div>
-              }
+            <div className='UpdateGame__allSongs__song' key={song.songId} id={song.songId}>
+              {selectedSongIds && !selectedSongIds.includes(song.songId) &&
+                <button onClick={() => setselectedSongIds([...selectedSongIds, song.songId])}>lisää</button>}
+              <div className='UpdateGame__allSongs__songDetails'>
+                <div>{song.artist} - {song.name} ({song.lyrics.join(' ')})</div>
+                {song.question &&
+                  <div>{song.question} - {song.answer}</div>
+                }
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   )

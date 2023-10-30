@@ -5,3 +5,8 @@ export const getRandomSong = (songArchive = [], songList) => {
   _.remove(array, i => _.includes(songArchive, i))
   return array[Math.floor(Math.random() * array.length)]
 }
+
+export const sortByArtist = (songA, songB) => {
+  if (!songA || !songB || !songA.artist || !songB.artist) return -1
+  return songA.artist.localeCompare(songB.artist)
+}

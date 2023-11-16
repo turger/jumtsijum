@@ -10,7 +10,7 @@ import {sortByArtist} from "./utils/utils";
 const Songs = () => {
   const [artist, setArtist] = useState('')
   const [name, setName] = useState('')
-  const [lyrics, setLyrics] = useState({})
+  const [lyrics, setLyrics] = useState([])
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState('')
   const [allSongs, setAllSongs] = useState({})
@@ -28,7 +28,7 @@ const Songs = () => {
   const resetValues = () => {
     setArtist('')
     setName('')
-    setLyrics({})
+    setLyrics([])
     setQuestion('')
     setAnswer('')
   }
@@ -37,8 +37,11 @@ const Songs = () => {
     e.preventDefault()
     const songId = editedSong ? editedSong.songId : rnd.generate(4).toUpperCase()
 
+    const formattedLyrics = lyrics.filter(word => word && word !== '')
+    const lyricsObject = Object.assign({}, formattedLyrics)
+
     const newSong = {
-      lyrics,
+      lyrics: lyricsObject,
       artist,
       name,
       question,
@@ -61,12 +64,19 @@ const Songs = () => {
   }
 
   const handleSettingLyrics = (lyrics) => {
-    if (lyrics.length > 0) {
-      const parsedLyrics = lyrics.replace(/[^A-Za-zÀ-ȕ0-9 ]/g, '')
-      const lyricsArray = parsedLyrics.split(/\s+/)
-      const lyricsObject = Object.assign({}, lyricsArray)
-      setLyrics(lyricsObject)
-    }
+    const parsedLyrics = lyrics.replace(/[^A-Za-zÀ-ȕ0-9' ]/g, '')
+    const lyricsArray = parsedLyrics.split(/\s+/)
+    // If there's english "a", "an" or "the", merge that to next word,
+    // so they're both behind a same card
+    const articles = ['a', 'an', 'the']
+    const formattedLyricsArray = lyricsArray.map((word, i) => {
+      const previousWord = lyricsArray[i - 1]
+      if (previousWord && articles.includes(previousWord)) {
+        return `${previousWord} ${word}`
+      }
+      return word
+    }).filter(word => !articles.includes(word))
+    setLyrics(formattedLyricsArray)
   }
 
   const cancelEdit = () => {
@@ -106,7 +116,7 @@ const Songs = () => {
           <textarea
             className='Input'
             type='text'
-            value={Object.values(lyrics).join(' ')}
+            value={lyrics.join(' ')}
             onChange={(e) => handleSettingLyrics(e.target.value)}
           />
         </label>
@@ -137,7 +147,7 @@ const Songs = () => {
         {allSongs && !editedSong && Object.values(allSongs)
           .sort((a, b) => sortByArtist(a, b))
           .map((song) => (
-            <div className='Songs__song' key={song.songId}>
+            <div className='Songs__song' id={song.songId} key={song.songId}>
               {!editedSong && <FaPencilAlt onClick={() => handleEditSong(song.songId)}/>}
               <div className='Songs__songDetails'>
                 <div>{song.artist} - {song.name} ({song.lyrics.join(' ')})</div>

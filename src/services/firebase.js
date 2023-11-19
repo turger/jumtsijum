@@ -1,7 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/database'
 import _ from 'lodash'
-import { getRandomSong } from '../utils/utils'
+import {getRandomSong} from '../utils/utils'
 import rnd from 'randomstring'
 import songList from '../base_songs'
 
@@ -25,24 +25,34 @@ export const getOneGame = gameId =>
 export const getAllGames = () =>
   db.ref('games').once('value').then((snap) => snap.val())
 
-export const updateGame = async (gameId, currentSongIndex, lyrics, songIdList, gameName) => {
+const getTeams = (teamsAmount) => {
+  const allTeams = [
+    'red',
+    'blue',
+    'green',
+    'yellow',
+    'purple',
+  ]
+
+  // default to 2 teams
+  const amount = teamsAmount ? teamsAmount : 2
+
+  const teamsWithPoints = allTeams.slice(0, amount).map(team => ({[team]: {points: 0}}))
+  return Object.assign({}, ...teamsWithPoints);
+}
+
+export const updateGame = async (gameId, currentSongIndex, lyrics, songIdList, gameName, teamsAmount) => {
   const lyricsCount = Object.keys(lyrics).length
   const redCards = getRedCards(lyricsCount)
-  const cardStatuses = Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': redCards.includes(id) }))
+  const cardStatuses = Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': redCards.includes(id)}))
+  const teams = getTeams(teamsAmount)
   await db.ref(`games/${gameId}`).update({
     gameId,
     currentSongIndex,
     songIdList,
     gameName,
     updated: Date.now(),
-    teams: {
-      red: {
-        points: 0,
-      },
-      blue: {
-        points: 0,
-      }
-    },
+    teams,
     cards: cardStatuses
   })
 
@@ -83,7 +93,7 @@ export const resetSongArchive = async (gameId) => {
 
 export const setNewSong = async (gameId) => {
   const game = await getOneGame(gameId)
-  const { songIdList, songArchive, currentSongIndex } = game
+  const {songIdList, songArchive, currentSongIndex} = game
   const songArchiveArray = songArchive ? Array.from(Object.values(songArchive)) : []
   const allSongs = await getAllSongs(gameId)
   const songList = Object.values(allSongs).filter(song => songIdList.includes(song.songId))
@@ -105,11 +115,11 @@ export const setNewCurrentSongIndex = (gameId, newCurrentSongIndex, lyrics) => {
 
   archiveRef.push(newCurrentSongIndex)
   currentSongIndexRef.set(newCurrentSongIndex)
-  cardsRef.set(Object.keys(lyrics).map((id) => ({ 'isOpen': false, 'isRed': redCards.includes(id) })))
+  cardsRef.set(Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': redCards.includes(id)})))
 }
 
 export const updateSong = (songId, song) => {
-  db.ref(`songs/${songId}`).update({ songId, ...song })
+  db.ref(`songs/${songId}`).update({songId, ...song})
 }
 
 export const setInitialSongs = () => {
@@ -118,7 +128,7 @@ export const setInitialSongs = () => {
     if (!song.question) song.question = ''
     if (!song.answer) song.answer = ''
     const songId = rnd.generate(4).toUpperCase()
-    updates[`songs/${songId}`] = { songId, ...song }
+    updates[`songs/${songId}`] = {songId, ...song}
   })
 
   db.ref().update(updates)
@@ -149,7 +159,7 @@ export const getTeamsRef = gameId =>
 // Cards
 
 export const openCard = (gameId, cardId) => {
-  db.ref(`games/${gameId}/cards/${cardId}`).update({ 'isOpen': true })
+  db.ref(`games/${gameId}/cards/${cardId}`).update({'isOpen': true})
 }
 
 export const getCardStatusesRef = gameId =>
@@ -169,7 +179,7 @@ const getRedCards = (lyricsCount) => {
 
 export const updatePoints = (gameId, team, points) =>
   db.ref().child(`games/${gameId}/teams/${team}`)
-    .update({ points })
+    .update({points})
 
 // Game masters online
 

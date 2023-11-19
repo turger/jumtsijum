@@ -24,6 +24,7 @@ const UpdateGame = (props) => {
   const [game, setGame] = useState(null)
   const [gameName, setGameName] = useState('')
   const [gamesOn, setGamesOn] = useState(false)
+  const [teamsAmount, setTeamsAmount] = useState(2)
 
   const history = useHistory()
 
@@ -46,6 +47,7 @@ const UpdateGame = (props) => {
       if (gameData) {
         setGame(gameData)
         setGameName(gameData.gameName)
+        setTeamsAmount(Object.values(gameData.teams).length)
         setselectedSongIds(gameData.songIdList || [])
       }
     }
@@ -66,7 +68,7 @@ const UpdateGame = (props) => {
     const currentSongIndex = getRandomSong([], songList)
     const song = await getSong(selectedSongIds[currentSongIndex])
     const lyrics = _.get(song, 'lyrics')
-    updateGame(saveGameId, currentSongIndex, lyrics, selectedSongIds, gameName)
+    updateGame(saveGameId, currentSongIndex, lyrics, selectedSongIds, gameName, teamsAmount)
     setGameId(saveGameId)
     history.push(`/gameEditor/${saveGameId}`)
   }
@@ -107,6 +109,10 @@ const UpdateGame = (props) => {
     return nonSelectedSongIds.sort(() => Math.random() - Math.random()).slice(0, 10)
   }
 
+  const onTeamsAmountChange = e => {
+    setTeamsAmount(Number(e.target.value))
+  }
+
   const songsList = searchField ? filteredSongs : Object.values(allSongs)
 
   return (
@@ -126,6 +132,26 @@ const UpdateGame = (props) => {
           onChange={(e) => setGameName(e.target.value)}
         />
       </label>
+      <div>
+        Tiimien määrä
+        {[...Array(4).keys()].map(i => {
+            const amount = i + 2
+            return (
+              <div key={amount}>
+                <input
+                  type="radio"
+                  name="teamAmount"
+                  value={amount}
+                  id={(amount).toString()}
+                  checked={teamsAmount === amount}
+                  onChange={onTeamsAmountChange}
+                />
+                <label htmlFor={(amount).toString()}>{(amount).toString()}</label>
+              </div>
+            )
+          }
+        )}
+      </div>
       <div className='UpdateGame__selectedSongIds'>
         <h3>Valitut biisit ({selectedSongIds.length} kpl)</h3>
         {selectedSongIds && selectedSongIds.length === 0 &&

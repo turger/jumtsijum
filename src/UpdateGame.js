@@ -7,7 +7,7 @@ import {
   getSong,
   updateGame,
   getOneGame,
-  resetSongArchive,
+  resetGame,
   getGameMastersOnlineCount
 } from './services/firebase'
 import {getRandomSong, sortByArtist} from './utils/utils'
@@ -191,7 +191,7 @@ const UpdateGame = (props) => {
           <div className='LinkButtons'>
             <Link className='LinkButton' to={`/${game.gameId}`}>Pelaamaan!</Link>
             <Link className='LinkButton' to={`/master/${game.gameId}`}>Game Master</Link>
-            <div className='LinkButton' onClick={() => resetSongArchive(gameId)}>(Resetoi peli)</div>
+            <div className='LinkButton' onClick={() => resetGame(gameId, teamsAmount)}>(Resetoi peli)</div>
           </div>
         }
       </div>

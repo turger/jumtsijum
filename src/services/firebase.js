@@ -86,9 +86,11 @@ export const getSongByGameIdAndCurrentSongIndex = async (gameId, currentSongInde
   return db.ref(`songs/${songId}`).once('value').then((snap) => snap.val())
 }
 
-export const resetSongArchive = async (gameId) => {
+export const resetGame = async (gameId, teamsAmount) => {
   await db.ref(`games/${gameId}/songArchive`).remove()
   await setNewSong(gameId)
+  const teams = getTeams(teamsAmount)
+  await resetTeams(gameId, teams)
 }
 
 export const setNewSong = async (gameId) => {
@@ -151,10 +153,18 @@ export const getSongsLeft = async (gameId) => {
   return 0
 }
 
-// Teams
+// Teams & points
 
 export const getTeamsRef = gameId =>
   db.ref(`games/${gameId}/teams`)
+
+export const resetTeams = (gameId, teams) =>
+  db.ref().child(`games/${gameId}`)
+    .update({teams})
+
+export const updatePoints = (gameId, team, points) =>
+  db.ref().child(`games/${gameId}/teams/${team}`)
+    .update({points})
 
 // Cards
 
@@ -174,12 +184,6 @@ const getRedCards = (lyricsCount) => {
   const moreRed = Math.random() < 0.7
   return lyricsCount > 5 && moreRed ? [getRedCardId(), getRedCardId()] : [getRedCardId()]
 }
-
-// Points
-
-export const updatePoints = (gameId, team, points) =>
-  db.ref().child(`games/${gameId}/teams/${team}`)
-    .update({points})
 
 // Game masters online
 

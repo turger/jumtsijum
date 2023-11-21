@@ -1,13 +1,15 @@
 .Teams {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
 .Team {
   display: flex;
   flex-direction: column;
-  width: 70%;
+  max-width: 80%;
   margin: 10px;
+  flex-grow: 1;
 }
 
 .Team__title {
@@ -25,6 +27,18 @@
 
 .Team--red .Team__title {
   background-color: lightcoral;
+}
+
+.Team--green .Team__title {
+  background-color: mediumseagreen;
+}
+
+.Team--yellow .Team__title {
+  background-color: gold;
+}
+
+.Team--purple .Team__title {
+  background-color: mediumpurple;
 }
 
 .Team__points {

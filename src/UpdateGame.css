@@ -12,6 +12,7 @@
 
 .UpdateGame__selectedSongs__song>svg {
   min-width: 20px;
+  cursor: pointer;
 }
 
 .UpdateGame__selectedSongs__songDetails {

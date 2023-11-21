@@ -1,63 +1,54 @@
 import React, {useEffect, useRef, useState} from 'react'
+import cx from 'classnames'
 import {getOneGame, getTeamsRef, updatePoints} from './services/firebase'
 import './Teams.css'
 
 const Teams = ({gameId, buttonsDisabled}) => {
-  const initialPoints = {red: null, blue: null}
-
-  const [points, setPoints] = useState(initialPoints)
-  const pointsRef = useRef(null)
+  const [teams, setTeams] = useState({})
+  const teamsRef = useRef(null)
 
   useEffect(() => {
     const getGamePoints = async () => {
       const game = await getOneGame(gameId)
-      setPoints({
-        red: game.teams.red.points,
-        blue: game.teams.blue.points,
-      })
+      setTeams(game.teams)
     }
 
     getGamePoints()
   }, [gameId]);
 
   useEffect(() => {
-    const setListenerToPoints = async () => {
-      pointsRef.current = getTeamsRef(gameId)
-      await pointsRef.current.on('value', (snap) => {
+    const setListenerToTeams = async () => {
+      teamsRef.current = getTeamsRef(gameId)
+      await teamsRef.current.on('value', (snap) => {
         const teams = snap.val() ? snap.val() : null
-        setPoints({
-          red: teams.red.points,
-          blue: teams.blue.points,
-        })
+        setTeams(teams)
       })
     }
-    setListenerToPoints()
+    setListenerToTeams()
   }, [gameId]);
 
   const updateTeamPoints = (team, points) => {
-    setPoints((previousPoints) => {
-      updatePoints(gameId, team, previousPoints[team] + points)
-      return {...previousPoints, ...{[team]: previousPoints[team] + points}}
+    setTeams((previousTeams) => {
+      updatePoints(gameId, team, previousTeams[team].points + points)
+      return {...previousTeams, ...{[team]: {points: previousTeams[team].points + points}}}
     })
   }
 
   const teamPoints = team =>
     <>
       {!buttonsDisabled && <button onClick={() => updateTeamPoints(team, -1)}>-</button>}
-      <div>{points[team] || 0}</div>
+      <div>{teams[team] ? teams[team].points : 0}</div>
       {!buttonsDisabled && <button onClick={() => updateTeamPoints(team, 1)}>+</button>}
     </>
 
   return (
     <div className='Teams'>
-      <div className='Team Team--blue'>
-        <div className='Team__title'>Sininen tiimi</div>
-        <div className='Team__points'>{teamPoints('blue')}</div>
-      </div>
-      <div className='Team Team--red'>
-        <div className='Team__title'>Punainen tiimi</div>
-        <div className='Team__points'>{teamPoints('red')}</div>
-      </div>
+      {Object.keys(teams).map(team =>
+        <div key={team} className={cx('Team', `Team--${team}`)}>
+          <div className='Team__title'>team {team}</div>
+          <div className='Team__points'>{teamPoints(team)}</div>
+        </div>
+      )}
     </div>
   )
 

@@ -14,7 +14,7 @@ const config = {
   messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID
 }
 
-const fb = firebase.initializeApp(config)
+const fb = !firebase.apps.length ? firebase.initializeApp(config) : firebase.app()
 var db = fb.database()
 
 // Game
@@ -43,8 +43,7 @@ const getTeams = (teamsAmount) => {
 
 export const updateGame = async (gameId, currentSongIndex, lyrics, songIdList, gameName, teamsAmount) => {
   const lyricsCount = Object.keys(lyrics).length
-  const redCards = getRedCards(lyricsCount)
-  const cardStatuses = Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': redCards.includes(id)}))
+  const cardStatuses = Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': false}))
   const teams = getTeams(teamsAmount)
   await db.ref(`games/${gameId}`).update({
     gameId,
@@ -112,12 +111,10 @@ export const setNewCurrentSongIndex = (gameId, newCurrentSongIndex, lyrics) => {
   const currentSongIndexRef = db.ref(`games/${gameId}/currentSongIndex`)
   const archiveRef = db.ref(`games/${gameId}/songArchive`)
   const cardsRef = db.ref(`games/${gameId}/cards`)
-  const lyricsCount = Object.keys(lyrics).length
-  const redCards = getRedCards(lyricsCount)
 
   archiveRef.push(newCurrentSongIndex)
   currentSongIndexRef.set(newCurrentSongIndex)
-  cardsRef.set(Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': redCards.includes(id)})))
+  cardsRef.set(Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': false})))
 }
 
 export const updateSong = (songId, song) => {
@@ -168,8 +165,14 @@ export const updatePoints = (gameId, team, points) =>
 
 // Cards
 
-export const openCard = (gameId, cardId) => {
-  db.ref(`games/${gameId}/cards/${cardId}`).update({'isOpen': true})
+export const openCard = async (gameId, cardId) => {
+  await db.ref(`games/${gameId}/cards/${cardId}`).update({'isOpen': true})
+  // If this is the first opened card of the lyrics, set red cards also
+  const cardStatuses = await getCardStatuses(gameId)
+  const openCards = cardStatuses.filter(status => status.isOpen)
+  if (openCards.length === 1) {
+    setRedCards(gameId)
+  }
 }
 
 export const getCardStatusesRef = gameId =>
@@ -178,8 +181,20 @@ export const getCardStatusesRef = gameId =>
 export const getCardStatuses = gameId =>
   db.ref(`games/${gameId}/cards`).once('value').then((snap) => snap.val())
 
-const getRedCards = (lyricsCount) => {
-  const getRedCardId = () => Math.floor(Math.random() * lyricsCount).toString()
+export const setRedCards = async (gameId) => {
+  const cardStatuses = await getCardStatuses(gameId)
+  const lyricsCount = Object.keys(cardStatuses).length
+  const redCards = getRedCards(lyricsCount, cardStatuses.map(status => status.isOpen).indexOf(true))
+  const updatedCardStatuses = Object.keys(cardStatuses).map((id) => ({'isOpen': cardStatuses[id].isOpen, 'isRed': redCards.includes(id)}))
+
+  db.ref(`games/${gameId}`).update({cards: updatedCardStatuses})
+}
+
+const getRedCards = (lyricsCount, openedCardId) => {
+  const getRedCardId = () => {
+    const random = Math.floor(Math.random() * lyricsCount).toString()
+    return Number(random) === Number(openedCardId) ? getRedCardId() : random
+  }
   // Possibility for two red cards if there's more than five cards in lyrics
   const moreRed = Math.random() < 0.7
   return lyricsCount > 5 && moreRed ? [getRedCardId(), getRedCardId()] : [getRedCardId()]

@@ -42,7 +42,6 @@ const getTeams = (teamsAmount) => {
 }
 
 export const updateGame = async (gameId, currentSongIndex, lyrics, songIdList, gameName, teamsAmount) => {
-  const lyricsCount = Object.keys(lyrics).length
   const cardStatuses = Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': false}))
   const teams = getTeams(teamsAmount)
   await db.ref(`games/${gameId}`).update({

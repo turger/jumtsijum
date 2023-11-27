@@ -27,7 +27,7 @@ const GameSelection = () => {
 
       <h2>Tai valitse olemassaoleva peli</h2>
 
-      <div className='LinkButtons'>
+      <div>
         {allGames && Object.values(allGames)
           .sort((a, b) => Number(a.updated) < Number(b.updated) ? 1 : -1)
           .map(game =>

@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import _ from 'lodash'
+import rnd from 'randomstring'
 import {FaPencilAlt} from 'react-icons/fa'
 import {updateSong, getSongs, setInitialSongs} from './services/firebase'
-import rnd from 'randomstring'
-import './Songs.css'
 import {Link} from 'react-router-dom'
-import {sortByArtist} from "./utils/utils";
+import {sortByArtistAndSongName} from './utils/utils'
+import './Songs.css'
 
 const Songs = () => {
   const [artist, setArtist] = useState('')
@@ -89,6 +89,19 @@ const Songs = () => {
     getAllSongs()
   }
 
+  const filteredSongs = Object.values(allSongs).filter(
+    song => {
+      return (
+        song
+          .artist
+          .toLowerCase()
+          .includes(artist.toLowerCase())
+      )
+    }
+  )
+
+  const songList = artist ? filteredSongs : Object.values(allSongs)
+
   return (
     <div className='Songs'>
       <Link className='LinkButton' to='/'>Takaisin alkuun</Link>
@@ -139,16 +152,17 @@ const Songs = () => {
           />
         </label>
         <input type='submit' value={editedSong ? 'Tallenna muutokset' : 'Lisää uusi biisi'}
-               disabled={!artist || !name || !lyrics}/>
+          disabled={!artist || !name || !lyrics} />
         {editedSong && <button onClick={() => cancelEdit()}>peru</button>}
       </form>
 
+      <h4>{!artist ? 'Olemassaolevat biisit:' : 'Biisit artistilta:'} </h4>
       <div className='Songs__songList'>
-        {allSongs && !editedSong && Object.values(allSongs)
-          .sort((a, b) => sortByArtist(a, b))
+        {songList && !editedSong && songList
+          .sort((a, b) => sortByArtistAndSongName(a, b))
           .map((song) => (
             <div className='Songs__song' id={song.songId} key={song.songId}>
-              {!editedSong && <FaPencilAlt onClick={() => handleEditSong(song.songId)}/>}
+              {!editedSong && <FaPencilAlt onClick={() => handleEditSong(song.songId)} />}
               <div className='Songs__songDetails'>
                 <div>{song.artist} - {song.name} ({song.lyrics.join(' ')})</div>
                 {song.question &&

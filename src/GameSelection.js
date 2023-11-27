@@ -17,7 +17,7 @@ const GameSelection = () => {
 
   return (
     <div className='Game__selection'>
-      <Header gameId=''/>
+      <Header gameId='' />
 
       <h2>Biisit</h2>
       <Link className='LinkButton' to={'/songs'}>Lisää ja muokkaa biisejä</Link>
@@ -32,7 +32,7 @@ const GameSelection = () => {
           .sort((a, b) => Number(a.updated) < Number(b.updated) ? 1 : -1)
           .map(game =>
             <Link key={game.gameId} className='LinkButton'
-                  to={`/gameEditor/${game.gameId}`}>{game.gameId} - {game.gameName}</Link>
+              to={`/gameEditor/${game.gameId}`}>{game.gameId} - {game.gameName}</Link>
           )}
       </div>
       {(!allGames || allGames.length === 0) && <p>Ei pelejä! Luo uusi peli.</p>}

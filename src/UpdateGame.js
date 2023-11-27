@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import _ from 'lodash'
+import rnd from 'randomstring'
 import {FaTrashAlt} from 'react-icons/fa'
 import {Link, useHistory} from 'react-router-dom'
 import {
@@ -10,14 +11,12 @@ import {
   resetGame,
   getGameMastersOnlineCount
 } from './services/firebase'
-import {getRandomSong, sortByArtist} from './utils/utils'
+import {getRandomSong, sortByArtistAndSongName} from './utils/utils'
 import Header from './Header'
-import rnd from 'randomstring'
 import './UpdateGame.css'
 
 const UpdateGame = (props) => {
   const [allSongs, setAllSongs] = useState({})
-  const [filteredSongs, setFilteredSongs] = useState([])
   const [selectedSongIds, setselectedSongIds] = useState([])
   const [searchField, setSearchField] = useState('')
   const [gameId, setGameId] = useState()
@@ -73,34 +72,29 @@ const UpdateGame = (props) => {
     history.push(`/gameEditor/${saveGameId}`)
   }
 
-  const setFiltered = () => {
-    const filtered = Object.values(allSongs).filter(
-      song => {
-        return (
-          song
-            .artist
-            .toLowerCase()
-            .includes(searchField.toLowerCase()) ||
-          song
-            .name
-            .toLowerCase()
-            .includes(searchField.toLowerCase()) ||
-          song
-            .lyrics
-            .toString()
-            .toLowerCase()
-            .includes(searchField.toLowerCase())
-        )
-      }
-    )
-
-    setFilteredSongs(filtered)
-  }
-
   const handleSearchChange = e => {
     setSearchField(e.target.value)
-    setFiltered()
   }
+
+  const filteredSongs = Object.values(allSongs).filter(
+    song => {
+      return (
+        song
+          .artist
+          .toLowerCase()
+          .includes(searchField.toLowerCase()) ||
+        song
+          .name
+          .toLowerCase()
+          .includes(searchField.toLowerCase()) ||
+        song
+          .lyrics
+          .toString()
+          .toLowerCase()
+          .includes(searchField.toLowerCase())
+      )
+    }
+  )
 
   const get10RandomSongIds = () => {
     const nonSelectedSongIds = Object.values(allSongs)
@@ -113,15 +107,15 @@ const UpdateGame = (props) => {
     setTeamsAmount(Number(e.target.value))
   }
 
-  const songsList = searchField ? filteredSongs : Object.values(allSongs)
+  const songList = searchField ? filteredSongs : Object.values(allSongs)
 
   return (
     <div className='UpdateGame'>
       <Link className='LinkButton' to='/'>Takaisin alkuun</Link>
-      <Header gameId={gameId || ''}/>
+      <Header gameId={gameId || ''} />
       {gamesOn > 0 &&
         <div className='GameInUse'><h3>Peli on käytössä!</h3> <p>Joku pelaa tätä peliä tällä hetkellä, joten ethän tee
-          muokkauksia tai resetoi peliä. <br/>Pelaajia linjoilla: {gamesOn}</p></div>}
+          muokkauksia tai resetoi peliä. <br />Pelaajia linjoilla: {gamesOn}</p></div>}
       <p>Valitse biisit listasta tai hae käyttämällä hakukenttää</p>
       <label className='Label'>
         Pelin nimi
@@ -135,21 +129,21 @@ const UpdateGame = (props) => {
       <div>
         Tiimien määrä
         {[...Array(4).keys()].map(i => {
-            const amount = i + 2
-            return (
-              <div key={amount}>
-                <input
-                  type="radio"
-                  name="teamAmount"
-                  value={amount}
-                  id={(amount).toString()}
-                  checked={teamsAmount === amount}
-                  onChange={onTeamsAmountChange}
-                />
-                <label htmlFor={(amount).toString()}>{(amount).toString()}</label>
-              </div>
-            )
-          }
+          const amount = i + 2
+          return (
+            <div key={amount}>
+              <input
+                type="radio"
+                name="teamAmount"
+                value={amount}
+                id={(amount).toString()}
+                checked={teamsAmount === amount}
+                onChange={onTeamsAmountChange}
+              />
+              <label htmlFor={(amount).toString()}>{(amount).toString()}</label>
+            </div>
+          )
+        }
         )}
       </div>
       <div className='UpdateGame__selectedSongIds'>
@@ -157,13 +151,13 @@ const UpdateGame = (props) => {
         {selectedSongIds && selectedSongIds.length === 0 &&
           <div>Ei vielä valittuja biisejä. Valitse ainakin yksi tallentaaksesi pelin.</div>}
         {selectedSongIds && selectedSongIds
-          .sort((a, b) => sortByArtist(allSongs[a], allSongs[b]))
+          .sort((a, b) => sortByArtistAndSongName(allSongs[a], allSongs[b]))
           .map((songId) => {
             const song = allSongs[songId]
             if (!song) return null
             return (
               <div className='UpdateGame__selectedSongs__song' key={songId}>
-                <FaTrashAlt onClick={() => setselectedSongIds(selectedSongIds.filter(id => id !== song.songId))}/>
+                <FaTrashAlt onClick={() => setselectedSongIds(selectedSongIds.filter(id => id !== song.songId))} />
                 <div className='UpdateGame__selectedSongs__songDetails'>
                   <div>{song.artist} - {song.name} ({song.lyrics.join(' ')})</div>
                   {song.question &&
@@ -214,9 +208,9 @@ const UpdateGame = (props) => {
             onChange={handleSearchChange}
           />
         </label>
-        {songsList && songsList
+        {songList && songList
           .filter(song => !selectedSongIds.includes(song.songId))
-          .sort((a, b) => sortByArtist(a, b))
+          .sort((a, b) => sortByArtistAndSongName(a, b))
           .map((song) => (
             <div className='UpdateGame__allSongs__song' key={song.songId} id={song.songId}>
               {selectedSongIds && !selectedSongIds.includes(song.songId) &&

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import _ from 'lodash'
 import rnd from 'randomstring'
 import {FaTrashAlt} from 'react-icons/fa'
-import {Link, useHistory} from 'react-router-dom'
+import {Link, useNavigate, useParams} from 'react-router-dom'
 import {
   getSongs,
   getSong,
@@ -25,7 +25,9 @@ const UpdateGame = (props) => {
   const [gamesOn, setGamesOn] = useState(false)
   const [teamsAmount, setTeamsAmount] = useState(2)
 
-  const history = useHistory()
+  const navigate = useNavigate()
+
+  const {gameId: gameIdFromUrl} = useParams()
 
   useEffect(() => {
     const getAllSongs = async () => {
@@ -34,11 +36,10 @@ const UpdateGame = (props) => {
     }
 
     getAllSongs()
-    const gameIdFromUrl = props.match.params.gameId
     if (gameIdFromUrl) {
       setGameId(gameIdFromUrl)
     }
-  }, [props.match.params.gameId])
+  }, [gameIdFromUrl])
 
   useEffect(() => {
     const getGame = async () => {
@@ -69,7 +70,7 @@ const UpdateGame = (props) => {
     const lyrics = _.get(song, 'lyrics')
     updateGame(saveGameId, currentSongIndex, lyrics, selectedSongIds, gameName, teamsAmount)
     setGameId(saveGameId)
-    history.push(`/gameEditor/${saveGameId}`)
+    navigate(`/gameEditor/${saveGameId}`)
   }
 
   const handleSearchChange = e => {

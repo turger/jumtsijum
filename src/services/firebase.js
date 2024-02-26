@@ -1,5 +1,5 @@
-import firebase from 'firebase/app'
-import 'firebase/database'
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/database'
 import _ from 'lodash'
 import {getRandomSong} from '../utils/utils'
 import rnd from 'randomstring'

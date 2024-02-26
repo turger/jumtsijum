@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, {useEffect, useState} from 'react'
+import {Link, useParams} from 'react-router-dom'
 import Lyrics from './Lyrics'
 import Teams from './Teams'
 import Header from './Header'
@@ -18,17 +18,18 @@ const Game = (props) => {
   const [isLoading, setIsLoading] = useState(true)
   const [language, setLanguage] = useState('fi')
 
+  const {gameId: gameIdFromUrl} = useParams()
+
   const getLang = () => language === languages.FI ? languages.EN : languages.FI
 
   useEffect(() => {
     setIsLoading(true)
-    const gameIdFromUrl = props.match.params.gameId
     let currGameId = gameIdFromUrl
     if (currGameId) {
       setGameId(currGameId)
     }
-    setTimeout(() => { setIsLoading(false) }, 500)
-  }, [gameId, props.match.params.gameId])
+    setTimeout(() => {setIsLoading(false)}, 500)
+  }, [gameId, gameIdFromUrl])
 
   if (isLoading) return <Spinner />
   if (!isLoading && ((!gameId && gameId !== 0))) {

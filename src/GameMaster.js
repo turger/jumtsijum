@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
+import {onValue} from 'firebase/database'
 import {useParams} from 'react-router-dom'
 import _ from 'lodash'
 import cx from 'classnames'
@@ -11,7 +12,7 @@ import {
   getSongByGameIdAndCurrentSongIndex,
   getSongsLeft,
   setNewSong
-} from './services/firebase'
+} from './services/firebaseDB'
 
 import Header from './Header'
 import Teams from './Teams'
@@ -26,13 +27,18 @@ const GameMaster = (props) => {
   const [newSongButtonClicked, setNewSongButtonClicked] = useState(false)
   const cardStatusesRef = useRef(null)
   const currentSongIndexRef = useRef(null)
+  const initialized = useRef(false)
 
   const {gameId: gameIdFromUrl} = useParams()
 
   useEffect(() => {
     if (gameIdFromUrl) {
       setGameId(gameIdFromUrl)
-      addGameMasterViewer(gameIdFromUrl)
+
+      if (!initialized.current) {
+        initialized.current = true
+        addGameMasterViewer(gameIdFromUrl)
+      }
     }
   }, [gameIdFromUrl])
 
@@ -44,12 +50,12 @@ const GameMaster = (props) => {
 
     const setListenersToCardStatuses = async () => {
       cardStatusesRef.current = getCardStatusesRef(gameId)
-      await cardStatusesRef.current.on('value', (snap) => {
+      await onValue(cardStatusesRef.current, (snap) => {
         const cardStatuses = snap.val() ? snap.val() : null
         setCardStatuses(cardStatuses)
       })
       currentSongIndexRef.current = getCurrentSongIndexRef(gameId)
-      await currentSongIndexRef.current.on('value', async (snap) => {
+      await onValue(currentSongIndexRef.current, async (snap) => {
         const currentSongIndex = snap.val()
         const song = await getSongByGameIdAndCurrentSongIndex(gameId, currentSongIndex)
         setCurrentSong(song)

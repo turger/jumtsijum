@@ -10,7 +10,7 @@ import {
   getOneGame,
   resetGame,
   getGameMastersOnlineCount
-} from './services/firebase'
+} from './services/firebaseDB'
 import {getRandomSong, sortByArtistAndSongName} from './utils/utils'
 import Header from './Header'
 import './UpdateGame.css'

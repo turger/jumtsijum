@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {getAllGames} from './services/firebase'
+import {getAllGames} from './services/firebaseDB'
 import Header from './Header'
 import './GameSelection.css'
 

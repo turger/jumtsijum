@@ -1,29 +1,19 @@
-import firebase from 'firebase/app'
-import 'firebase/database'
+import {child, ref, get, push, set, update, remove, onDisconnect} from 'firebase/database'
 import _ from 'lodash'
 import {getRandomSong} from '../utils/utils'
 import rnd from 'randomstring'
 import songList from '../base_songs'
+import {getFirebaseDB} from './firebaseInit'
 
-const config = {
-  apiKey: process.env.REACT_APP_APIKEY,
-  authDomain: process.env.REACT_APP_AUTHDOMAIN,
-  databaseURL: process.env.REACT_APP_DATABASEURL,
-  projectId: process.env.REACT_APP_PROJECTID,
-  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID
-}
-
-const fb = !firebase.apps.length ? firebase.initializeApp(config) : firebase.app()
-var db = fb.database()
+const db = getFirebaseDB()
 
 // Game
 
 export const getOneGame = gameId =>
-  db.ref(`games/${gameId}`).once('value').then((snap) => snap.val())
+  get(ref(db, `games/${gameId}`)).then((snap) => snap.val())
 
 export const getAllGames = () =>
-  db.ref('games').once('value').then((snap) => snap.val())
+  get(ref(db, 'games')).then((snap) => snap.val())
 
 const getTeams = (teamsAmount) => {
   const allTeams = [
@@ -44,7 +34,7 @@ const getTeams = (teamsAmount) => {
 export const updateGame = async (gameId, currentSongIndex, lyrics, songIdList, gameName, teamsAmount) => {
   const cardStatuses = Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': false}))
   const teams = getTeams(teamsAmount)
-  await db.ref(`games/${gameId}`).update({
+  await set(ref(db, `games/${gameId}`), {
     gameId,
     currentSongIndex,
     songIdList,
@@ -57,35 +47,36 @@ export const updateGame = async (gameId, currentSongIndex, lyrics, songIdList, g
   // Set to archive if this is a new game
   const archive = await getSongArchive(gameId)
   if (!archive) {
-    const archiveRef = db.ref(`games/${gameId}/songArchive`)
-    archiveRef.push(currentSongIndex)
+    const archiveRef = ref(db, `games/${gameId}/songArchive`)
+    push(archiveRef, currentSongIndex)
   }
 }
 
 // Songs
 
 export const getAllSongs = () =>
-  db.ref('songs').once('value').then((snap) => snap.val())
+  get(ref(db, 'songs')).then((snap) => snap.val())
 
 export const getCurrentSongIndex = gameId =>
-  db.ref(`games/${gameId}/currentSongIndex`).once('value').then((snap) => snap.val())
+  get(ref(db, `games/${gameId}/currentSongIndex`)).then((snap) => snap.val())
 
 export const getCurrentSongIndexRef = gameId =>
-  db.ref(`games/${gameId}/currentSongIndex`)
+  ref(db, `games/${gameId}/currentSongIndex`)
 
 export const getSongArchive = (gameId) =>
-  db.ref(`games/${gameId}/songArchive`).once('value').then((snap) => snap.val())
+  get(ref(db, `games/${gameId}/songArchive`)).then((snap) => snap.val())
 
 export const getSongByGameIdAndCurrentSongIndex = async (gameId, currentSongIndex) => {
   if (!gameId || currentSongIndex === null) return null
   const game = await getOneGame(gameId)
+  if (!game) return null
   const songIdList = game.songIdList
   const songId = songIdList[currentSongIndex]
-  return db.ref(`songs/${songId}`).once('value').then((snap) => snap.val())
+  return get(ref(db, `songs/${songId}`)).then((snap) => snap.val())
 }
 
 export const resetGame = async (gameId, teamsAmount) => {
-  await db.ref(`games/${gameId}/songArchive`).remove()
+  await remove(ref(db, `games/${gameId}/songArchive`))
   await setNewSong(gameId)
   const teams = getTeams(teamsAmount)
   await resetTeams(gameId, teams)
@@ -107,17 +98,17 @@ export const setNewSong = async (gameId) => {
 }
 
 export const setNewCurrentSongIndex = (gameId, newCurrentSongIndex, lyrics) => {
-  const currentSongIndexRef = db.ref(`games/${gameId}/currentSongIndex`)
-  const archiveRef = db.ref(`games/${gameId}/songArchive`)
-  const cardsRef = db.ref(`games/${gameId}/cards`)
+  const currentSongIndexRef = ref(db, `games/${gameId}/currentSongIndex`)
+  const archiveRef = ref(db, `games/${gameId}/songArchive`)
+  const cardsRef = ref(db, `games/${gameId}/cards`)
 
-  archiveRef.push(newCurrentSongIndex)
-  currentSongIndexRef.set(newCurrentSongIndex)
-  cardsRef.set(Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': false})))
+  push(archiveRef, newCurrentSongIndex)
+  set(currentSongIndexRef, newCurrentSongIndex)
+  set(cardsRef, Object.keys(lyrics).map((id) => ({'isOpen': false, 'isRed': false})))
 }
 
 export const updateSong = (songId, song) => {
-  db.ref(`songs/${songId}`).update({songId, ...song})
+  update(ref(db, `songs/${songId}`), {songId, ...song})
 }
 
 export const setInitialSongs = () => {
@@ -129,14 +120,14 @@ export const setInitialSongs = () => {
     updates[`songs/${songId}`] = {songId, ...song}
   })
 
-  db.ref().update(updates)
+  update(ref(db), updates)
 }
 
 export const getSongs = () =>
-  db.ref('songs').once('value').then((snap) => snap.val())
+  get(ref(db, 'songs')).then((snap) => snap.val())
 
 export const getSong = songId =>
-  db.ref(`songs/${songId}`).once('value').then((snap) => snap.val())
+  get(ref(db, `songs/${songId}`)).then((snap) => snap.val())
 
 export const getSongsLeft = async (gameId) => {
   if (!gameId) return null
@@ -152,20 +143,18 @@ export const getSongsLeft = async (gameId) => {
 // Teams & points
 
 export const getTeamsRef = gameId =>
-  db.ref(`games/${gameId}/teams`)
+  ref(db, `games/${gameId}/teams`)
 
 export const resetTeams = (gameId, teams) =>
-  db.ref().child(`games/${gameId}`)
-    .update({teams})
+  update(child(ref(db), `games/${gameId}`), {teams})
 
 export const updatePoints = (gameId, team, points) =>
-  db.ref().child(`games/${gameId}/teams/${team}`)
-    .update({points})
+  update(child(ref(db), `games/${gameId}/teams/${team}`), {points})
 
 // Cards
 
 export const openCard = async (gameId, cardId) => {
-  await db.ref(`games/${gameId}/cards/${cardId}`).update({'isOpen': true})
+  await update(ref(db, `games/${gameId}/cards/${cardId}`), {'isOpen': true})
   // If this is the first opened card of the lyrics, set red cards also
   const cardStatuses = await getCardStatuses(gameId)
   const openCards = cardStatuses.filter(status => status.isOpen)
@@ -175,10 +164,11 @@ export const openCard = async (gameId, cardId) => {
 }
 
 export const getCardStatusesRef = gameId =>
-  db.ref(`games/${gameId}/cards`)
+  ref(db, `games/${gameId}/cards`)
 
 export const getCardStatuses = gameId =>
-  db.ref(`games/${gameId}/cards`).once('value').then((snap) => snap.val())
+  get(ref(db, `games/${gameId}/cards`)).then((snap) => snap.val())
+
 
 export const setRedCards = async (gameId) => {
   const cardStatuses = await getCardStatuses(gameId)
@@ -186,7 +176,7 @@ export const setRedCards = async (gameId) => {
   const redCards = getRedCards(lyricsCount, cardStatuses.map(status => status.isOpen).indexOf(true))
   const updatedCardStatuses = Object.keys(cardStatuses).map((id) => ({'isOpen': cardStatuses[id].isOpen, 'isRed': redCards.includes(id)}))
 
-  db.ref(`games/${gameId}`).update({cards: updatedCardStatuses})
+  update(ref(db, `games/${gameId}`), {cards: updatedCardStatuses})
 }
 
 const getRedCards = (lyricsCount, openedCardId) => {
@@ -202,16 +192,16 @@ const getRedCards = (lyricsCount, openedCardId) => {
 // Game masters online
 
 export const addGameMasterViewer = gameId => {
-  const gameRef = db.ref(`games/${gameId}`)
+  const gameRef = ref(db, `games/${gameId}`)
   // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
-  const gameMaster = gameRef.child('gameMastersOnline').push()
+  const gameMaster = push(child(gameRef, 'gameMastersOnline'))
   // When I disconnect, remove this device
-  gameMaster.onDisconnect().remove()
+  onDisconnect(gameMaster).remove()
   // Add this device to my connections list
-  gameMaster.set(true)
+  set(gameMaster, true)
 }
 
 export const getGameMastersOnlineCount = gameId =>
-  db.ref(`games/${gameId}/gameMastersOnline`).once('value').then((snap) => snap.val() ? Object.keys(snap.val()).length : 0)
+  get(ref(db, `games/${gameId}/gameMastersOnline`)).then((snap) => snap.val() ? Object.keys(snap.val()).length : 0)
 
-export const getGameMastersOnlineRef = gameId => db.ref(`games/${gameId}/gameMastersOnline`)
+export const getGameMastersOnlineRef = gameId => ref(db, `games/${gameId}/gameMastersOnline`)

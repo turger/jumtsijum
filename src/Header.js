@@ -1,7 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react'
+import {onValue} from 'firebase/database'
 import PropTypes from 'prop-types'
 
-import {getGameMastersOnlineRef} from './services/firebase'
+import {getGameMastersOnlineRef} from './services/firebaseDB'
 
 import './Header.css'
 
@@ -11,8 +12,8 @@ const Header = ({gameId}) => {
 
   useEffect(() => {
     const setListenerToGameMasters = async () => {
-      gameMastersOnlineRef.current = getGameMastersOnlineRef(gameId)
-      await gameMastersOnlineRef.current.on('value', (snap) => {
+      gameMastersOnlineRef.current = await getGameMastersOnlineRef(gameId)
+      await onValue(gameMastersOnlineRef.current, (snap) => {
         const count = snap.val() ? Object.keys(snap.val()).length : 0
         setOnlineCount(count)
       })

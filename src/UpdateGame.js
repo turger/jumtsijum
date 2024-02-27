@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import _ from 'lodash'
+import cx from 'classnames'
 import rnd from 'randomstring'
 import {FaTrashAlt} from 'react-icons/fa'
-import {Link, useHistory} from 'react-router-dom'
+import {Link, useNavigate, useParams} from 'react-router-dom'
 import {
   getSongs,
   getSong,
@@ -10,13 +11,14 @@ import {
   getOneGame,
   resetGame,
   getGameMastersOnlineCount
-} from './services/firebase'
+} from './services/firebaseDB'
 import {getRandomSong, sortByArtistAndSongName} from './utils/utils'
 import Header from './Header'
 import './UpdateGame.css'
 
 const UpdateGame = (props) => {
   const [allSongs, setAllSongs] = useState({})
+  const [originalSelectedSongIds, setOriginalSelectedSongIds] = useState([])
   const [selectedSongIds, setselectedSongIds] = useState([])
   const [searchField, setSearchField] = useState('')
   const [gameId, setGameId] = useState()
@@ -25,7 +27,9 @@ const UpdateGame = (props) => {
   const [gamesOn, setGamesOn] = useState(false)
   const [teamsAmount, setTeamsAmount] = useState(2)
 
-  const history = useHistory()
+  const navigate = useNavigate()
+
+  const {gameId: gameIdFromUrl} = useParams()
 
   useEffect(() => {
     const getAllSongs = async () => {
@@ -34,11 +38,10 @@ const UpdateGame = (props) => {
     }
 
     getAllSongs()
-    const gameIdFromUrl = props.match.params.gameId
     if (gameIdFromUrl) {
       setGameId(gameIdFromUrl)
     }
-  }, [props.match.params.gameId])
+  }, [gameIdFromUrl])
 
   useEffect(() => {
     const getGame = async () => {
@@ -48,6 +51,7 @@ const UpdateGame = (props) => {
         setGameName(gameData.gameName)
         setTeamsAmount(Object.values(gameData.teams).length)
         setselectedSongIds(gameData.songIdList || [])
+        setOriginalSelectedSongIds(gameData.songIdList || [])
       }
     }
     getGame()
@@ -69,7 +73,8 @@ const UpdateGame = (props) => {
     const lyrics = _.get(song, 'lyrics')
     updateGame(saveGameId, currentSongIndex, lyrics, selectedSongIds, gameName, teamsAmount)
     setGameId(saveGameId)
-    history.push(`/gameEditor/${saveGameId}`)
+    navigate(`/gameEditor/${saveGameId}`)
+    setOriginalSelectedSongIds(selectedSongIds)
   }
 
   const handleSearchChange = e => {
@@ -116,6 +121,14 @@ const UpdateGame = (props) => {
       {gamesOn > 0 &&
         <div className='GameInUse'><h3>Peli on käytössä!</h3> <p>Joku pelaa tätä peliä tällä hetkellä, joten ethän tee
           muokkauksia tai resetoi peliä. <br />Pelaajia linjoilla: {gamesOn}</p></div>}
+      {
+        game &&
+        <div className='LinkButtons'>
+          <Link className='LinkButton' to={`/${game.gameId}`}>Pelaamaan!</Link>
+          <Link className='LinkButton' to={`/master/${game.gameId}`}>Game Master</Link>
+          <div className='LinkButton ResetButton' onClick={() => resetGame(gameId, teamsAmount)}>(Resetoi peli)</div>
+        </div>
+      }
       <p>Valitse biisit listasta tai hae käyttämällä hakukenttää</p>
       <label className='Label'>
         Pelin nimi
@@ -148,6 +161,7 @@ const UpdateGame = (props) => {
       </div>
       <div className='UpdateGame__selectedSongIds'>
         <h3>Valitut biisit ({selectedSongIds.length} kpl)</h3>
+        {originalSelectedSongIds !== selectedSongIds && <p className='UpdateGame__saveSongs'>Muista tallentaa tekemäsi muutokset</p>}
         {selectedSongIds && selectedSongIds.length === 0 &&
           <div>Ei vielä valittuja biisejä. Valitse ainakin yksi tallentaaksesi pelin.</div>}
         {selectedSongIds && selectedSongIds
@@ -156,7 +170,7 @@ const UpdateGame = (props) => {
             const song = allSongs[songId]
             if (!song) return null
             return (
-              <div className='UpdateGame__selectedSongs__song' key={songId}>
+              <div className={cx('UpdateGame__selectedSongs__song', !originalSelectedSongIds.includes(songId) && 'UpdateGame__selectedSongs__song__unsaved')} key={songId}>
                 <FaTrashAlt onClick={() => setselectedSongIds(selectedSongIds.filter(id => id !== song.songId))} />
                 <div className='UpdateGame__selectedSongs__songDetails'>
                   <div>{song.artist} - {song.name} ({song.lyrics.join(' ')})</div>
@@ -180,14 +194,6 @@ const UpdateGame = (props) => {
           </button>
           <div className='LinkButton' onClick={() => window.location.reload()}>Peru muutokset</div>
         </div>
-        {
-          game &&
-          <div className='LinkButtons'>
-            <Link className='LinkButton' to={`/${game.gameId}`}>Pelaamaan!</Link>
-            <Link className='LinkButton' to={`/master/${game.gameId}`}>Game Master</Link>
-            <div className='LinkButton' onClick={() => resetGame(gameId, teamsAmount)}>(Resetoi peli)</div>
-          </div>
-        }
       </div>
       <div className='LinkButtons'>
         <div

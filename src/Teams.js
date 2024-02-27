@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react'
+import {onValue} from 'firebase/database'
 import cx from 'classnames'
-import {getOneGame, getTeamsRef, updatePoints} from './services/firebase'
+import {getOneGame, getTeamsRef, updatePoints} from './services/firebaseDB'
 import './Teams.css'
 
 const Teams = ({gameId, buttonsDisabled}) => {
@@ -19,7 +20,7 @@ const Teams = ({gameId, buttonsDisabled}) => {
   useEffect(() => {
     const setListenerToTeams = async () => {
       teamsRef.current = getTeamsRef(gameId)
-      await teamsRef.current.on('value', (snap) => {
+      await onValue(teamsRef.current, (snap) => {
         const teams = snap.val() ? snap.val() : null
         setTeams(teams)
       })

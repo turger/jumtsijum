@@ -1,11 +1,12 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, {Fragment, useEffect, useRef, useState} from 'react'
+import {onValue} from 'firebase/database'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import _ from 'lodash'
-import { openCard, getCardStatusesRef, getCardStatuses, getCurrentSongIndex, getCurrentSongIndexRef, getSongByGameIdAndCurrentSongIndex } from './services/firebase'
+import {openCard, getCardStatusesRef, getCardStatuses, getCurrentSongIndex, getCurrentSongIndexRef, getSongByGameIdAndCurrentSongIndex} from './services/firebaseDB'
 import './Lyrics.css'
 
-const Lyrics = ({ gameId, buttonsDisabled }) => {
+const Lyrics = ({gameId, buttonsDisabled}) => {
   const [lyrics, setLyrics] = useState(null)
   const [cardStatuses, setCardStatuses] = useState(null)
   const [currentSongIndex, setCurrentSongIndex] = useState(null)
@@ -24,12 +25,12 @@ const Lyrics = ({ gameId, buttonsDisabled }) => {
   useEffect(() => {
     const setListenersToCardStatuses = async () => {
       cardStatusesRef.current = getCardStatusesRef(gameId)
-      await cardStatusesRef.current.on('value', (snap) => {
+      await onValue(cardStatusesRef.current, (snap) => {
         const cardStatuses = snap.val() ? snap.val() : null
         setCardStatuses(cardStatuses)
       })
       currentSongIndexRef.current = getCurrentSongIndexRef(gameId)
-      await currentSongIndexRef.current.on('value', async (snap) => {
+      await onValue(currentSongIndexRef.current, async (snap) => {
         const currentSongIndex = snap.val()
         setCurrentSongIndex(currentSongIndex)
         const song = await getSongByGameIdAndCurrentSongIndex(gameId, currentSongIndex)
@@ -62,7 +63,7 @@ const Lyrics = ({ gameId, buttonsDisabled }) => {
               onClick={() => handleWordClick(i)}
               className='Lyrics__box'
             >
-              <div className={cx('Lyrics__word', { 'Lyrics__word--red': cardStatuses[i].isRed })}>
+              <div className={cx('Lyrics__word', {'Lyrics__word--red': cardStatuses[i].isRed})}>
                 {word}
               </div>
               {cardStatuses[i].isOpen === false &&

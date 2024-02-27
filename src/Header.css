@@ -17,9 +17,8 @@
   -webkit-text-fill-color: rgba(253, 90, 250, 1);
   text-shadow: -2px -2px 0 #FFBAF2;
   -webkit-filter: drop-shadow(3px 3px 1px #441F62);
-  -webkit-transform: skew(-5deg,-5deg);
+  -webkit-transform: skew(-5deg, -5deg);
   font-weight: normal;
-  z-index: 2;
 }
 
 .Header__gameId {
@@ -36,7 +35,8 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 1px #fff;
-  height: 90px;
+  height: 100px;
+  z-index: -1;
 }
 
 .Header__gameId:before {
@@ -93,7 +93,7 @@
   }
 
   .Header__gameId {
-    font-size: 15vw;
+    font-size: 11vw;
     margin-top: 20vw;
   }
 }

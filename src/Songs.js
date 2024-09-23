@@ -37,7 +37,20 @@ const Songs = () => {
     e.preventDefault()
     const songId = editedSong ? editedSong.songId : rnd.generate(4).toUpperCase()
 
-    const formattedLyrics = lyrics.filter(word => word && word !== '')
+    // If there's english "a", "an" or "the", merge that to next word,
+    // so they're both behind a same card
+    const articles = ['a', 'an', 'the']
+    const formattedLyrics = lyrics.map((word, i) => {
+      const previousWord = lyrics[i - 1]
+      if (previousWord && articles.includes(previousWord)) {
+        return `${previousWord} ${word}`
+      }
+      return word
+    })
+      .filter(word => !articles.includes(word))
+      .filter(word => word && word !== '')
+
+    // const formattedLyrics = lyrics.filter(word => word && word !== '')
     const lyricsObject = Object.assign({}, formattedLyrics)
 
     const newSong = {
@@ -66,17 +79,18 @@ const Songs = () => {
   const handleSettingLyrics = (lyrics) => {
     const parsedLyrics = lyrics.replace(/[^A-Za-zÀ-ȕ0-9' ]/g, '')
     const lyricsArray = parsedLyrics.split(/\s+/)
-    // If there's english "a", "an" or "the", merge that to next word,
-    // so they're both behind a same card
-    const articles = ['a', 'an', 'the']
-    const formattedLyricsArray = lyricsArray.map((word, i) => {
-      const previousWord = lyricsArray[i - 1]
-      if (previousWord && articles.includes(previousWord)) {
-        return `${previousWord} ${word}`
-      }
-      return word
-    }).filter(word => !articles.includes(word))
-    setLyrics(formattedLyricsArray)
+    // // If there's english "a", "an" or "the", merge that to next word,
+    // // so they're both behind a same card
+    // const articles = ['a', 'an', 'the']
+    // const formattedLyricsArray = lyricsArray.map((word, i) => {
+    //   const previousWord = lyricsArray[i - 1]
+    //   if (previousWord && articles.includes(previousWord)) {
+    //     return `${previousWord} ${word}`
+    //   }
+    //   return word
+    // }).filter(word => !articles.includes(word))
+    // setLyrics(formattedLyricsArray)
+    setLyrics(lyricsArray)
   }
 
   const cancelEdit = () => {

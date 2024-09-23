@@ -4,6 +4,7 @@
   align-items: center;
   padding: 30px;
   flex-wrap: wrap;
+  letter-spacing: 1px;
 }
 
 .Lyrics__box {
@@ -37,6 +38,8 @@
 
 .Lyrics__word--red {
   background-color: #fd5afa;
+  color: #fff;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 .Lyrics__number {

@@ -1,11 +1,24 @@
 import React, {useEffect, useState} from 'react'
 import _ from 'lodash'
+import cx from 'classnames'
 import rnd from 'randomstring'
 import {FaPencilAlt} from 'react-icons/fa'
 import {updateSong, getSongs, setInitialSongs} from './services/firebaseDB'
 import {Link} from 'react-router-dom'
 import {sortByArtistAndSongName} from './utils/utils'
+import {languages} from "./constants";
 import './Songs.css'
+
+const {FI, SV, EN, OTHER, ALL} = languages
+
+const languageSelectorOptions = [
+  {value: OTHER, title: "Muu"},
+  {value: FI, title: "Suomi"},
+  {value: EN, title: "Englanti"},
+  {value: SV, title: "Ruotsi"},
+]
+
+const languageSelectorOptionsWithAll = [{value: ALL, title: "Kaikki"}, ...languageSelectorOptions]
 
 const Songs = () => {
   const [artist, setArtist] = useState('')
@@ -13,8 +26,10 @@ const Songs = () => {
   const [lyrics, setLyrics] = useState([])
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState('')
+  const [language, setLanguage] = useState(OTHER)
   const [allSongs, setAllSongs] = useState({})
   const [editedSong, setEditedSong] = useState(null)
+  const [selectedLanguageFilter, setSelectedLanguageFilter] = useState(ALL)
 
   const getAllSongs = async () => {
     const songsFromDb = await getSongs()
@@ -31,16 +46,26 @@ const Songs = () => {
     setLyrics([])
     setQuestion('')
     setAnswer('')
+    setLanguage(OTHER)
   }
 
-  const handleUpdateSongClick = (e) => {
-    e.preventDefault()
-    const songId = editedSong ? editedSong.songId : rnd.generate(4).toUpperCase()
+  const getArticles = () => {
+    if (language === EN) {
+      // A and an are indefinite articles, and the is a definite article
+      return ['a', 'an', 'the']
+    } else if (language === SV) {
+      // En and ett are indefinite articles, and den, det, and de are definite articles
+      return ['en', 'ett', 'den', 'det', 'de']
+    } else {
+      return []
+    }
+  }
 
-    // If there's english "a", "an" or "the", merge that to next word,
+  const handleArticles = () => {
+    // If there's articles like in english "a", "an" or "the", merge that to next word,
     // so they're both behind a same card
-    const articles = ['a', 'an', 'the']
-    const formattedLyrics = lyrics.map((word, i) => {
+    const articles = getArticles()
+    return lyrics.map((word, i) => {
       const previousWord = lyrics[i - 1]
       if (previousWord && articles.includes(previousWord)) {
         return `${previousWord} ${word}`
@@ -49,8 +74,14 @@ const Songs = () => {
     })
       .filter(word => !articles.includes(word))
       .filter(word => word && word !== '')
+  }
 
-    // const formattedLyrics = lyrics.filter(word => word && word !== '')
+  const handleUpdateSongClick = (e) => {
+    e.preventDefault()
+    const songId = editedSong ? editedSong.songId : rnd.generate(4).toUpperCase()
+
+    const formattedLyrics = handleArticles()
+
     const lyricsObject = Object.assign({}, formattedLyrics)
 
     const newSong = {
@@ -58,7 +89,8 @@ const Songs = () => {
       artist,
       name,
       question,
-      answer
+      answer,
+      language
     }
     updateSong(songId, newSong)
     getAllSongs()
@@ -74,22 +106,12 @@ const Songs = () => {
     setLyrics(song.lyrics)
     setQuestion(song.question)
     setAnswer(song.answer)
+    setLanguage(song.language)
   }
 
   const handleSettingLyrics = (lyrics) => {
     const parsedLyrics = lyrics.replace(/[^A-Za-zÀ-ȕ0-9' ]/g, '')
     const lyricsArray = parsedLyrics.split(/\s+/)
-    // // If there's english "a", "an" or "the", merge that to next word,
-    // // so they're both behind a same card
-    // const articles = ['a', 'an', 'the']
-    // const formattedLyricsArray = lyricsArray.map((word, i) => {
-    //   const previousWord = lyricsArray[i - 1]
-    //   if (previousWord && articles.includes(previousWord)) {
-    //     return `${previousWord} ${word}`
-    //   }
-    //   return word
-    // }).filter(word => !articles.includes(word))
-    // setLyrics(formattedLyricsArray)
     setLyrics(lyricsArray)
   }
 
@@ -103,18 +125,21 @@ const Songs = () => {
     getAllSongs()
   }
 
-  const filteredSongs = Object.values(allSongs).filter(
-    song => {
-      return (
-        song
-          .artist
-          .toLowerCase()
-          .includes(artist.toLowerCase())
-      )
-    }
+  const filteredByArtist = Object.values(allSongs).filter(
+    song => song
+      .artist
+      .toLowerCase()
+      .includes(artist.toLowerCase())
   )
 
-  const songList = artist ? filteredSongs : Object.values(allSongs)
+  const filteredByLanguage = Object.values(allSongs).filter(
+    song => song.language === selectedLanguageFilter
+  )
+
+  const isFiltered = artist || selectedLanguageFilter !== ALL
+  const filtered = selectedLanguageFilter ? filteredByLanguage : filteredByArtist
+
+  const songList = isFiltered ? filtered : Object.values(allSongs)
 
   return (
     <div className='Songs'>
@@ -165,18 +190,46 @@ const Songs = () => {
             onChange={(e) => setAnswer(e.target.value)}
           />
         </label>
+        <label className='Label'>
+          Laulun kieli
+          <select onChange={e => setLanguage(e.target.value)} value={language} className='Select'>
+            {languageSelectorOptions.map((option) =>
+              <option key={option.value} value={option.value}>{option.title}</option>
+            )}
+          </select>
+        </label>
         <input type='submit' value={editedSong ? 'Tallenna muutokset' : 'Lisää uusi biisi'}
-          disabled={!artist || !name || !lyrics} />
+               disabled={!artist || !name || !lyrics}/>
         {editedSong && <button onClick={() => cancelEdit()}>peru</button>}
       </form>
 
-      <h4>{!artist ? 'Olemassaolevat biisit:' : 'Biisit artistilta:'} </h4>
+      {!editedSong && !artist && (
+        <>
+          <br/>
+          <label className={cx('Label', selectedLanguageFilter !== ALL && 'Songs__languageFilterSelected')}>
+            Suodata biisejä kielen mukaan
+            <select onChange={e => setSelectedLanguageFilter(e.target.value)} value={selectedLanguageFilter}
+                    className={'SmallSelect'}>
+              {languageSelectorOptionsWithAll.map((option) =>
+                <option key={option.value} value={option.value}>{option.title}</option>
+              )}
+            </select>
+          </label>
+        </>
+      )}
+
+      {!editedSong &&
+        <h4>{!artist ?
+          `Olemassaolevat biisit (${songList.length}) ${selectedLanguageFilter !== ALL ? selectedLanguageFilter : ''}`
+          : `Biisit artistilta (${songList.length})`}
+        </h4>
+      }
       <div className='Songs__songList'>
         {songList && !editedSong && songList
           .sort((a, b) => sortByArtistAndSongName(a, b))
           .map((song) => (
             <div className='Songs__song' id={song.songId} key={song.songId}>
-              {!editedSong && <FaPencilAlt onClick={() => handleEditSong(song.songId)} />}
+              {!editedSong && <FaPencilAlt onClick={() => handleEditSong(song.songId)}/>}
               <div className='Songs__songDetails'>
                 <div>{song.artist} - {song.name} ({song.lyrics.join(' ')})</div>
                 {song.question &&

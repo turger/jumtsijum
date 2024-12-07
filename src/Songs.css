@@ -36,3 +36,8 @@
 .Songs__removeSong>button {
   margin-left: 5px;
 }
+
+.Songs__languageFilterSelected {
+  text-decoration: underline;
+  text-decoration-color: #f0f;
+}

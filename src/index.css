@@ -32,6 +32,19 @@ code {
   width: 100%;
 }
 
+.Select {
+  margin-left: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.SmallSelect {
+  margin-left: 10px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
 .LinkButtons {
   display: flex;
 }

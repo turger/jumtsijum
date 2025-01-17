@@ -6,7 +6,7 @@ import {FaPencilAlt} from 'react-icons/fa'
 import {updateSong, getSongs, setInitialSongs} from './services/firebaseDB'
 import {Link} from 'react-router-dom'
 import {sortByArtistAndSongName} from './utils/utils'
-import {languages} from "./constants";
+import {languages} from './constants'
 import './Songs.css'
 
 const {FI, SV, EN, OTHER, ALL} = languages
@@ -19,6 +19,21 @@ const languageSelectorOptions = [
 ]
 
 const languageSelectorOptionsWithAll = [{value: ALL, title: "Kaikki"}, ...languageSelectorOptions]
+
+const filteredSongs = (allSongs, artist, selectedLanguageFilter) => {
+  const filteredByArtist = artist ? Object.values(allSongs).filter(
+    song => song
+      .artist
+      .toLowerCase()
+      .includes(artist.toLowerCase())
+  ) : Object.values(allSongs)
+
+  const filteredByLanguage = selectedLanguageFilter !== ALL ? filteredByArtist.filter(
+    song => song.language === selectedLanguageFilter
+  ) : filteredByArtist
+
+  return filteredByLanguage
+} 
 
 const Songs = () => {
   const [artist, setArtist] = useState('')
@@ -125,21 +140,7 @@ const Songs = () => {
     getAllSongs()
   }
 
-  const filteredByArtist = Object.values(allSongs).filter(
-    song => song
-      .artist
-      .toLowerCase()
-      .includes(artist.toLowerCase())
-  )
-
-  const filteredByLanguage = Object.values(allSongs).filter(
-    song => song.language === selectedLanguageFilter
-  )
-
-  const isFiltered = artist || selectedLanguageFilter !== ALL
-  const filtered = selectedLanguageFilter ? filteredByLanguage : filteredByArtist
-
-  const songList = isFiltered ? filtered : Object.values(allSongs)
+  const songList = filteredSongs(allSongs, artist, selectedLanguageFilter)
 
   return (
     <div className='Songs'>
@@ -203,7 +204,7 @@ const Songs = () => {
         {editedSong && <button onClick={() => cancelEdit()}>peru</button>}
       </form>
 
-      {!editedSong && !artist && (
+      {!editedSong && (
         <>
           <br/>
           <label className={cx('Label', selectedLanguageFilter !== ALL && 'Songs__languageFilterSelected')}>
@@ -219,10 +220,9 @@ const Songs = () => {
       )}
 
       {!editedSong &&
-        <h4>{!artist ?
-          `Olemassaolevat biisit (${songList.length}) ${selectedLanguageFilter !== ALL ? selectedLanguageFilter : ''}`
-          : `Biisit artistilta (${songList.length})`}
-        </h4>
+        <h4>{
+          `Olemassaolevat biisit ${artist ? `artistilta "${artist}"` : ''} ${selectedLanguageFilter !== ALL ? `kielellä "${selectedLanguageFilter}"` : ''} (${songList.length})`
+        }</h4>
       }
       <div className='Songs__songList'>
         {songList && !editedSong && songList

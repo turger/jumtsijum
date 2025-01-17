@@ -1,4 +1,5 @@
 import {initializeApp, getApps, getApp} from '@firebase/app'
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'firebase/app-check'
 import {getDatabase} from '@firebase/database'
 
 const firebaseConfig = {
@@ -7,7 +8,8 @@ const firebaseConfig = {
   databaseURL: process.env.REACT_APP_DATABASEURL,
   projectId: process.env.REACT_APP_PROJECTID,
   storageBucket: process.env.REACT_APP_STORAGEBUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID
+  messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_ID
 }
 
 const getFirebaseApp = () =>
@@ -16,3 +18,8 @@ const getFirebaseApp = () =>
 const db = getDatabase(getFirebaseApp())
 
 export const getFirebaseDB = () => db
+
+initializeAppCheck(getFirebaseApp(), {
+  provider: new ReCaptchaEnterpriseProvider(process.env.REACT_APP_RECAPTCHA_KEY),
+  isTokenAutoRefreshEnabled: true // Set to true to allow auto-refresh.
+})

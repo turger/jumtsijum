@@ -13,7 +13,7 @@ const languages = {
   EN: 'en'
 }
 
-const Game = (props) => {
+const Game = () => {
   const [gameId, setGameId] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [language, setLanguage] = useState('fi')
